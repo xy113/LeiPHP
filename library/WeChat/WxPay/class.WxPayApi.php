@@ -5,7 +5,18 @@
  * Date: 2017/8/14
  * Time: 下午12:23
  */
-namespace Payment\WxPay;
+namespace WeChat\WxPay;
+use WeChat\WxPay\Model\WxPayCloseOrder;
+use WeChat\WxPay\Model\WxPayDownloadBill;
+use WeChat\WxPay\Model\WxPayMicroPay;
+use WeChat\WxPay\Model\WxPayOrderQuery;
+use WeChat\WxPay\Model\WxPayRefund;
+use WeChat\WxPay\Model\WxPayRefundQuery;
+use WeChat\WxPay\Model\WxPayReverse;
+use WeChat\WxPay\Model\WxPayShortUrl;
+use WeChat\WxPay\Model\WxPayTransfer;
+use WeChat\WxPay\Model\WxPayUnifiedOrder;
+
 class WxPayApi{
     /**
      * 以post方式提交xml到对应的接口url
@@ -67,33 +78,32 @@ class WxPayApi{
      * @param WxPayUnifiedOrder $inputObj
      * @param int $timeout
      * @return array|mixed
-     * @throws WxPayException
      * @throws \Exception
      */
     public static function unifiedOrder(WxPayUnifiedOrder $inputObj, $timeout = 20){
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-        if(!$inputObj->getOut_trade_no()){
+        if(!$inputObj->getOutTradeNo()){
             throw new \Exception('缺少统一支付接口必填参数out_trade_no！', 1);
 
         }elseif (!$inputObj->getBody()){
             throw new \Exception('缺少统一支付接口必填参数body！',2);
 
-        }elseif (!$inputObj->getTotal_fee()){
+        }elseif (!$inputObj->getTotalFee()){
             throw new \Exception('缺少统一支付接口必填参数total_fee！',3);
 
-        }elseif (!$inputObj->getTrade_type()){
+        }elseif (!$inputObj->getTradeType()){
             throw new \Exception('缺少统一支付接口必填参数trade_type！',4);
         }
 
-        if ($inputObj->getTrade_type() == 'JSAPI' && !$inputObj->getOpenid()){
+        if ($inputObj->getTradeType() == 'JSAPI' && !$inputObj->getOpenid()){
             throw new \Exception('统一支付接口中，缺少必填参数openid！',5);
         }
 
-        if ($inputObj->getTrade_type() == 'NATIVE' && !$inputObj->getProduct_id()){
+        if ($inputObj->getTradeType() == 'NATIVE' && !$inputObj->getProductId()){
             throw new \Exception('统一支付接口中，缺少必填参数product_id！',6);
         }
 
-        if (!$inputObj->getNotify_url()) {
+        if (!$inputObj->getNotifyUrl()) {
             throw new \Exception('统一支付接口中，缺少必填参数notify_url！',7);
         }
 
@@ -101,16 +111,16 @@ class WxPayApi{
             $inputObj->setAppid();
         }
 
-        if (!$inputObj->getMch_id()){
-            $inputObj->setMch_id();
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
         }
 
         if (!$inputObj->getMchKey()){
             $inputObj->setMchKey();
         }
 
-        $inputObj->setNonce_str();
-        $inputObj->setSpbill_create_ip();
+        $inputObj->setNonceStr();
+        $inputObj->setSpbillCreateIp();
         $inputObj->setSign();
         $xml = $inputObj->toXml();
         $response = self::postXmlCurl($xml, $url, false, $timeout);
@@ -125,23 +135,26 @@ class WxPayApi{
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
      * @param WxPayOrderQuery $inputObj
      * @param int $timeout
-     * @return 成功时返回
-     * @throws WxPayException
+     * @return array 成功时返回
      * @throws \Exception
      * @internal param WxPayOrderQuery $inputObj
      * @internal param int $timeOut
      */
     public static function orderQuery(WxPayOrderQuery $inputObj, $timeout=20){
         $url = "https://api.mch.weixin.qq.com/pay/orderquery";
-        if (!$inputObj->getOut_trade_no() && !$inputObj->getTransaction_id()){
+        if (!$inputObj->getOutTradeNo() && !$inputObj->getTransactionId()){
             throw new \Exception('订单查询接口中，out_trade_no、transaction_id至少填一个！');
         }
 
         if (!$inputObj->getAppid()) {
             $inputObj->setAppid();
-            $inputObj->setMch_id();
         }
-        $inputObj->setNonce_str();
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();
         $inputObj->setSign();
         $xml = $inputObj->toXml();
         $response = self::postXmlCurl($xml, $url, false, 20);
@@ -154,22 +167,27 @@ class WxPayApi{
      *
      * 撤销订单API接口，参数out_trade_no和transaction_id必须填写一个
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayData|WxPayReverse $inputObj
+     * @param WxPayReverse $inputObj
      * @param int $timeOut
      * @return array
-     * @throws WxPayException
      * @throws \Exception
      */
     public static function reverse(WxPayReverse $inputObj, $timeOut = 20){
         $url = "https://api.mch.weixin.qq.com/secapi/pay/reverse";
         //检测必填参数
-        if(!$inputObj->getOut_trade_no() && !$inputObj->getTransaction_id()) {
+        if(!$inputObj->getOutTradeNo() && !$inputObj->getTransactionId()) {
             throw new \Exception("撤销订单API接口中，参数out_trade_no和transaction_id必须填写一个！");
         }
 
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
         $response = self::postXmlCurl($xml, $url, true, $timeOut);
@@ -182,21 +200,27 @@ class WxPayApi{
      *
      * 关闭订单，out_trade_no必填
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayCloseOrder|WxPayData $inputObj
+     * @param WxPayCloseOrder $inputObj
      * @param int $timeOut
-     * @return 成功时返回
-     * @throws WxPayException
+     * @return array 成功时返回
      * @throws \Exception
      */
     public static function closeOrder(WxPayCloseOrder $inputObj, $timeOut = 20){
         $url = "https://api.mch.weixin.qq.com/pay/closeorder";
         //检测必填参数
-        if(!$inputObj->getOut_trade_no()) {
+        if(!$inputObj->getOutTradeNo()) {
             throw new \Exception("订单查询接口中，out_trade_no必填！");
         }
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
+
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
         $response = self::postXmlCurl($xml, $url, true, $timeOut);
@@ -210,31 +234,37 @@ class WxPayApi{
      * 申请退款，out_trade_no、transaction_id至少填一个且
      * out_refund_no、total_fee、refund_fee、op_user_id为必填参数
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayData|WxPayRefund $inputObj
+     * @param WxPayRefund $inputObj
      * @param int $timeOut
-     * @return 成功时返回
+     * @return array 成功时返回
      * @throws \Exception
      */
     public static function refund(WxPayRefund $inputObj, $timeOut = 20){
         $url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
         //检测必填参数
-        if(!$inputObj->getOut_trade_no() && !$inputObj->getTransaction_id()) {
+        if(!$inputObj->getOutTradeNo() && !$inputObj->getTransactionId()) {
             throw new \Exception("退款申请接口中，out_trade_no、transaction_id至少填一个！");
 
-        }else if(!$inputObj->getOut_refund_no()){
+        }else if(!$inputObj->getOutRefundNo()){
             throw new \Exception("退款申请接口中，缺少必填参数out_refund_no！");
 
-        }else if(!$inputObj->getTotal_fee()){
+        }else if(!$inputObj->getTotalFee()){
             throw new \Exception("退款申请接口中，缺少必填参数total_fee！");
 
-        }else if(!$inputObj->getRefund_fee()){
+        }else if(!$inputObj->getRefundFee()){
             throw new \Exception("退款申请接口中，缺少必填参数refund_fee！");
 
         }
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
 
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
         $response = self::postXmlCurl($xml, $url, true, $timeOut);
@@ -249,23 +279,30 @@ class WxPayApi{
      * 用零钱支付的退款20分钟内到账，银行卡支付的退款3个工作日后重新查询退款状态。
      * WxPayRefundQuery中out_refund_no、out_trade_no、transaction_id、refund_id四个参数必填一个
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayData|WxPayRefundQuery $inputObj
+     * @param WxPayRefundQuery $inputObj
      * @param int $timeOut
-     * @return 成功时返回
+     * @return array 成功时返回
      * @throws \Exception
      */
     public static function refundQuery(WxPayRefundQuery $inputObj, $timeOut = 6){
         $url = "https://api.mch.weixin.qq.com/pay/refundquery";
         //检测必填参数
-        if(!$inputObj->getOut_refund_no() &&
-            !$inputObj->getOut_trade_no() &&
-            !$inputObj->getTransaction_id() &&
-            !$inputObj->getRefund_id()) {
+        if(!$inputObj->getOutRefundNo() &&
+            !$inputObj->getOutTradeNo() &&
+            !$inputObj->getTransactionId() &&
+            !$inputObj->getRefundId()) {
             throw new \Exception("退款查询接口中，out_refund_no、out_trade_no、transaction_id、refund_id四个参数必填一个！");
         }
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
+
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
 
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
@@ -278,20 +315,27 @@ class WxPayApi{
     /**
      * 下载对账单，bill_date为必填参数
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayData|WxPayDownloadBill $inputObj
+     * @param WxPayDownloadBill $inputObj
      * @param int $timeOut
-     * @return 成功时返回
+     * @return array 成功时返回
      * @throws \Exception
      */
     public static function downloadBill(WxPayDownloadBill $inputObj, $timeOut = 6){
         $url = "https://api.mch.weixin.qq.com/pay/downloadbill";
         //检测必填参数
-        if(!$inputObj->getBill_date()) {
+        if(!$inputObj->getBillDate()) {
             throw new \Exception("对账单接口中，缺少必填参数bill_date！");
         }
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
+
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
 
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
@@ -305,7 +349,7 @@ class WxPayApi{
      * 由商户收银台或者商户后台调用该接口发起支付。
      * WxPayWxPayMicroPay中body、out_trade_no、total_fee、auth_code参数必填
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayData|WxPayWxPayMicroPay $inputObj
+     * @param WxPayMicroPay $inputObj
      * @param int $timeOut
      * @return array|mixed
      * @throws \Exception
@@ -316,20 +360,26 @@ class WxPayApi{
         if(!$inputObj->getBody()) {
             throw new \Exception("提交被扫支付API接口中，缺少必填参数body！");
 
-        } else if(!$inputObj->getOut_trade_no()) {
+        } else if(!$inputObj->getOutTradeNo()) {
             throw new \Exception("提交被扫支付API接口中，缺少必填参数out_trade_no！");
 
-        } else if(!$inputObj->getTotal_fee()) {
+        } else if(!$inputObj->getTotalFee()) {
             throw new \Exception("提交被扫支付API接口中，缺少必填参数total_fee！");
 
-        } else if(!$inputObj->getAuth_code()) {
+        } else if(!$inputObj->getAuthCode()) {
             throw new \Exception("提交被扫支付API接口中，缺少必填参数auth_code！");
         }
 
-        $inputObj->setSpbill_create_ip();//终端ip
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
+        $inputObj->setSpbillCreateIp();
 
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
@@ -348,7 +398,7 @@ class WxPayApi{
      */
     public static function transfer(WxPayTransfer $inputObj, $timeout = 10){
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
-        if (!$inputObj->getPartner_trade_no()){
+        if (!$inputObj->getPartnerTradeNo()){
             throw new \Exception("企业付款接口中，缺少必填参数partner_trade_no！");
         }
 
@@ -364,9 +414,14 @@ class WxPayApi{
             throw new \Exception("企业付款接口中，缺少必填参数openid！");
         }
 
-        $inputObj->setMch_appid();
-        $inputObj->setMchid();
-        $inputObj->setNonce_str();
+        if (!$inputObj->getMchAppid()){
+            $inputObj->setMchAppid();
+        }
+
+        if ($inputObj->getMchid()){
+            $inputObj->setMchid();
+        }
+        $inputObj->setNonceStr();
         $inputObj->setSign();
 
         $xml = $inputObj->toXml();
@@ -382,20 +437,27 @@ class WxPayApi{
      * 该接口主要用于扫码原生支付模式一中的二维码链接转成短链接(weixin://wxpay/s/XXXXXX)，
      * 减小二维码数据量，提升扫描速度和精确度。
      * appid、mchid、spbill_create_ip、nonce_str不需要填入
-     * @param WxPayData|WxPayShortUrl $inputObj
+     * @param WxPayModel|WxPayShortUrl $inputObj
      * @param int $timeOut
-     * @return 成功时返回
+     * @return array 成功时返回
      * @throws \Exception
      */
     public static function shorturl(WxPayShortUrl $inputObj, $timeOut = 10){
         $url = "https://api.mch.weixin.qq.com/tools/shorturl";
         //检测必填参数
-        if(!$inputObj->getLong_url()) {
+        if(!$inputObj->getLongUrl()) {
             throw new \Exception("需要转换的URL，签名用原串，传输需URL encode！");
         }
-        $inputObj->setAppid();//公众账号ID
-        $inputObj->setMch_id();//商户号
-        $inputObj->setNonce_str();//随机字符串
+
+        if (!$inputObj->getAppid()){
+            $inputObj->setAppid();
+        }
+
+        if (!$inputObj->getMchId()){
+            $inputObj->setMchId();
+        }
+
+        $inputObj->setNonceStr();//随机字符串
 
         $inputObj->setSign();//签名
         $xml = $inputObj->toXml();
@@ -412,6 +474,7 @@ class WxPayApi{
      * 直接回调函数使用方法: notify(you_function);
      * 回调类成员函数方法:notify(array($this, you_function));
      * $callback  原型为：function function_name($data){}
+     * @param $msg
      * @return bool|mixed
      */
     public static function notify($callback, &$msg){
@@ -431,7 +494,6 @@ class WxPayApi{
      * 将xml转为array
      * @param string $xml
      * @return array|mixed
-     * @throws WxPayException
      */
     public static function xml2array($xml){
         //将XML转为array

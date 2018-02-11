@@ -5,8 +5,12 @@
  * Date: 2017/8/14
  * Time: 下午2:07
  */
-namespace Payment\WxPay;
+namespace WeChat\WxPay;
+
+use WeChat\WxPay\Model\WxPayJsApiPay;
+
 class WxJsApiPay {
+
     public $appid = '';
     public $appsecret = '';
     /**
@@ -31,15 +35,15 @@ class WxJsApiPay {
      */
     function __construct()
     {
-        $this->appid = setting('wx_appid');
-        $this->appsecret = setting('wx_appsecret');
+        $this->appid = setting('wx.appid');
+        $this->appsecret = setting('wx.appsecret');
     }
 
     /**
      * 通过跳转获取用户的openid，跳转流程如下：
      * 1、设置自己需要调回的url及其其他参数，跳转到微信服务器https://open.weixin.qq.com/connect/oauth2/authorize
      * 2、微信服务处理完成之后会跳转回用户redirect_uri地址，此时会带上一些参数，如：code
-     * @return 用户的openid
+     * @return string 用户的openid
      */
     public function getOpenid(){
         //通过code获得openid
@@ -61,7 +65,7 @@ class WxJsApiPay {
      *
      * 获取jsapi支付的参数
      * @param array $UnifiedOrderResult 统一支付接口返回的数据
-     * @return json数据
+     * @return string json数据
      * @throws \Exception
      */
     public function getJsApiParameters($UnifiedOrderResult){
@@ -69,24 +73,25 @@ class WxJsApiPay {
             || !array_key_exists("prepay_id", $UnifiedOrderResult)
             || $UnifiedOrderResult['prepay_id'] == "")
         {
-            throw new \Exception("参数错误");
+            throw new \Exception("参数错误", 1);
         }
-        $jsapi = new WxPayJsApiPay();
-        $jsapi->setAppid($UnifiedOrderResult["appid"]);
+
         $timeStamp = time();
-        $jsapi->setTimeStamp("$timeStamp");
-        $jsapi->setNonceStr();
-        $jsapi->setPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
-        $jsapi->setSignType("MD5");
-        $jsapi->setPaySign($jsapi->makeSign());
-        $parameters = json_encode($jsapi->getValues());
+        $pay = new WxPayJsApiPay();
+        $pay->setAppid($UnifiedOrderResult["appid"]);
+        $pay->setTimeStamp("$timeStamp");
+        $pay->setNonceStr();
+        $pay->setPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
+        $pay->setSignType("MD5");
+        $pay->setPaySign($pay->makeSign());
+        $parameters = json_encode($pay->getValues());
         return $parameters;
     }
 
     /**
      * 通过code从工作平台获取openid机器access_token
      * @param string $code 微信跳转回来带上的code
-     * @return openid
+     * @return string openid
      */
     public function getOpenidFromMp($code)
     {
@@ -120,7 +125,7 @@ class WxJsApiPay {
     /**
      * 拼接签名字符串
      * @param array $urlObj
-     * @return 返回已经拼接好的字符串
+     * @return string 返回已经拼接好的字符串
      */
     private function toUrlParams($urlObj)
     {
@@ -138,7 +143,7 @@ class WxJsApiPay {
 
     /**
      * 获取地址js参数
-     * @return 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用
+     * @return string 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用
      */
     public function getEditAddressParameters()
     {
@@ -169,7 +174,7 @@ class WxJsApiPay {
     /**
      * 构造获取code的url连接
      * @param string $redirectUrl 微信服务器回跳的url，需要url编码
-     * @return 返回构造好的url
+     * @return string 返回构造好的url
      */
     private function __CreateOauthUrlForCode($redirectUrl)
     {
@@ -185,8 +190,7 @@ class WxJsApiPay {
     /**
      * 构造获取open和access_toke的url地址
      * @param $code
-     * @return 请求的url
-     * @internal param string $code，微信跳转带回的code
+     * @return string 请求的url
      */
     private function __CreateOauthUrlForOpenid($code)
     {

@@ -6,27 +6,31 @@
  * Time: 上午12:19
  */
 
-namespace Payment\WxPay;
+namespace WeChat\WxPay\Model;
+
+use WeChat\WxPay\WxPayModel;
 
 //接口调用结果类
-class WxPayResults extends WxPayData
+class WxPayResults extends WxPayModel
 {
+
     /**
-     *
      * 检测签名
+     * @return bool
+     * @throws \Exception
      */
     public function CheckSign()
     {
         //fix异常
         if(!$this->isSignSet()){
-            throw new \Exception("签名错误！");
+            throw new \Exception("签名错误！", 1);
         }
 
         $sign = $this->makeSign();
         if($this->getSign() == $sign){
             return true;
         }
-        throw new \Exception("签名错误！");
+        throw new \Exception("签名错误！", 2);
     }
 
     /**
@@ -45,6 +49,7 @@ class WxPayResults extends WxPayData
      * @param array $array
      * @param bool|是否检测签名 $noCheckSign
      * @return WxPayResults
+     * @throws \Exception
      */
     public static function initFromArray($array, $noCheckSign = false)
     {

@@ -5,7 +5,11 @@
  * Date: 2017/8/14
  * Time: 下午2:09
  */
-namespace Payment\WxPay;
+namespace WeChat\WxPay;
+use WeChat\WxPay\Model\WxPayMicroPay;
+use WeChat\WxPay\Model\WxPayOrderQuery;
+use WeChat\WxPay\Model\WxPayReverse;
+
 /**
  *
  * 刷卡支付实现类
@@ -27,7 +31,7 @@ class WxMicroPay
      *
      * 提交刷卡支付，并且确认结果，接口比较慢
      * @param WxPayMicroPay $microPayInput
-     * @return 返回查询接口的结果
+     * @return array|bool
      * @throws \Exception
      */
     public function pay(WxPayMicroPay $microPayInput)
@@ -43,7 +47,7 @@ class WxMicroPay
         }
 
         //签名验证
-        $out_trade_no = $microPayInput->getOut_trade_no();
+        $out_trade_no = $microPayInput->getOutTradeNo();
 
         //②、接口调用成功，明确返回调用失败
         if($result["return_code"] == "SUCCESS" &&
@@ -83,14 +87,15 @@ class WxMicroPay
     /**
      *
      * 查询订单情况
-     * @param string $out_trade_no  商户订单号
-     * @param int $succCode         查询订单结果
-     * @return 0 订单不成功，1表示订单成功，2表示继续等待
+     * @param string $out_trade_no 商户订单号
+     * @param int $succCode 查询订单结果
+     * @return array|bool 0 订单不成功，1表示订单成功，2表示继续等待
+     * @throws \Exception
      */
     public function query($out_trade_no, &$succCode)
     {
         $queryOrderInput = new WxPayOrderQuery();
-        $queryOrderInput->setOut_trade_no($out_trade_no);
+        $queryOrderInput->setOutTradeNo($out_trade_no);
         $result = WxPayApi::orderQuery($queryOrderInput);
 
         if($result["return_code"] == "SUCCESS"
@@ -123,8 +128,9 @@ class WxMicroPay
      *
      * 撤销订单，如果失败会重复调用10次
      * @param string $out_trade_no
-     * @param 调用深度 $depth
+     * @param int $depth
      * @return bool
+     * @throws \Exception
      */
     public function cancel($out_trade_no, $depth = 0)
     {
@@ -133,7 +139,7 @@ class WxMicroPay
         }
 
         $clostOrder = new WxPayReverse();
-        $clostOrder->setOut_trade_no($out_trade_no);
+        $clostOrder->setOutTradeNo($out_trade_no);
         $result = WxPayApi::reverse($clostOrder);
 
         //接口调用失败

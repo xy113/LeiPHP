@@ -6,34 +6,27 @@
  * Time: 上午12:53
  */
 
-namespace Payment\WxPay;
+namespace WeChat\WxPay\Model;
+
+use WeChat\WxPay\WxPayModel;
 
 //提交JSAPI输入对象
-class WxPayJsApiPay extends WxPayData
+class WxPayJsApiPay extends WxPayModel
 {
     /**
      * 设置支付时间戳
      * @param string $value
      **/
-    public function setTimeStamp($value)
-    {
+    public function setTimeStamp($value){
         $this->values['timeStamp'] = $value;
     }
+
     /**
      * 获取支付时间戳的值
-     * @return 值
+     * @return string 值
      **/
-    public function getTimeStamp()
-    {
+    public function getTimeStamp(){
         return $this->values['timeStamp'];
-    }
-    /**
-     * 判断支付时间戳是否存在
-     * @return true 或 false
-     **/
-    public function isTimeStampSet()
-    {
-        return array_key_exists('timeStamp', $this->values);
     }
 
     /**
@@ -50,19 +43,11 @@ class WxPayJsApiPay extends WxPayData
     }
     /**
      * 获取notify随机字符串值
-     * @return 值
+     * @return string 值
      **/
     public function getNonceStr()
     {
         return $this->values['nonceStr'];
-    }
-    /**
-     * 判断随机字符串是否存在
-     * @return true 或 false
-     **/
-    public function isNonceStrSet()
-    {
-        return array_key_exists('nonceStr', $this->values);
     }
 
 
@@ -76,19 +61,11 @@ class WxPayJsApiPay extends WxPayData
     }
     /**
      * 获取订单详情扩展字符串的值
-     * @return 值
+     * @return string 值
      **/
     public function getPackage()
     {
         return $this->values['package'];
-    }
-    /**
-     * 判断订单详情扩展字符串是否存在
-     * @return true 或 false
-     **/
-    public function isPackageSet()
-    {
-        return array_key_exists('package', $this->values);
     }
 
     /**
@@ -99,21 +76,14 @@ class WxPayJsApiPay extends WxPayData
     {
         $this->values['signType'] = $value;
     }
+
     /**
      * 获取签名方式
-     * @return 值
+     * @return string 值
      **/
     public function getSignType()
     {
         return $this->values['signType'];
-    }
-    /**
-     * 判断签名方式是否存在
-     * @return true 或 false
-     **/
-    public function isSignTypeSet()
-    {
-        return array_key_exists('signType', $this->values);
     }
 
     /**
@@ -124,20 +94,13 @@ class WxPayJsApiPay extends WxPayData
     {
         $this->values['paySign'] = $value;
     }
+
     /**
      * 获取签名方式
-     * @return 值
+     * @return string 值
      **/
     public function getPaySign()
     {
         return $this->values['paySign'];
-    }
-    /**
-     * 判断签名方式是否存在
-     * @return true 或 false
-     **/
-    public function isPaySignSet()
-    {
-        return array_key_exists('paySign', $this->values);
     }
 }
