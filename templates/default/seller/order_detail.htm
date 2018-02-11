@@ -1,0 +1,207 @@
+{template header}
+<div class="console-title">
+    <a href="{U:('c=sold&a=itemlist')}" class="button float-right">已卖出的宝贝</a>
+    <h2>已卖出的宝贝->订单详情</h2>
+</div>
+<div class="form-div">
+    <h3 class="h3-title">订单信息</h3>
+    <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+        <tbody>
+        <tr>
+            <td width="80">订单编号</td>
+            <td>{$order[order_no]}</td>
+        </tr>
+        <tr>
+            <td>下单时间</td>
+            <td>{date:$order[create_time]|'Y-m-d H:i::s'}</td>
+        </tr>
+        <tr>
+            <td>订单金额</td>
+            <td>{amount:$order[total_fee]}</td>
+        </tr>
+        <tr>
+            <td>付款方式</td>
+            <td>{$_lang[pay_types][$order[pay_type]]}</td>
+        </tr>
+        <tr>
+            <td>支付状态</td>
+            <td>{if $order[pay_status]}已支付{else}未支付{/if}</td>
+        </tr>
+        {if $order[pay_time]}
+        <tr>
+            <td>付款时间</td>
+            <td>{date:$order[pay_time]|'Y-m-d H:i::s'}</td>
+        </tr>
+        {/if}
+        <tr>
+            <td>交易流水</td>
+            <td>{$order[trade_no]}</td>
+        </tr>
+        {if $order[pay_type]==2}
+        <tr>
+            <td>订单状态</td>
+            <td>{if $order[shipping_status]}卖家已发货{else}买家已提交需求，等待卖家发货{/if}</td>
+        </tr>
+        {else}
+        <tr>
+            <td>订单状态</td>
+            <td>{$trade_status_tips}</td>
+        </tr>
+        {/if}
+        </tbody>
+    </table>
+    <h3 class="h3-title">收货人信息</h3>
+    <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+        <tbody>
+        <tr>
+            <td width="80">收货人</td>
+            <td>{$order[consignee]}</td>
+        </tr>
+        <tr>
+            <td>联系电话</td>
+            <td>{$order[phone]}</td>
+        </tr>
+        <tr>
+            <td>收货地址</td>
+            <td>{$order[address]}</td>
+        </tr>
+        </tbody>
+    </table>
+    {if $order[shipping_status]}
+    <h3 class="h3-title">发货信息</h3>
+    <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+        <tbody>
+        {if $shipping[shipping_type]==1}
+        <tr>
+            <td width="80">发货方式</td>
+            <td>快递</td>
+        </tr>
+        <tr>
+            <td>快递公司</td>
+            <td>{$shipping[express_name]}</td>
+        </tr>
+        <tr>
+            <td>快递单号</td>
+            <td>
+                <span>{$shipping[express_no]}</span>
+            </td>
+        </tr>
+        {else}
+        <tr>
+            <td width="80">发货方式</td>
+            <td>虚拟商品，无需物流</td>
+        </tr>
+        {/if}
+        <tr>
+            <td>发货时间</td>
+            <td>{date:$shipping[shipping_time]|'Y-m-d H:i::s'}</td>
+        </tr>
+        </tbody>
+    </table>
+    {/if}
+    <h3 class="h3-title">商品信息</h3>
+    <table class="order-title-table" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+            <tr>
+                <td>宝贝</td>
+                <td width="100">单价</td>
+                <td width="80">数量</td>
+                <td width="100">实付款</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="order-item-wrap" id="order-item-{$order_id}">
+        <table class="order-item-table" cellspacing="0" cellpadding="0" width="100%">
+            <tbody>
+            {loop $itemlist $item}
+            <tr>
+                <td class="col1">
+                    <div class="goods-pic">
+                        <img src="{img $item[thumb]}">
+                    </div>
+                    <div style="margin-left: 90px; overflow: hidden;">
+                        <div class="goods-name">{$item[title]}</div>
+                        <div class="goods-attr">商品属性</div>
+                    </div>
+                </td>
+                <td class="col2">
+                    {if $item[market_price]}<p><s>￥{amount:$item[market_price]}</s></p>{/if}
+                    <p>￥{amount:$item[price]}</p>
+                </td>
+                <td class="col3">x{$item[quantity]}</td>
+                <td class="col5">
+                    <p><strong style="color: #FF0000;">￥{amount:$order[total_fee]}</strong></p>
+                    <p style="font-size: 11px;">(含运费:￥{amount:$order[shipping_fee]})</p>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+    </div>
+    {if $trade_status==2||($order[pay_type]==2 && $order[shipping_status]==0)}
+    <h3 class="h3-title">发货</h3>
+    <form method="post" id="sendForm" action="{U:('c=order&a=send')}" autocomplete="off">
+        <input type="hidden" name="order_id" value="{$order_id}">
+        <table cellpadding="0" cellspacing="0" width="100%" class="formtable">
+            <tbody>
+                <tr>
+                    <td class="cell-name" width="80">物流类别</td>
+                    <td>
+                        <label><input type="radio" class="radio" name="shipping_type" value="1" checked> <span>快递</span></label>
+                        <label><input type="radio" class="radio" name="shipping_type" value="2"> <span>无需物流</span></label>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="express_body">
+                <tr>
+                    <td class="cell-name">快递公司</td>
+                    <td>
+                        <select class="select" name="express_id">
+                            {loop $express_list $express}
+                            <option value="{$express[id]}">{$express[name]}</option>
+                            {/loop}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-name">快递单号</td>
+                    <td><input type="text" class="input-text" name="express_no" id="express_no"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="cell-name"></td>
+                    <td><input type="submit" class="button" value="立即发货"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+    {/if}
+</div>
+<div style="clear: both; height: 50px;"></div>
+{if $trade_status==2||($order[pay_type]==2 && $order[shipping_status]==0)}
+<script type="text/javascript">
+    $(function () {
+         $("input[name=shipping_type]").on('click', function (e) {
+             if($(this).val() === '1'){
+                 $("#express_body").show();
+             }else {
+                 $("#express_body").hide();
+             }
+         });
+         $("#sendForm").submit(function () {
+             var shpping_type = $("input[name=shipping_type]:checked").val();
+             var express_no = $.trim($("#express_no").val());
+             if (!shpping_type) {
+                 DSXUI.error('请选择物流类别');
+                 return false;
+             }
+             if (shpping_type == 1 && !express_no){
+                 DSXUI.error('请输入快递单号');
+                 return false;
+             }
+         });
+    });
+</script>
+{/if}
+{template footer}

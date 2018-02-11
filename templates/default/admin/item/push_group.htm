@@ -1,0 +1,55 @@
+{template header}
+<div class="console-title">
+    <a href="{U:('c=itempush&a=index')}" class="button float-right">返回列表</a>
+    <h2>商品管理->商品推送->分组管理</h2>
+</div>
+<div class="content-div">
+    <form method="post" autocomplete="off">
+        <input type="hidden" name="formsubmit" value="yes">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <table cellpadding="0" cellspacing="0" width="100%" class="listtable">
+            <thead>
+            <tr>
+                <th width="40">删?</th>
+                <th>分组名称</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $grouplist $group}
+            <tr>
+                <td><input type="checkbox" class="checkbox" title="" name="delete[]" value="{$group[groupid]}"></td>
+                <td><input type="text" name="grouplist[{$group[groupid]}][grouptitle]" value="{$group[grouptitle]}" class="input-text" title=""></td>
+            </tr>
+            {/loop}
+            </tbody>
+            <tbody id="newGroup"></tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2">
+                    <label><input type="checkbox" class="checkbox" title=""> 全选</label>
+                    <label><a id="addGroup"><i class="iconfont icon-roundadd"></i><span>添加分组</span></a></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label><button type="submit" class="button">提交</button></label>
+                    <label><button type="button" class="button button-cancel" data-action="refresh">刷新</button></label>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var k = 0;
+        $("#addGroup").on('click', function () {
+            $("#newGroup").append('<tr>\n' +
+                '                <td></td>\n' +
+                '                <td><input type="text" name="grouplist['+k+'][grouptitle]" class="input-text" title=""></td>\n' +
+                '            </tr>');
+            k--;
+        });
+    });
+</script>
+{template footer}

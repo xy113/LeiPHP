@@ -1,0 +1,42 @@
+{template header}
+<div class="console-title">
+    <a href="{echo U('c=itemcatlog&a=index')}" class="button float-right">返回列表</a>
+    <h2>商品管理 > 移动商品</h2>
+</div>
+<div class="content-div">
+    <form method="post" action="">
+        <input type="hidden" name="formsubmit" value="yes">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <input type="hidden" name="items" value="{$items}">
+        <table cellpadding="0" cellspacing="0" width="100%" class="formtable">
+            <tbody>
+            <tr>
+                <th>选择目标分类</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="catid" size="10" class="select" title="" style="height:300px;">
+                        {loop $catloglist[0] $catid1 $cat1}
+                        <option value="{$catid1}">{$cat1[name]}</option>
+                        {loop $catloglist[$catid1] $catid2 $cat2}
+                        <option value="{$catid2}">|--{$cat2[name]}</option>
+                        {loop $catloglist[$catid2] $catid3 $cat3}
+                        <option value="{$catid3}">|--|--{$cat3[name]}</option>
+                        {/loop}
+                        {/loop}
+                        {/loop}
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td>
+                    <input type="submit" class="button" value="确认">
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+{template footer}

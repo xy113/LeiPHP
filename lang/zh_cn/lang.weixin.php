@@ -1,0 +1,22 @@
+<?php
+return array(
+		'weixin_menu_types'=>array(
+				'view'=>'跳转到页面',
+				'media_id'=>'发送图文消息',
+				'view_limited'=>'跳转到图文消息',
+				'scancode_push'=>'微信扫一扫',
+				'scancode_waitmsg'=>'扫码并弹出消息',
+				'pic_sysphoto'=>'拍照',
+				'pic_photo_or_album'=>'选择照片',
+				'pic_weixin'=>'发送照片',
+				'location_select'=>'选择位置',
+				'click'=>'自定义类型'
+		),
+		'weixin_material_types'=>array(
+				'image'=>'图片',
+				'video'=>'视频',
+				'voice'=>'声音'
+		),
+		'material_add_failed'=>'素材添加失败',
+		'material_add_succeed'=>'素材添加成功'
+);

@@ -1,0 +1,71 @@
+{template header}
+<div class="area">
+    <form method="post" id="J_FrmFindPass2" action="{U:('c=findpass&a=set_pass')}">
+    <div class="findpass">
+        <div class="row row-title">
+            <div class="cell cell-left">手机验证码</div>
+            <div class="cell cell-right">账户 <span style="color: #ff0000">{$username}</span> 为确认是你本人操作，请完成以下验证</div>
+        </div>
+        <div class="row">
+            <div class="cell cell-left">手机号</div>
+            <div class="cell cell-right"><span style="color: #ff0000">{$mobile}</span></div>
+        </div>
+        <div class="row">
+            <div class="cell cell-left">验证码</div>
+            <div class="cell cell-right">
+                <input type="text" title="" name="seccode" id="seccode" class="input-text" placeholder="6位数字" maxlength="6" style="width: 124px;">
+                <button class="button button-cancel" type="button" id="getCode">获取短信验证码</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell cell-left"></div>
+            <div class="cell cell-right">
+                <button type="submit" class="button">确定</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#J_FrmFindPass2").on('submit', function () {
+            var seccode = $.trim($("#seccode").val());
+            if(seccode.length !== 6) {
+                DSXUI.error('验证码填写错误');
+                return false;
+            }
+        });
+
+        var code_get_able = true;
+        $("#getCode").on('click', function () {
+            if (!code_get_able) {
+                return false;
+            }else {
+                code_get_able = false;
+            }
+            $.ajax({
+                url:"{U:('c=findpass&a=get_code')}",
+                //dataType:'json',
+                success:function (response) {
+                    if (response.errcode === 0){
+                        var timer = 120;
+                        var t = setInterval(function () {
+                            timer--;
+                            if (timer <= 0) {
+                                clearInterval(t);
+                                code_get_able = true;
+                                $("#getCode").text('获取短信验证码').addClass('button-disabled').attr('disabled', false);
+                            }else {
+                                $("#getCode").text(timer+'秒后重新获取').removeClass('button-disabled').attr('disabled', true);
+                            }
+
+                        }, 1000);
+                    }else {
+                        DSXUI.error(response.errmsg);
+                    }
+                }
+            });
+        });
+    });
+</script>
+{template footer}

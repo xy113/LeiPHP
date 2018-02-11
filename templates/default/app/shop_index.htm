@@ -1,0 +1,137 @@
+{template header}
+<div class="swiper-div">
+    <div class="swiper" id="swiper">
+        <ul class="swiper-wrapper">
+            {loop $slide_list $sd}
+            <li class="swiper-slide">
+                <span href="{$sd[url]}" class="bg bg-cover asyncload" data-original="{img $sd[image]}" style="background-image: none;"></span>
+            </li>
+            {/loop}
+        </ul>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    (function(){
+        var swiper = new Swiper('#swiper',
+            {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+    })();
+</script>
+
+
+
+<div class="shop">
+    <div class="title-tuijian">
+        <div class="line"></div>
+        <span class="title" style="width: 120px; margin-left: -60px;">粗耕品牌计划</span>
+    </div>
+
+    <div class="brand">
+        <ul>
+            {loop $brand_list $brand}
+            <li handler="openURL" data-url="{$brand[url]}">
+                <div class="bg bg-cover lazyload" data-original="{img $brand[image]}"></div>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+
+    <div class="title-tuijian">
+        <div class="line"></div>
+        <span class="title">热铺推荐</span>
+    </div>
+
+    <div class="shop-horizontal-list">
+        <ul id="item-list-ul"></ul>
+    </div>
+</div>
+<div style="clear: both; height: 50px;"></div>
+<script type="text/template" id="itemTpl">
+    <li>
+        <div class="bd">
+            <div class="pic bg-cover lazyload" id="item_{item[shop_id]}" data-original="{item[shop_logo]}" handler="viewShop" data-id="{item[shop_id]}"></div>
+            <div class="con">
+                <div class="name">{item[shop_name]}</div>
+                <div class="addr">{item[city]} {item[county]}</div>
+                <div class="line">
+                    <span class="sold">已售{item[total_sold]}件</span>
+                    <strong class="price">￥{item[min_price]}</strong>
+                    <span class="qi">起</span>
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+<script type="text/javascript">
+    var current_page = 0;
+    var isLoading = false;
+    var isRefreshing = false;
+    function loadDatasource() {
+        if (isLoading) return;
+        isLoading = true;
+        current_page++;
+        $.ajax({
+            url:"{U:('c=shop&a=batchget')}&page="+current_page,
+            dataType:'json',
+            beforeSend:function () {
+                if (!isRefreshing) $("#onloading").show();
+            },
+            success:function (response) {
+                setTimeout(function () {
+                    $("#onloading").hide();
+                    if (response.data.length > 0){
+                        isLoading = false;
+                        var tpl = $("#itemTpl").html();
+                        var items = '';
+                        var item_ids = [];
+                        $(response.data).each(function (i, data) {
+                            items+= tpl.replace(/\{item\[(.*?)\]\}/g, function (s, k) {
+                                if (typeof data[k] === 'undefined'){
+                                    return '';
+                                }else {
+                                    return data[k];
+                                }
+                            });
+                            item_ids.push(data.shop_id);
+                        });
+                        if (isRefreshing) {
+                            $("#item-list-ul").html(items);
+                        }else {
+                            $("#item-list-ul").append(items);
+                        }
+                        $(item_ids).each(function (i, id) {
+                            $("#item_"+id).lazyload({
+                                effect:'fadeIn',
+                                placeholder:'/static/images/common/placeholder.png'
+                            });
+                        });
+                        onBridgeReady(function (bridge) {
+                            $(item_ids).each(function (i, id) {
+                                $("#item_"+id).on('click', function (e) {
+                                    var id = $(this).attr('data-id');
+                                    bridge.callHandler('viewShop', id);
+                                });
+                            });
+                        });
+                    }else {
+                        isLoading = true;
+                    }
+                },300);
+            }
+        });
+    }
+    //加载更多
+    loadDatasource();
+    $(window).scroll(function() {
+        if ($(document).height() <= $(window).height()) {
+            return false;
+        }
+        var totalheight = parseFloat($(window).height()) + parseFloat($(document).scrollTop());
+        if ($(document).height() <= totalheight){
+            if (isLoading) return;
+            isRefreshing = false;
+            loadDatasource();
+        }
+    });
+</script>
+{template footer}

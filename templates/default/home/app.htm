@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$_G[title]}</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/common.css">
+    <script src="/static/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+    <style type="text/css">
+        .down-button{
+            height: 45px; background-color: #0097D0;
+            color: #fff; border: 0;
+            border-radius: 5px; font-size: 16px;
+            text-align: center; display: block;
+            width: 200px; margin: 0 auto;
+        }
+        .demo{width: 100%; height: auto;}
+    </style>
+</head>
+
+<body>
+<div style="display: block; overflow: hidden;">
+    <div style="padding: 50px 50px 0; display: block; text-align: center;">
+        <img src="/static/images/app/appicon.png" style="border-radius: 10%;">
+        <h3 style="font-size: 18px; text-align: center;">粗耕农品集市</h3>
+    </div>
+    {if $platform=='ios'}
+    <div style="padding: 20px;">
+        <button id="ios" type="button" class="down-button">前往App Store下载</button>
+    </div>
+    {else}
+    <div style="padding: 20px;">
+        <p style="font-size: 16px; margin-bottom: 20px;">亲，微信内置浏览器已屏蔽文件下载功能，请按照下面的方法下载本应用</p>
+        <div><img src="/static/images/app/demo1.jpg" class="demo"></div>
+        <p style="font-size: 16px; padding: 10px 0; text-align: center">如下图</p>
+        <div><img src="/static/images/app/demo2.jpg" class="demo"></div>
+    </div>
+    {/if}
+</div>
+<script type="text/javascript">
+    $("#ios").on('click', function () {
+        window.open('https://itunes.apple.com/us/app/%E7%B2%97%E8%80%95%E5%86%9C%E5%93%81%E9%9B%86%E5%B8%82/id1276972461?l=zh&ls=1&mt=8');
+    });
+    $("#android").on('click', function () {
+        window.open("{U:('c=app&a=down_apk')}");
+    });
+</script>
+</body>
+</html>

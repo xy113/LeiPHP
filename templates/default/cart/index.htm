@@ -1,0 +1,266 @@
+{template header}
+<div class="area cart">
+    <div class="cart-filter-bar">
+        <span>总计{$total_count}件商品</span>
+        <strong>全部商品</strong>
+    </div>
+    <div class="cart-main">
+        <form method="post" id="J_Frmcart" autocomplete="off" action="{U:('m=buy&c=order&a=confirm_order')}">
+            <div class="cart-table-th">
+                <table cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <th width="100">
+                                <label>
+                                    <input type="checkbox" class="checkbox checkall checkmark">
+                                    <span>全选</span>
+                                </label>
+                            </th>
+                            <th>商品信息</th>
+                            <th width="100">单价</th>
+                            <th width="120">数量</th>
+                            <th width="100">金额</th>
+                            <th width="100">操作</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {if $shop_item_list}
+            {loop $shop_item_list $shop_id $shop}
+            <div class="cart-item">
+                <h3>
+                    <input type="checkbox" class="checkbox checkmark groupCheckbox" data-target=".group_{$shop_id}">
+                    <span class="iconfont icon-shopfill"></span><a href="{U:('m=shop&c=viewshop&shop_id='.$shop_id)}" target="_blank">{$shop[shop_name]}</a>
+                </h3>
+                <div class="order-content">
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                        {eval $index=0}
+                        {loop $shop[items] $itemid $item}
+                        {eval $index++}
+                        <tbody id="item-{$itemid}">
+                            <tr{if $index==1} class="first"{/if}>
+                                <td class="item-info">
+                                    <input type="hidden" id="J_price_{$itemid}" value="{$item[price]}">
+                                    <div class="chk"><input type="checkbox" class="checkbox checkmark J_CheckBoxItem group_{$shop_id}" name="items[]" value="{$itemid}"></div>
+                                    <div class="g-pic bg-cover lazyload" data-original="{img $item[thumb]}">
+                                        <a href="{U:('m=item&c=item&itemid='.$itemid)}" target="_blank"></a>
+                                    </div>
+                                    <div class="g-info">
+                                        <div class="g-name"><a href="{U:('m=item&c=item&itemid='.$itemid)}" target="_blank">{$item[title]}</a></div>
+                                    </div>
+                                </td>
+                                <td width="100"></td>
+                                <td width="100">
+                                    <p style="color: #999; margin-bottom: 3px;"><s>{$item[cart_price]}</s></p>
+                                    <strong>￥{$item[price]}</strong>
+                                </td>
+                                <td width="120">
+                                    <div class="quantity-inner">
+                                    <span class="btn opLeft" data-id="{$itemid}">-
+                                    </span><input type="text" class="text" value="{$item[quantity]}" id="quantity_{$itemid}"><span class="btn opRight" data-id="{$itemid}">+</span>
+                                    </div>
+                                </td>
+                                <td width="100"><strong style="color: #f40;" id="simple_price_{$itemid}">￥{amount:$item[total_fee]}</strong></td>
+                                <td width="100">
+                                    <p><a>移入收藏夹</a></p>
+                                    <p><a rel="delete" data-id="{$itemid}">删除</a></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {/loop}
+                    </table>
+                </div>
+            </div>
+            {/loop}
+            {else}
+            <div class="noaccess"><a href="{U:('/')}">购物车空空也, 快去选购宝贝吧</a></div>
+            {/if}
+        </form>
+    </div>
+    <div class="float-bar">
+        <div class="wrap">
+            <div class="chk">
+                <input type="checkbox" class="checkbox checkall checkmark" autocomplete="off">
+                <span>全选</span>
+            </div>
+            <div class="operations">
+                <a id="multi-delete">删除</a>
+                <a id="move-to-favor">移入收藏夹</a>
+            </div>
+            <div class="right">
+                <div class="item-sum">已选中<strong id="total_count">0</strong>件商品</div>
+                <div class="item-sum">合计 (不含运费): <strong id="total_fee">0.00</strong></div>
+                <div class="submit-btn btn-disabled" id="submit-btn">结算</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        function checkSubmit() {
+            if($(".J_CheckBoxItem:checked").length > 0) $("#J_Frmcart").submit();
+        }
+        function settlement() {
+            var total_count = 0, total_fee = 0;
+            $(".J_CheckBoxItem:checked").each(function () {
+                var itemid = $(this).val();
+                var quantity = parseInt($("#quantity_"+itemid).val());
+                var price = $("#J_price_"+itemid).val();
+                total_count+= quantity;
+                total_fee+= price * quantity;
+            });
+            $("#total_count").text(total_count.toString());
+            $("#total_fee").text(total_fee.toFixed(2));
+        }
+        $(document).on('click', function () {
+            if($(".J_CheckBoxItem:checked").length > 0){
+                $("#submit-btn").removeClass("btn-disabled").off('click').on('click', checkSubmit);
+            }else {
+                $("#submit-btn").addClass("btn-disabled").off('click');
+            }
+        });
+        var spinner = null;
+        $("a[rel=delete]").on('click', function (e) {
+            var itemid = $(this).attr('data-id');
+            DSXUI.showConfirm('移除购物车','确认要从购物车中移除此宝贝吗？', function () {
+                $.ajax({
+                    url:"{U:('m=cart&c=index&a=delete')}",
+                    data:{items:itemid},
+                    dataType:'json',
+                    beforeSend:function () {
+                        spinner = DSXUI.showSpinner();
+                    },
+                    success:function (response) {
+                        setTimeout(function () {
+                            spinner.close();
+                            if (response.errcode == 0){
+                                $("#item-"+itemid).remove();
+                                settlement();
+                            }else {
+                                DSXUI.error(response.errmsg);
+                            }
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        $("#multi-delete").on('click', function () {
+            if ($(".J_CheckBoxItem:checked").length > 0){
+                var ids = [];
+                $(".J_CheckBoxItem:checked").each(function () {
+                    ids.push($(this).val());
+                });
+                DSXUI.showConfirm('移除购物车','确认要从购物车中移除此宝贝吗？', function () {
+                    $.ajax({
+                        url:"{U:('m=cart&c=index&a=delete')}",
+                        data:{items:ids.join(',')},
+                        dataType:'json',
+                        beforeSend:function () {
+                            spinner = DSXUI.showSpinner();
+                        },
+                        success:function (response) {
+                            setTimeout(function () {
+                                spinner.close();
+                                if (response.errcode == 0){
+                                    DSXUtil.reFresh();
+                                }else {
+                                    DSXUI.error(response.errmsg);
+                                }
+                            }, 300);
+                        }
+                    });
+                });
+            }
+        });
+        $("#move-to-favor").on('click', function () {
+            if ($(".J_CheckBoxItem:checked").length > 0){
+                var ids = [];
+                $(".J_CheckBoxItem:checked").each(function () {
+                    ids.push($(this).val());
+                });
+                DSXUI.showConfirm('移除购物车','确认要将所选宝贝移入收藏夹吗?', function () {
+                    $.ajax({
+                        url:"{U:('m=cart&c=index&a=move_to_favor')}",
+                        data:{items:ids.join(',')},
+                        dataType:'json',
+                        beforeSend:function () {
+                            spinner = DSXUI.showSpinner();
+                        },
+                        success:function (response) {
+                            setTimeout(function () {
+                                spinner.close();
+                                if (response.errcode == 0){
+                                    DSXUtil.reFresh();
+                                }else {
+                                    DSXUI.error(response.errmsg);
+                                }
+                            }, 300);
+                        }
+                    });
+                });
+            }
+        });
+        $(".opLeft").on('click', function () {
+            var itemid = $(this).attr('data-id');
+            var quantity = $("#quantity_"+itemid).val();
+            var price = $("#J_price_"+itemid).val();
+            if (quantity <= 1) {
+                return false;
+            }else {
+                quantity--;
+                var simple_price = (price*quantity).toFixed(2);
+                $("#quantity_"+itemid).val(quantity);
+                $("#simple_price_"+itemid).text('￥'+simple_price);
+                $.ajax({
+                    type:'POST',
+                    url:"{U:('m=cart&c=index&a=update_quantity')}",
+                    data:{itemid:itemid, quantity:quantity},
+                    dataType:'json',
+                    beforeSend:function () {
+                        spinner = DSXUI.showSpinner();
+                        settlement();
+                    },
+                    success:function (response) {
+                        setTimeout(function () {
+                            spinner.close();
+                        }, 500);
+                    }
+                });
+            }
+        });
+
+        $(".opRight").on('click', function () {
+            var itemid = $(this).attr('data-id');
+            var quantity = $("#quantity_"+itemid).val();
+            var price = $("#J_price_"+itemid).val();
+
+            quantity++;
+            var simple_price = (price*quantity).toFixed(2);
+            $("#quantity_"+itemid).val(quantity);
+            $("#simple_price_"+itemid).text('￥'+simple_price);
+            $.ajax({
+                type:'POST',
+                url:"{U:('m=cart&c=index&a=update_quantity')}",
+                data:{itemid:itemid, quantity:quantity},
+                dataType:'json',
+                beforeSend:function () {
+                    spinner = DSXUI.showSpinner();
+                    settlement();
+                },
+                success:function (response) {
+                    setTimeout(function () {
+                        spinner.close();
+                    }, 500);
+                }
+            });
+        });
+        $(".groupCheckbox").on('click', function () {
+            var target = $(this).attr('data-target');
+            $(target).prop('checked', $(this).is(":checked"));
+            settlement();
+        });
+        $(".checkall, .J_CheckBoxItem").on('click', settlement);
+    });
+</script>
+{template footer}

@@ -1,0 +1,45 @@
+@charset "UTF-8";
+/*=========文章首页========*/
+.div-left-275{width:270px; height:275px; float:left; margin-right:20px;}
+.div-left-275 .focus{margin-top:-8px;}
+.div-left-275 .focus-item{padding:8px 0; border-bottom:1px #ddd solid; display:block;}
+.div-left-275 .focus-item h3{height:20px; font-size:15px; font-weight:500; overflow:hidden;}
+.div-left-275 .focus-item p{font-size:12px; color:#666; height:20px; line-height:20px; display:block; overflow:hidden;}
+.div-slider{width:570px; height:275px; float:left; margin-right:20px;}
+.div-slider img{display:block; width:100%; height:100%;}
+.div-right-275{overflow:hidden;}
+
+.piclist-div{display:block; margin:0 -20px 0 0; overflow:hidden;}
+.piclist-div .item{width:20%; float:left;}
+.piclist-div .item .hd{display:block; margin:0 20px 20px 0;}
+.piclist-div .item .pic{display:block; padding-top:80%; position:relative;}
+.piclist-div .item .pic img{width:100%; height:100%; display:block; position:absolute; left:0; top:0;}
+.piclist-div .item .title{height:24px; line-height:24px; text-align:center; overflow:hidden; display:block;}
+
+/*=========文章正文========*/
+.post-detail-div{display:block;}
+.post-detail-div .main-frame{width:840px; float:left; margin-right:40px; overflow:hidden;}
+.post-detail-div .post-title{font-size:30px; text-align:left; line-height:1.1; padding:10px 0;}
+.post-detail-div .post-info{padding:10px 0; color:#666; border-bottom:1px #DDD dotted; font-size:12px;}
+.post-detail-div .post-info a,.post-detail-div .post-info span{margin-right:10px;}
+.post-detail-div .post-body{padding:20px 0; display:block; overflow:hidden; font-size:16px; line-height:1.5; text-align:justify; color:#444;}
+.post-detail-div .post-body *{max-width:100%;}
+.post-detail-div .post-body p{padding:10px 0; text-indent:2em;}
+
+.post-detail-div .right-frame{overflow:hidden;}
+.post-detail-div .right-frame .content-div{display:block; border-top:2px #F00 solid; background:#f4f5f6;}
+.post-detail-div .right-frame .content-div .title{padding:10px; font-size:16px;}
+.post-detail-div .right-frame .content-div .itemlist{display:block; padding:0 10px 10px;}
+.post-detail-div .right-frame .content-div .itemlist li{
+	padding:5px 0px 5px 12px; line-height:1.2; font-size:14px; 
+	background-image:url(../images/common/dotted.png);
+	background-repeat:no-repeat;
+	background-position:-6px 6px;
+	background-size:18px 18px;
+}
+
+.post-detail-div .right-frame .picitemlist{display:block;}
+.post-detail-div .right-frame .picitemlist li{border-top:1px #d7d7d7 solid; padding:10px; margin-top:-1px;}
+.post-detail-div .right-frame .picitemlist li .imgbox{display:block; padding-top:60%; position:relative;}
+.post-detail-div .right-frame .picitemlist li .imgbox img{display:block; width:100%; height:100%; position:absolute; left:0; top:0;}
+.post-detail-div .right-frame .picitemlist li .title{padding:10px 0 0; line-height:1.2; font-size:14px; color:#666;}

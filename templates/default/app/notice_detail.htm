@@ -1,0 +1,10 @@
+{template header}
+<div class="notice-detail">
+    <h1 class="title">{$notice[title]}</h1>
+    <div class="info">
+        <span>{echo @date('Y-m-d H:i:s', $notice[dateline])}</span>
+        <span>{$author[username]}</span>
+    </div>
+    <div class="content">{$notice[message]}</div>
+</div>
+{template footer}

@@ -1,0 +1,210 @@
+{template header}
+<script src="/static/DatePicker/WdatePicker.js"></script>
+<div class="navigation">
+    <a>后台管理</a>
+    <span>></span>
+    <a>订单管理</a>
+    <span>></span>
+    <a>订单列表</a>
+</div>
+<div class="search-container">
+    <form method="get" id="searchFrom">
+        <input type="hidden" name="m" value="{$_G[m]}">
+        <input type="hidden" name="c" value="{$_G[c]}">
+        <input type="hidden" name="a" value="{$_G[a]}" id="J_a">
+        <div class="row">
+            <div class="cell">
+                <label>商品ID:</label>
+                <div class="field"><input type="text" class="input-text" name="itemid" value="{$itemid}"></div>
+            </div>
+            <div class="cell">
+                <label>订单编号:</label>
+                <div class="field"><input type="text" class="input-text" name="order_no" value="{$order_no}"></div>
+            </div>
+            <div class="cell">
+                <label>买家昵称:</label>
+                <div class="field"><input type="text" class="input-text" name="buyer_name" value="{$buyer_name}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <label>订单状态:</label>
+                <div class="field">
+                    <select class="select" name="order_status">
+                        <option value="0">全部</option>
+                        <option value="1"{if $order_status==1} selected{/if}>等待买家付款</option>
+                        <option value="2"{if $order_status==2} selected{/if}>买家已付款</option>
+                        <option value="3"{if $order_status==3} selected{/if}>卖家已发货</option>
+                        <option value="4"{if $order_status==4} selected{/if}>交易成功</option>
+                        <option value="5"{if $order_status==5} selected{/if}>买家已评价</option>
+                        <option value="6"{if $order_status==6} selected{/if}>退款中的订单</option>
+                        <option value="7"{if $order_status==7} selected{/if}>退款完成</option>
+                    </select>
+                </div>
+            </div>
+            <div class="cell">
+                <label>支付方式:</label>
+                <div class="field">
+                    <select class="select" name="pay_type">
+                        <option value="0">全部</option>
+                        <option value="1"{if $pay_type==1} selected{/if}>在线支付</option>
+                        <option value="2"{if $pay_type==2} selected{/if}>货到付款</option>
+                    </select>
+                </div>
+            </div>
+            <div class="cell">
+                <label>物流状态:</label>
+                <div class="field">
+                    <select class="select" name="wuliu_status">
+                        <option value="0">全部</option>
+                        <option value="1"{if $wuliu_status==1} selected{/if}>未发货</option>
+                        <option value="2"{if $wuliu_status==2} selected{/if}>已发货</option>
+                        <option value="3"{if $wuliu_status==3} selected{/if}>已收货</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <label>宝贝名称:</label>
+                <div class="field"><input type="text" class="input-text" name="title"></div>
+            </div>
+            <div class="cell" style="width: auto;">
+                <label>交易时间:</label>
+                <div class="field">
+                    <input type="text" class="input-text" name="time_begin" onclick="WdatePicker()" value="{$time_begin}"> -
+                    <input type="text" class="input-text" name="time_end" onclick="WdatePicker()" value="{$time_end}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell">
+                <label></label>
+                <div class="field">
+                    <button type="button" class="button" id="btn-search">搜索订单</button>
+                    <button type="button" class="button button-cancel" id="btn-export">批量导出</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="tabs-container">
+    <div class="tabs">
+        <div class="tab{if $tab=='all'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=all')}">全部订单</a><span>|</span></div>
+        <div class="tab{if $tab=='waitPay'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=waitPay')}">等待买家付款</a><span>|</span></div>
+        <div class="tab{if $tab=='waitSend'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=waitSend')}">等待卖家发货</a><span>|</span></div>
+        <div class="tab{if $tab=='send'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=send')}">卖家已发货</a><span>|</span></div>
+        <div class="tab{if $tab=='received'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=received')}">买家已收货</a><span>|</span></div>
+        <div class="tab{if $tab=='reviewed'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=reviewed')}">买家已评价</a><span>|</span></div>
+        <div class="tab{if $tab=='refunding'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=refunding')}">退款中</a></div>
+        <div class="tab{if $tab=='closed'} on{/if}"><a href="{U:('c=order&a=itemlist&tab=closed')}">已关闭的订单</a></div>
+    </div>
+</div>
+<div class="content-div">
+    <form method="post" id="listForm">
+        <input type="hidden" name="formsubmit" value="yes" />
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <input type="hidden" name="eventType" value="" id="J_eventType">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable">
+            <thead>
+            <tr>
+                <th width="40" class="center">选?</th>
+                <th width="60">图片</th>
+                <th>商品名称 | 订单号 | 卖家账号</th>
+                <th>买家账号</th>
+                <th>金额</th>
+                <th>下单时间</th>
+                <th>订单状态</th>
+                <th width="60">详情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $order_list $order_id $order}
+            <tr>
+                <td class="center"><input type="checkbox" class="checkbox checkmark" name="orders[]" value="{$order_id}"></td>
+                <td><img src="{img $order[thumb]}" width="50" height="50"></td>
+                <td>
+                    <h3 class="title"><a href="{U:('m=item&c=item&itemid='.$order[itemid])}" target="_blank">{$order[title]}</a></h3>
+                    <p class="subtitle">
+                        <span>{$order[order_no]} |</span>
+                        <a href="{U:('m=shop&c=viewshop&shop_id='.$order[shop_id])}" target="_blank">{$order[seller_name]}</a>
+                    </p>
+                </td>
+                <td>{$order[buyer_name]}</td>
+                <td>{echo formatAmount($order[order_fee])}</td>
+                <td>{date:$order[create_time]|'Y-m-d H:i:s'}</td>
+                <td>{$order[order_status]}</td>
+                <td><a href="{U:('c=order&a=detail&order_id='.$order[order_id])}" target="_blank">查看</a></td>
+            </tr>
+            {/loop}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="15">
+                    <div class="pagination float-right">{$pages}</div>
+                    <label><input type="checkbox" class="checkbox checkall"> {$_lang[selectall]}</label>
+                    <label><button type="button" class="btn" id="deleteOrderButton">删除订单</button></label>
+                    <label><button type="button" class="btn" onclick="DSXUtil.reFresh()">刷新</button></label>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<iframe id="J_frame" src="" style="display: none;"></iframe>
+<script type="text/javascript">
+    var waiting = null;
+    function downloadOrder() {
+        $("#searchFrom").ajaxSubmit({
+            dataType:'json',
+            success:function (response) {
+                if (response.errcode == 0){
+                    setTimeout(function () {
+                        downloadOrder();
+                    }, 500);
+                }else {
+                    waiting.close();
+                    $("#J_frame").attr('src', "{U:('c=order&a=get_excel')}");
+                }
+            }
+        });
+    }
+    $(function () {
+        $(function () {
+            $("#btn-search").on('click', function () {
+                $("#J_a").val('index');
+                $("#searchFrom").submit();
+            });
+            $("#btn-export").on('click', function () {
+                DSXUI.showConfirm('导出订单','订单下载过程可能需要花费几分钟，在此期间请不要关闭页面。',function () {
+                    waiting = DSXUI.showloading('正在导出数据...');
+                    $("#J_a").val('download');
+                    downloadOrder();
+                });
+            });
+        });
+
+        $("#deleteOrderButton").on('click', function () {
+            var spinner = null;
+            if ($("input.checkmark:checked").length == 0){
+                DSXUI.error('请选择订单');
+                return false;
+            }
+            DSXUI.showConfirm('删除订单','确认要删除所选订单吗?', function () {
+                $("#J_eventType").val('delete');
+                $("#listForm").ajaxSubmit({
+                    beforeSend:function () {
+                         spinner = DSXUI.showSpinner();
+                    },
+                    success:function (response) {
+                        setTimeout(function () {
+                            spinner.close();
+                            DSXUtil.reFresh();
+                        }, 500);
+                    }
+                });
+            });
+        });
+    });
+</script>
+{template footer}

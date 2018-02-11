@@ -1,0 +1,128 @@
+@import url(common.css);
+.area{clear:both; margin:0 auto; width:1000px;}
+.main-body-div{display:block; position:relative; width:860px; margin-top:30px; height: 500px;}
+/*=====登录部分=====*/
+.sign-in-map{background-image:url(../images/cugeng/banner-app.png); background-repeat:no-repeat; width:400px; height:347px; position:absolute; left:0; top:50px; display:block;}
+.sign-in-div{position:absolute; right:0; top:80px; background-color:#FAFCFE; border:1px #ddd solid; padding:0; width:320px; z-index:20;}
+.sign-in-div .content{display: block; position: relative; padding: 10px 0;}
+.sign-in-div h3{display:block; padding:10px 30px; font-size:16px; border-bottom:3px #FFF solid;}
+.sign-in-div .sign-content{display:block; padding:0 30px 20px;}
+.sign-in-div .sign-content .qrcode{width: 200px; height: 200px; display: block; margin: 0 auto; position: relative;}
+.sign-in-div .sign-content .qrcode img{width: 100%; height: 100%; display: block;}
+.sign-in-div .sign-content .loading{
+    position: absolute; width: 100%; height: 100%; left: 0; top: 0; display: none;
+    background-image: url("../images/common/spinner.gif"); background-position: center center;
+    background-size: 50px 50px; background-repeat: no-repeat; background-color: #fff; opacity: 0.9;
+}
+.sign-in-div .input-div{background-color:#fff; display:block; height:40px; margin-top:20px; position:relative; border:1px #ddd solid; border-radius:2px; box-shadow:0 1px 2px rgba(0, 0, 0, 0.075) inset;}
+.sign-in-div .ico-box{width:36px; height:36px; margin:2px; background-color:#fefefe; text-align:center; line-height:100%; display:block; float:left;}
+.sign-in-div .ico-box .iconfont{margin:0; line-height:36px; display:block; color:#666; width:100%; font-weight: bolder;}
+.sign-in-div .input-box{height:40px; overflow:hidden;}
+.sign-in-div .input-box .text{padding:5px 10px 5px 0; font-size:13px; box-sizing:border-box; width:100%; height:100%; border:0; background:none;}
+.sign-in-div .captcha{position:absolute; top:0; right:0; height:100%; z-index:10; cursor:pointer;}
+.sign-in-div .sign-button-div{margin-top:20px; display:block;}
+.sign-in-div .sign-button{display:block; width:100%; border:0; font-size:14px; cursor:pointer; height:40px; line-height:40px; text-align:center; background:#0ae; color:#fff; border-radius:2px;}
+.sign-in-div .sign-button:hover{background:#00a3d2;}
+.sign-in-div .sign-link{display:block; margin-top:15px; font-size:12px;}
+.sign-in-div .sign-link span{float:right;}
+.sign-in-div .err-tips{background-color:#fff2f2; color:#F00; padding:10px; border:1px #C63 solid; border-radius:2px; display:none;}
+.sign-in-div .saoma-login{
+    background-image: url("../images/common/saoma_login.png");
+    background-repeat: no-repeat; background-size: cover; cursor: pointer;
+    width: 52px; height: 53px; position: absolute; top: 0; right: 0; display: block;
+}
+
+.sign-in-div .diannao-login{
+    background-image: url("../images/common/diannao_login.png");
+    background-repeat: no-repeat; background-size: cover; cursor: pointer;
+    width: 52px; height: 53px; position: absolute; top: 0; right: 0; display: block;
+}
+
+.sign-in-div .scan-login{display: block; padding: 20px 30px;}
+.sign-in-div .scan-login .qrcode{width: 140px; height: 140px; display: block; margin:  0 auto;}
+.sign-in-div .scan-login .qrcode-desc{display: block; font-size: 16px; text-align: center; margin-top: 20px;}
+.sign-in-div .content .loading {
+    background-color: #fff;
+    background-image: url("../images/common/spinner.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    display: none;
+    height: 100%;
+    left: 0;
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+#ajaxlogin{display: block; padding: 20px 50px;}
+#ajaxlogin h2{font-size: 16px; text-align: center; padding-bottom: 20px;}
+#ajaxlogin .input-box{
+    border: 1px #CCC solid; display: block; margin-bottom: 20px; height: 40px;
+    position: relative; border-radius: 3px;
+}
+#ajaxlogin .input-box .iconfont{
+    position: absolute; left: 0; top: 0; height: 38px; width: 40px; background-color: #e5e5e5;
+    text-align: center; font-size: 18px; line-height: 38px; color: #666; border-radius: 3px 0 0 3px;
+}
+#ajaxlogin .input-box .text{
+    border: none; background: none; outline: none;
+    position: absolute; width: 260px; height: 38px; left: 45px; top: 0; font-size: 14px;
+}
+#ajaxlogin .input-box .captcha{
+    position: absolute; top: 0; right: 0; height: 100%; border-left: 1px #DDD solid; cursor: pointer;
+}
+#ajaxlogin .login-button{
+    display: block; background-color: #FF002D; border-radius: 3px;
+    height: 40px; text-align: center; cursor: pointer;
+    width: 100%; border: none; color: #fff; font-size: 16px;
+}
+#ajaxlogin .login-button:hover{background-color: #D10025;}
+#ajaxlogin .line{display: block; padding: 20px 0 0; text-align: center; font-size: 12px;}
+#ajaxlogin .line a{margin: 0 10px;}
+/*==用户注册==*/
+.sign-top{border-bottom: 1px #DDD solid; background-color: #fff;}
+.sign-top .inner{width: 900px; margin: 0 auto; height: 80px;}
+.sign-top .logo{height: 40px; float: left; margin: 20px 0 0 0;}
+.sign-top .logo img{width: 100%; height: 100%; display: block;}
+.sign-top .right{float: right; height: 20px; line-height: 20px; margin-top: 30px; font-size: 13px;}
+.sign-top .right ul{}
+.sign-top .right ul li{float: left;}
+.sign-top .right ul li.pipe{color: #e5e5e5; width: 5px; height: 34px; text-align: center;}
+.sign-top .right ul li a{padding: 0 10px; color: #6c6c6c; display: inline-block;}
+.sign-top .right .iconfont{font-size: 16px; float: left; margin-right: 3px;}
+.sign-body{background-color: #f9f9f9; display: block; padding: 30px 0;}
+.sign-box-div{padding:10px 0; width:400px; z-index:20; display: block; margin: 0 auto;}
+.sign-box-div h3{display:block; padding:10px 0; font-size:20px; text-align: center;}
+.sign-box-div .sign-content{display:block; padding:0 30px 20px;}
+.sign-box-div .input-div{background-color:#fff; border:1px #DDD solid; display:block; height:40px; margin-top:20px; position:relative;}
+.sign-box-div .ico-box{width:40px; height:40px; background-color:#CCC; text-align:center; line-height:100%; display:block; float:left;}
+.sign-box-div .ico-box .iconfont{margin:0; line-height:40px; display:block; color:#888; width:100%;}
+.sign-box-div .input-box{height:40px; overflow:hidden;}
+.sign-box-div .input-box .text{padding:5px 10px; font-size:13px; box-sizing:border-box; width:100%; height:100%; border:0; background:none;}
+.sign-box-div .captcha{position:absolute; top:0; right:0; height:100%; z-index:10; cursor:pointer; border-left: 1px #DDD solid;}
+.sign-box-div .sign-button-div{margin-top:20px; display:block;}
+.sign-box-div .sign-button{display:block; width:100%; border:0; font-size:14px; cursor:pointer; height:40px; line-height:40px; text-align:center; background:#0ae; color:#fff; border-radius:2px;}
+.sign-box-div .sign-button:hover{background:#00a3d2;}
+.sign-box-div .sign-link{display:block; margin-top:15px; font-size:12px;}
+.sign-box-div .sign-link span{float:right;}
+.sign-box-div .sign-link a{color:#666;}
+.sign-box-div .err-tips{color:#F00; margin-top:20px; display:none; text-align: center;}
+
+.findpass{
+    display: block; margin: 0 auto;
+    width: 600px; padding: 50px 0;
+}
+.findpass .row{display: block; margin-bottom: 10px;}
+.findpass .row-title{border-bottom: 1px #DDD solid; margin-bottom: 20px;}
+.findpass .row .cell{line-height: 40px; font-size: 14px;}
+.findpass .row .cell-left{width: 200px; float: left; text-align: right;}
+.findpass .row .cell-right{margin-left: 210px;}
+.findpass .row .input-text{height: 35px;}
+.findpass .row .button{height: 35px; line-height: 35px; width: 130px;}
+
+#footer{clear:both; padding:10px 0; margin-top:30px; color:#333;}
+#footer .bottomNav{text-align:center; color:#f0f0f0;}
+#footer .bottomNav a{color:#333; margin:0 3px;}
+#footer .copyright{color:#999; text-align:center; line-height:30px;}

@@ -1,0 +1,91 @@
+{template header}
+<div class="navigation">
+    <a>我是卖家</a>
+    <span>></span>
+    <a>宝贝管理</a>
+    <span>></span>
+    <a>出售宝贝</a>
+</div>
+<div class="content-div">
+    <div class="form-div">
+        <form method="post" id="publishForm" autocomplete="off">
+            <input type="hidden" name="formsubmit" value="yes">
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <input type="hidden" name="catid" value="0" id="J_catid">
+            <table cellspacing="0" cellpadding="0" class="cate-sascading" style="margin: 0 auto; width: 500px;">
+                <tbody>
+                <tr>
+                    <td width="220">选择分类</td>
+                    <td width="220">选择分类</td>
+                </tr>
+                <tr>
+                    <td>
+                        <select title="" class="select" size="20" id="catid_1">
+                            {loop $category_list $cat}
+                            {if $cat[fid]==0}
+                            <option value="{$cat[catid]}">{$cat[name]}</option>
+                            {/if}
+                            {/loop}
+                        </select>
+                    </td>
+                    <td>
+                        <select title="" class="select" size="20" id="catid_2"></select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+                <tfoot>
+                <tr>
+                    <td style="text-align: center;"><button type="button" class="button btn-100" id="button-submit">发布宝贝</button></td>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#catid_1").on('change', function () {
+        var fid = $(this).val();
+        if (!fid) return;
+        $.ajax({
+            url:"{U:('c=item&a=get_catelist')}",
+            data:{fid:fid},
+            dataType:'json',
+            success:function (response) {
+                var options = '';
+                $(response.data).each(function (i, data) {
+                    options+= '<option value="'+data.catid+'">'+data.name+'</option>';
+                });
+                $("#catid_2").html(options);
+                $("#catid_2").on('change', function () {
+                    var fid2 = $(this).val();
+                    if (!fid2) return;
+                    $.ajax({
+                        url:"{U:('c=item&a=get_catelist')}",
+                        data:{fid:fid2},
+                        dataType:'json',
+                        success:function (response) {
+                            var options = '';
+                            $(response.data).each(function (i, data) {
+                                options+= '<option value="'+data.catid+'">'+data.name+'</option>';
+                            });
+                            $("#catid_3").html(options);
+                        }
+                    });
+                });
+            }
+        });
+    });
+    $("#button-submit").on('click', function () {
+        var catid = $("#catid_2").val();
+        if (!catid){
+            DSXUI.error('请选择宝贝分类');
+            return false;
+        }else {
+            $("#J_catid").val(catid);
+            $("#publishForm").submit();
+        }
+    });
+</script>
+{template footer}

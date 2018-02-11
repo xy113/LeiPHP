@@ -1,0 +1,55 @@
+{template header}
+<div class="area">
+    <form method="post" id="J_FrmFindPass">
+        <input type="hidden" name="formsubmit" value="yes">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <input type="hidden" name="_token_" value="{cookie _token_}">
+        <div class="findpass">
+            <div class="row row-title">
+                <div class="cell cell-left">设置密码</div>
+                <div class="cell cell-right">请为你的账户设置新密码</div>
+            </div>
+            <div class="row">
+                <div class="cell cell-left">设置新密码</div>
+                <div class="cell cell-right">
+                    <input type="password" title="" name="newpassword" id="newpassword" class="input-text" placeholder="新密码">
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell cell-left">确认新密码</div>
+                <div class="cell cell-right">
+                    <input type="password" title="" name="newpassword2" id="newpassword2" class="input-text" placeholder="确认新密码">
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell cell-left"></div>
+                <div class="cell cell-right">
+                    <button type="submit" class="button">确定</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#J_FrmFindPass").on('submit', function () {
+            var newpassword = $.trim($("#newpassword").val());
+            var newpassword2 = $.trim($("#newpassword2").val());
+
+            if (!newpassword) {
+                DSXUI.error('请填写新密码');
+                return false;
+            }
+
+            if (!DSXValidate.IsPassword(newpassword)){
+                DSXUI.error('密码填写错误');
+                return false;
+            }
+            if(newpassword2 !== newpassword) {
+                DSXUI.error('两次密码输入不一致');
+                return false;
+            }
+        });
+    });
+</script>
+{template footer}

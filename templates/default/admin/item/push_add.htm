@@ -1,0 +1,51 @@
+{template header}
+<form method="post" id="pushForm" action="{U:('c=itempush&a=add')}">
+    <input type="hidden" name="formsubmit" value="yes">
+    <input type="hidden" name="formhash" value="{FORMHASH}">
+    <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+        <tbody>
+        <tr>
+            <td>分组</td>
+            <td>
+                <select title="" name="groupid" class="select" style="width: 200px;">
+                    {loop $grouplist $group}
+                    <option value="{$group[groupid]}"{if $groupid==$group[groupid]} selected{/if}>{$group[grouptitle]}</option>
+                    {/loop}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>商品ID</td>
+            <td><input type="text" class="input-text" name="itemid" id="itemid" title="" style="width: 200px;"></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td><button type="button" class="button button-long" id="submitButton">提交</button> </td>
+        </tr>
+        </tfoot>
+    </table>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#submitButton").on('click', function () {
+            var itemid = $.trim($("#itemid").val());
+            if (!itemid) {
+                DSXUI.error('请填写商品ID');
+                return false;
+            }
+            $("#pushForm").ajaxSubmit({
+                dataType:'json',
+                success:function (response) {
+                    if (response.errcode === 0){
+                        if (window.parent.afterAddPush) window.parent.afterAddPush(response);
+                    }else {
+                        alert(JSON.stringify(response));
+                    }
+                }
+            })
+        });
+    });
+</script>
+{template footer}

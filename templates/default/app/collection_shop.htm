@@ -1,0 +1,18 @@
+{template header}
+<div class="shop">
+    <div class="shop-horizontal-list">
+        <ul id="item-list-ul">
+            {loop $itemlist $item}
+            <li>
+                <div class="bd">
+                    <div class="pic bg-cover lazyload" id="item_{$item[dataid]}" data-original="{img $item[image]}" handler="viewShop" data-id="{$item[dataid]}"></div>
+                    <div class="con" style="height: 40px;">
+                        <div class="name">{$item[title]}</div>
+                    </div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+</div>
+{template footer}

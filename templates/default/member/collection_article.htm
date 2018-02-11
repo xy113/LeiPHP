@@ -1,0 +1,69 @@
+{template header}
+<div class="console-title">
+    <div class="float-right">
+        <form method="get" action="/">
+            <input type="hidden" name="m" value="{$_G[m]}">
+            <input type="hidden" name="c" value="{$_G[c]}">
+            <input type="hidden" name="a" value="{$_G[a]}">
+            <input type="text" name="q" value="{$q}" class="input-text" placeholder="文章标题">
+            <input type="submit" class="button" value="搜索">
+        </form>
+    </div>
+    <ul class="tab">
+        <li><a href="{U:('c=collection&a=item')}">商品</a></li>
+        <li><a href="{U:('c=collection&a=shop')}">店铺</a></li>
+        <li class="on"><a>文章</a></li>
+    </ul>
+</div>
+
+<div class="content-div">
+    <table cellpadding="0" cellspacing="0" width="100%" border="0" class="listtable">
+        <thead>
+        <tr>
+            <th width="60">图片</th>
+            <th>文章标题</th>
+            <th width="200">收藏时间</th>
+            <th width="85" class="align-right">选项</th>
+        </tr>
+        </thead>
+        <tbody>
+        {loop $itemlist $item}
+        <tr id="favorite-item-{$item[id]}">
+            <td><div class="pic"><a href="{U:('m=post&c=detail&id='.$item['dataid'])}" target="_blank"><img src="{img $item[image]}"></a></div></td>
+            <td>
+                <h3 class="title"><a href="{U:('m=post&c=detail&id='.$item['dataid'])}" target="_blank">{$item[title]}</a></h3>
+            </td>
+            <td>{date:$item[create_time]|'Y-m-d H:i:s'}</td>
+            <td class="align-right"><a rel="a-delete" data-id="{$item[id]}">取消收藏</a></td>
+        </tr>
+        {/loop}
+        </tbody>
+    </table>
+</div>
+<div class="pagination">{$pagination}</div>
+<script type="text/javascript">
+    $(function () {
+        $("a[rel=a-delete]").confirm({
+            text:'确定要取消收藏吗?',
+            onConfirm:function(view,o){
+                var id = $(o).attr('data-id');
+                var spinner = null;
+                $.ajax({
+                    url:'{U:("c=collection&a=delete")}',
+                    data:{id:id},
+                    dataType:"json",
+                    beforeSend:function () {
+                        spinner = DSXUI.showSpinner();
+                    },
+                    success: function(response){
+                        setTimeout(function () {
+                            spinner.close();
+                            $("#favorite-item-"+id).remove();
+                        }, 500);
+                    }
+                });
+            }
+        });
+    });
+</script>
+{template footer}

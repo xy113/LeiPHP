@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{$_G[title]}</title>
+    <meta name="keywords" content="{$_G[keywords]}">
+    <meta name="description" content="{$_G[description]}">
+    <link rel="icon" href="/static/images/common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/member.css">
+    <script src="/static/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+</head>
+<body>
+{template top_common}
+<div class="membercp-header">
+    <div class="area header">
+        <strong class="logo"><img src="/static/images/common/grzx_logo.png"></strong>
+        <div class="right-menu">
+            <a href="{U:('/')}">网站首页</a>
+            <a href="{U:('c=setting')}">账户中心</a>
+            <a href="{U:('c=wallet')}">财务中心</a>
+            <a href="{U:('m=seller&c=index')}" target="_blank">我是卖家</a>
+            {if $_G[member][admincp]}<a href="{U:('m=admin&c=index')}">后台管理</a>{/if}
+        </div>
+    </div>
+</div>
+<div style="height: 30px; display: block; clear: both;"></div>
+<div class="area">
+<div class="sidebar">
+    <div class="sidebar-content">
+        <dl>
+            <dd><a><i class="iconfont icon-formfill"></i>{lang order_manage}</a></dd>
+            <dt>
+            <ul>
+                <li><a href="{U:('c=order')}"{if $_G[menu]=="order_manage"} class="cur"{/if}>已买到的宝贝</a></li>
+            </ul>
+            </dt>
+        </dl>
+
+        <dl>
+            <dd><a><i class="iconfont icon-peoplefill"></i>我的账户</a></dd>
+            <dt>
+            <ul>
+                <li><a href="{U:('c=setting&a=userinfo')}"{if $_G[menu]=="userinfo"} class="cur"{/if}>账户设置</a></li>
+                <li><a href="{U:('c=setting&a=security')}"{if $_G[menu]=="security"} class="cur"{/if}>安全中心</a></li>
+                <li><a href="{U:('c=wallet&a=index')}"{if $_G[menu]=="wallet"} class="cur"{/if}>我的钱包</a></li>
+                <li><a href="{U:('c=address&a=index')}"{if $_G[menu]=="address"} class="cur"{/if}>收货地址</a></li>
+                <li><a href="{U:('c=collection')}"{if $_G[menu]=="collection"} class="cur"{/if}>我的收藏</a></li>
+                <!--<li><a href="{U:('c=comment')}"{if $_G[menu]=="comment"} class="cur"{/if}>我的评论</a></li>-->
+            </ul>
+            </dt>
+        </dl>
+    </div>
+</div>
+<div class="mainframe">
+    <div class="main-content">

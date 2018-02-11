@@ -1,0 +1,264 @@
+/* CSS Document */
+@import "common.css";
+.area{width: 1180px; display: block; margin: 0 auto;}
+.top{height: 35px; display: block; background-color: #F2F2F2; line-height: 35px; font-size: 12px; color: #666;}
+.seller-header{background-color:#0088E8; color:#fff; height:60px; display:block; padding: 0 20px; margin: 0;}
+.seller-header .header{height: 60px;}
+.seller-header .logo{float:left; padding-top: 10px;}
+.seller-header .logo img{height: 40px; width: auto; display: block; border: 0;}
+.seller-header .right-menu{font-size:12px; overflow:hidden; margin-left: 180px; padding: 20px 0 0;}
+.seller-header .right-menu a{
+    display:inline-block; padding:0 20px; float:left;
+    font-size:14px; color:#fff;  line-height:20px;
+}
+.sidebar{width:160px; background:#fff; float: left; padding: 0; border: 1px #DDD solid; box-shadow: 0 1px 3px #CCC;}
+.sidebar .sidebar-content{display:block; padding:0; height: 100%; position: relative; overflow: hidden;}
+.sidebar .menus{display: block; padding: 0 0 10px;}
+.sidebar dl{display:block; border-top: 1px #DDD solid; margin-top: -1px;}
+.sidebar dl dd{font-size:12px; font-weight:500;}
+.sidebar dl dd a{display:block; padding:8px 22px; font-size:13px; font-weight: bold;}
+.sidebar dl dd a:hover{color:#000;}
+.sidebar dl dd .iconfont{display: inline-block; vertical-align: -1px; font-size: 16px; margin-right: 3px;}
+.sidebar dl dt{}
+.sidebar dl ul{}
+.sidebar dl li{display:block;}
+.sidebar dl li a{display:block; padding:8px 22px; font-size:12px;}
+.sidebar dl li a:hover{background:#e2e2e2; color:#000;}
+.sidebar dl li a.cur {background-color: #0097d0; color: #fff;}
+.mainframe{margin-left: 175px;}
+.mainframe .main-content{padding: 0; overflow: hidden; min-height: 500px;}
+.mainframe .main-content:before{clear: none; content: none;}
+.mainframe .main-content:after{clear: both; content: ""; display: block;}
+.mainframe .content-div{display:block; margin:10px 0;}
+.mainframe .row{clear: both; overflow: hidden;}
+
+.mainframe .blank{height: 15px; clear: both;}
+.mainframe .seller-module{background-color: #fff; border-bottom: 1px #DDD solid; overflow: hidden;}
+.mainframe .seller-module .title{height: 45px; line-height: 45px; padding-left: 16px; font-size: 14px; border-bottom: 1px #e0e0e0 solid;}
+.mainframe .seller-module .content{display: block; margin: 15px;}
+.mainframe .live-data{width: 600px; height: 240px; float: left; margin-right: 15px;}
+.mainframe .bidu{}
+.mainframe .bidu .articles{height: 165px; overflow: hidden;}
+.mainframe .bidu .articles li{font-size: 12px; clear: both; margin-top: 6px;}
+.mainframe .order-notice{float: left; margin-right: 15px; width: 495px;}
+
+.mainframe .seller-module .todo-list{display: block;}
+.mainframe .seller-module .todo-list li{
+    height: 30px; line-height: 30px; width: 50%; float: left;
+    font-size: 12px; color: #666;
+}
+.mainframe .seller-module .wallet-wrap{display: block; height: 120px;}
+.mainframe .seller-module .wallet-row{height: 60px; line-height: 60px; padding: 0 15px; border-bottom: 1px #e0e0e0 solid;}
+.mainframe .seller-module .wallet-row h2{font-size: 14px; color: #333; float: left; font-weight: 400;}
+.mainframe .seller-module .wallet-row .sub-links{font-size: 12px; float: right;}
+.mainframe .seller-module .wallet-row .sub-links a{color: #008ae5; margin-left: 10px;}
+
+.table-border-wrap{border: 1px #DDD solid;}
+
+/**==导航==**/
+.navigation{padding: 10px; border: 1px #DDD solid; font-size: 12px; color: #666; display: block; margin-bottom: 15px; background-color: #fafafa;}
+.navigation span{margin: 0 5px; color: #999;}
+.notice-nav{padding: 10px; border: 1px #DDD solid; font-size: 12px; color: #666; display: block; margin-bottom: 15px; background-color: #FFFEC3;}
+.notice-nav a{color: #008ae5; margin-left: 10px;}
+
+.content-div{display:block; margin:0; padding: 0; border: 1px #DDD solid; background-color: #fff;}
+.console-title{display:block; padding:2px 0 10px; border-bottom:1px #CCC solid; margin-bottom:20px;}
+.console-title .tab{display:inline-block;}
+.console-title .tab li{float:left; margin-right:10px; font-size:12px; border-radius:2px;}
+.console-title .tab li a{display:block; padding:3px 10px;}
+.console-title .tab li.on{background:#0098CE; color:#fff;}
+.console-title .tab li.on a,.toolbar .tab li.on a:hover{color:#fff;}
+.console-title .button{height:28px; line-height:26px;}
+.console-title .input-text{font-size:12px;}
+.console-title strong{font-size: 18px;}
+.console-title h2{
+    font-size: 16px; font-weight: 500; height: 17px; line-height: 17px;
+    margin-top: 5px; border-left: 3px #86B6E2 solid; padding-left: 6px; float: left;
+}
+
+.tab-console{display: block; position: relative; border-bottom: 1px #d7d7d7 solid; padding: 20px 30px 0;}
+.tab-console .item{display: block; padding: 10px 25px; float: left; font-size: 14px; cursor: pointer;}
+.tab-console .cur{padding: 10px 25px 11px; margin-bottom: -1px; border: 1px #d7d7d7 solid; border-bottom: none; background-color: #fff;}
+.form-div{display: block; padding: 20px;}
+.list-div{display: block; clear: both; background-color: #fff;}
+
+
+.foot-bar{display: block; padding: 10px 0;}
+
+/*==列表==*/
+.listtable{}
+.listtable td,.listtable th{padding:10px 10px 10px 0; text-align:left; font-size:12px;}
+.listtable td .title{font-size:12px; font-weight:400; line-height:1.1;}
+.listtable td .info{font-size:10px; color:#999; display:block; margin-top:5px;}
+.listtable td .pic{width:50px; height:50px; float:left; border-radius:100%; background-size:cover;}
+.listtable td .pic img{width:100%; height:100%; display:block; border-radius:100%;}
+.listtable thead th{background-color:#F6FAFD; border-top: 2px #5997D4 solid;}
+.listtable tbody td{border-bottom:1px #EDEDED solid;}
+.listtable tbody tr:hover td{background-color:#FeFeF0;}
+.listtable label{margin-right: 5px; height: 24px; line-height: 24px;}
+.listtable .operations{background-color: #F3F3F3; padding: 7px 0; border-bottom: 1px #DDD solid;}
+.listtable .operations .btn{height: 24px; line-height: 24px; cursor: pointer; padding: 0 10px; border: 1px #e0e0e0 solid; background-color: #fafafa; font-size: 12px;}
+.listtable .operations .btn:hover{background-color: #e5e5e5; color: #222;}
+.listtable .align-right{text-align: right;}
+.listtable .align-center{text-align: center;}
+
+.bottom-actions{display: block; margin-top: 10px; padding-left: 15px;}
+.bottom-actions label{margin-right: 10px;}
+.bottom-actions .btn{border: 1px #DDD solid; border-radius: 4px; cursor: pointer; height: 26px; line-height: 26px; display: inline-block; font-size: 12px; padding: 0 10px; background-color: #fff;}
+.bottom-actions .btn:hover{background-color: #f5f5f5;}
+
+/*=分类练级菜单=*/
+.cate-sascading{width: 720px; display: block; margin: 0 auto; clear: right;}
+.cate-sascading td{text-align: center; padding: 7px 5px; font-size: 14px;}
+.cate-sascading td .select{width: 230px; height: 330px; background-color: #f9f9f9;}
+.cate-sascading td .select option{padding: 3px 5px; font-size: 14px; display: block; border-bottom: 1px #e9e9e9 solid;}
+
+/*==表单==*/
+.formtable{}
+.formtable{table-layout:auto;}
+.formtable th, .formtable td{padding:8px 0; text-align:left; font-size:12px;}
+.formtable .cell-name{text-align:right; padding-right:10px;}
+.formtable .a-bind-link{color:#008FBF;}
+.formtable .a-bind-link:hover{text-decoration:underline;}
+.formtable .img-upload-box{
+    width: 100px; height: 100px;
+    position: relative;
+    border: 1px #CCCCCC solid;
+    background-color: #f0f0f0;
+    background-position: center top;
+}
+.formtable .img-upload-box .title{
+    position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 25px; line-height: 25px;
+    display: block; text-align: center; font-size: 11px;
+    background: url("../images/common/translucent-60.png"); color: #fff;
+}
+.formtable .img-upload-box .file{position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;}
+.formtable .btn-100{width: 100px; text-align: center;}
+.formtable .map-hd{display: block; position: relative; padding-top: 60%;}
+.formtable .map-hd .map{width: 100%; height: 100%; position: absolute; left: 0; top: 0; display: block;}
+.formtable .image-upload-queue{display: inline-block; float: left;}
+.formtable .image-upload-queue li{float: left; width: 100px; height: 100px; position: relative; margin-right: 10px; border: 1px #e7e7e7 solid; background-color: #f5f5f5;}
+.formtable .image-upload-queue li img{width: 100%; height: 100%; display: block;}
+.formtable .image-upload-queue li .delete{
+    position: absolute; top: 0; right: 0; width: 20px;
+    height: 20px; line-height: 20px; font-size: 14px;
+    text-align: center; background-color: #333; color: #fff;
+    padding: 0; margin: 0; cursor: pointer;
+}
+.formtable .image-upload-button{
+    width: 100px; height: 100px;
+    border: 1px #e7e7e7 solid; background-color: #f5f5f5;
+    display: inline-block; background-image: url("../images/common/upload-img.png");
+    background-position: center center; background-repeat: no-repeat;
+    background-size: 50px 50px; float: left; position: relative; cursor: pointer;
+}
+.formtable .image-upload-button .file{position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; opacity: 0; cursor: pointer;}
+
+.formtable .item-image-list{display: block;}
+.formtable .item-image-list li{width: 100px; height: 100px; float: left; margin-right: 10px; position: relative; border: 1px #DDD solid; background-color: #f5f5f5;}
+.formtable .item-image-list li .preview{
+    display: block; position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%; cursor: pointer;
+    background-image: none; background-color: transparent;
+}
+.formtable .item-image-list li .iconfont{
+    color: #ccc; width: 80px; height: 80px; line-height: 80px; display: block; font-size: 80px; margin: 10px auto 0;
+    text-align: center;
+}
+
+.avatar-div{width:300px; float:left; margin-right:50px;}
+.avatar-div .avatar{width:240px; height:240px; margin:0 auto; display:block;}
+.avatar-div .avatar img{width:100%; height:100%; display:block;}
+.avatar-div .avatar-content{margin-top:20px; display:block; text-align:center; color:#00BAAA; font-size:14px; position:relative;}
+.avatar-div .upload-button{position:relative;}
+.avatar-div #J-file{position:absolute; left:0; top:0; opacity:0; z-index:10; width:100%; height:100%; display:block; cursor:pointer;}
+.userinfo-div{overflow:hidden;}
+
+.wellcome-div{display:block; height:30px; position:relative;}
+.wellcome-div .txt{margin-left:140px; font-size:12px; color:#333; line-height:30px;}
+.wellcome-div .btn-recharge{position:absolute; right:0; bottom:5px; height:28px; line-height:28px;}
+.mcenter-content-div{display:block; border:1px #DDD solid; position:relative; margin-bottom:20px;}
+.mcenter-content-div .headimg-div{position:absolute; left:20px; top:-30px; display:block; width:100px;}
+.mcenter-content-div .headimg-div .avatar{padding:10px; border:1px #DDD solid; background-color:#fff;}
+.mcenter-content-div .headimg-div .avatar img{display:block; width:100%; height:100%;}
+.mcenter-content-div .headimg-div .a-setting{display:block; margin-top:10px; text-align:center; font-size:12px; color:#0090CB;}
+.mcenter-content-div .user-account{margin-left:140px;}
+.mcenter-content-div .user-account .row{font-size:12px; display:block; border-bottom:1px #DDD solid;}
+.mcenter-content-div .user-account .row .item{padding:10px 0; margin-right:20px; float:left;}
+.mcenter-content-div .user-account .row .item i{font-style:normal; color:#F00;}
+.mcenter-content-div .user-account .row .item .icon{width:auto; height:auto; font-size:12px; margin-right:2px;}
+.mcenter-content-div .console-title{display:block; padding:10px 20px;}
+.mcenter-content-div .console-title strong{border-left:3px #70B46E solid; padding-left:5px; display:inline-block; line-height:1.1;}
+.mcenter-task-div{display:block; margin-left:-20px;}
+.mcenter-task-box{width:20%; float:left; color:#fff; margin-bottom:20px;}
+.mcenter-task-box .box{padding:25px 15px; display:block; margin-left:20px;}
+.mcenter-task-box .iconfont{font-size:46px; width:auto; height:auto; margin-right:5px; float:left;}
+.mcenter-task-box .con{overflow:hidden; padding-top: 2px;}
+.mcenter-task-box .con h3{font-size:16px; padding-top:5px;}
+.mcenter-task-box .con p{display:block; margin-top:3px; font-size:10px;}
+
+.account-balance-div{display:block; margin:20px 0; font-size:16px; font-weight:600; line-height:1.0;}
+.account-balance-div span{color:#f40; font-size:18px; font-weight:bolder;}
+
+.trade-list-table{}
+.trade-list-table thead th{border-bottom:1px #CCC solid;}
+.trade-list-table thead .head-time{padding-left:10px;}
+.trade-list-table .time{width:120px;}
+.trade-list-table .time span{font-size:14px; color:#666; font-family:Arial; font-weight:400;}
+.trade-list-table .name h3{font-size:12px; font-weight:400;}
+.trade-list-table .name p{display:block; margin-top:5px; color:#999; font-size:10px;}
+.trade-list-table .amount{text-align:right; width:100px;}
+.trade-list-table .amount span{font-weight:500; font-size:16px;}
+.trade-list-table .status{text-align:right;}
+
+/*===订单列表===*/
+.order-title-table{background-color: #F2F2F2; font-size: 13px; border: 1px #e5e5e5 solid; clear: both;}
+.order-title-table td{padding: 10px 0; text-align: center; color: #777;}
+
+.order-item-wrap{display: block; margin-top: 10px;}
+.order-item-table{border: 1px #e5e5e5 solid;}
+.order-item-table:hover{border-color: #999;}
+.order-item-table thead th{background-color: #F2F2F2; padding: 10px 15px; font-weight: normal; text-align: left; font-size: 12px; color: #666; border-bottom: 1px #e5e5e5 solid;}
+.order-item-table thead .wrap-checkbox{margin-right: 3px;}
+.order-item-table thead .wrap-time{font-weight: bold; margin-right: 5px; color: #222;}
+.order-item-table thead .wrap-order-no{color: #666;}
+.order-item-table thead h3{font-size: 12px; color: #222;}
+.order-item-table thead .delete-order{color: #888;}
+.order-item-table thead .delete-order:hover{color: #222;}
+.order-item-table tbody td{padding: 15px 0; font-size: 12px; color: #666; font-weight: 400;}
+.order-item-table tbody .goods-pic{width: 80px; float: left;}
+.order-item-table tbody .goods-pic img{width: 80px; height: 80px; display: block;}
+.order-item-table tbody .goods-name{line-height: 1; font-size: 12px; padding: 8px 0; height: auto; color: #333;}
+.order-item-table tbody .goods-attr{font-size: 13px; color: #999; line-height: 1;}
+.order-item-table tbody .col1{padding: 15px; text-align: left;}
+.order-item-table tbody .col2{width: 100px; vertical-align: top; text-align: center; font-size: 12px;}
+.order-item-table tbody .col3{width: 80px; vertical-align: top; text-align: center; font-size: 14px;}
+.order-item-table tbody .col4{width: 100px; vertical-align: top; text-align: center;}
+.order-item-table tbody .col5,.order-item-table tbody .col6,.order-item-table tbody .col7{
+    border-left: #e5e5e5 solid 1px; vertical-align: top; width: 100px; text-align: center;
+}
+.order-item-table tbody .col7 .btn{
+    height: 26px; line-height: 26px; border-radius: 3px;
+}
+.order-item-table tbody td p{display: block; padding-bottom: 3px;}
+.order-item-table a.link{color: #008fbf;}
+.order-item-table a.link:hover{text-decoration: underline;}
+.h3-title{font-size: 14px; padding: 15px 0; display: block;}
+
+.order-search {
+    display: block; margin-bottom: 10px;
+}
+.order-search .row{clear: both; margin: 10px 0;}
+.order-search .row .cell{width: 33.3333%; float: left;}
+.order-search .row .cell label{width: 90px; text-align: center; font-size: 12px; float: left; height: 28px; line-height: 28px;}
+.order-search .row .cell .field{margin-left: 91px;}
+.order-search .row .cell .button{border-radius: 3px; margin-right: 10px;}
+
+.tabs-container{display: block; clear: both; margin: 16px 0; border-bottom: 2px solid #e8e8e8; position: relative;}
+.tabs-container .tabs{position: relative; bottom: -2px;}
+.tabs-container .tabs .tab{display: inline-block; position: relative; font-size: 13px; font-weight: 600; border-bottom: 2px #e8e8e8 solid; bottom: -2px;}
+.tabs-container .tabs .tab span{top: 3px; right: 0; font-size: 0; background-color: #e8e8e8; width: 1px; height: 14px; position: absolute;}
+.tabs-container .tabs .tab a{display: inline-block; padding: 0 15px 8px;}
+.tabs-container .tabs .on {color: #ff6000; border-bottom: 2px #ff6000 solid;}
+.tabs-container .tabs .on a{color: #ff6000;}

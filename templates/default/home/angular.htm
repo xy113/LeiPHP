@@ -1,0 +1,18 @@
+{template header_common}
+<div ng-app="myApp" ng-controller="customersCtrl">
+    <table>
+        <tr ng-repeat="x in datalist">
+            <td onclick="alert($(this).attr('data-id'))" data-id="{{x.itemid}}">{{ x.title }}</td>
+            <td>{{ x.price }}<img class="asyncload" data-original="http://cg.liaidi.com/data/attachment/image/{{x.thumb}}"></td>
+        </tr>
+    </table>
+</div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('customersCtrl', function($scope, $http) {
+        $http.get("{U:('c=index&a=get_items')}").success(function (response) {
+            $scope.datalist = response.data;
+        });
+    });
+</script>
+{template footer_common}

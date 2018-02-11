@@ -1,0 +1,26 @@
+{template header}
+<div class="catlog">
+    {loop $catloglist[0] $cat1}
+    <div class="group">
+        <h3>{$cat1[name]}</h3>
+        <div class="grid">
+            {loop $catloglist[$cat1[catid]] $cat2}
+            <dl data-handler="searchItem" data-id="{$cat2[catid]}" data-name="{$cat2[name]}">
+                <dt><div class="asyncload bg-cover icon" data-original="{img $cat2[icon]}"></div></dt>
+                <dd>{$cat2[name]}</dd>
+            </dl>
+            {/loop}
+        </div>
+    </div>
+    {/loop}
+</div>
+<script type="text/javascript">
+    onBridgeReady(function (bridge) {
+        $("[data-handler=searchItem]").on(tap, function () {
+            var catid = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+            bridge.callHandler('searchItem', {catid:catid,name:name});
+        });
+    });
+</script>
+{template footer}

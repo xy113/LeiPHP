@@ -1,0 +1,213 @@
+{template header}
+<div class="swiper-div" style="padding-top: 100%;">
+    <div class="swiper" id="swiper">
+        <ul class="swiper-wrapper">
+            {loop $gallery $ga}
+            <li class="swiper-slide"><span class="bg bg-cover asyncload" data-original="{img $ga[image]}"></span></li>
+            {/loop}
+        </ul>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    (function(){
+        var swiper = new Swiper('#swiper',
+            {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+    })();
+</script>
+
+<div class="item">
+    <div class="item-info">
+        <div class="name">{$item_data[title]}</div>
+        {if $item_data[subtitle]}<p class="subtitle">{$item_data[subtitle]}</p>{/if}
+        <div class="shop-price">
+            <span>￥</span>
+            <strong>{amount:$item_data[price]}</strong>
+        </div>
+        <div class="market-price">价格:<s>￥{amount:$item_data[market_price]}</s></div>
+        <div class="shipping">
+            <span class="addr">贵州六盘水</span>
+            <span class="ship">快递:免运费</span>
+            <span class="sold">已售出{$item_data[sold]}件</span>
+        </div>
+        <span class="iconfont icon-share"></span>
+    </div>
+    {if $shop}
+    <div class="section-title">
+        <div class="line"></div>
+        <div class="title">店铺信息</div>
+    </div>
+
+    <div class="shop-info">
+        <div class="logo bg-cover lazyload" data-original="{img $shop[shop_logo]}"></div>
+        <div class="info">
+            <h3>{$shop[shop_name]}</h3>
+            {if $shop[provice]}<p>{$shop[province]}{$shop[city]}{$shop[county]}</p>{/if}
+            {if $shop[phone]}<p><i class="iconfont icon-phone"></i><span>{$shop[phone]}</span></p>{/if}
+        </div>
+        <div class="blank"></div>
+        <ul class="stat">
+            <li style="border: none;">
+                <h3>{$shop[view_num]}</h3>
+                <p>访问量</p>
+            </li>
+            <li>
+                <h3>{$shop_item_count}</h3>
+                <p>商品数</p>
+            </li>
+            <li>
+                <h3>{$shop[total_sold]}</h3>
+                <p>已售出</p>
+            </li>
+        </ul>
+        <div class="jindian">
+            <a handler="viewShop" data-id="{$shop[shop_id]}">进店看看</a>
+        </div>
+    </div>
+    {/if}
+    {if $item_desc[content]}
+    <div class="section-title">
+        <div class="line"></div>
+        <div class="title">商品详情</div>
+    </div>
+    <div class="item-content">{$item_desc[content]}</div>
+    {/if}
+    <div class="section-title">
+        <div class="line"></div>
+        <div class="title">店家热卖</div>
+    </div>
+
+    <div class="item-horizontal-list">
+        <ul>
+            {loop $hot_sale_list $item}
+            <li>
+                <div class="bd">
+                    <div class="pic bg-cover lazyload" data-original="{img $item[thumb]}" handler="viewItem" data-id="{$item[itemid]}"></div>
+                    <div class="name">{$item[title]}</div>
+                    <div class="line">
+                        <span>已售{$item[sold]}件</span>
+                        <strong>￥{amount:$item[price]}</strong>
+                    </div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+
+    <div class="section-title">
+        <div class="line"></div>
+        <div class="title" style="width: 100px; margin-left: -50px; font-size: 12px;">做人要有底线</div>
+    </div>
+</div>
+<div class="clearfix" style="height: 60px;"></div>
+<!--<div class="item-action-bar">
+    <div class="bar">
+        <div class="iconfont icon-shop cell" handler="viewShop" data-id="{$item_data[shop_id]}">
+            店铺
+        </div>
+        <div class="iconfont icon-wang cell">
+            客服
+        </div>
+        <div class="iconfont icon-favor cell" id="btn-favor">
+            收藏
+        </div>
+        <div class="cart cell" id="btn-cart">加入购物车</div>
+        <div class="buy cell" id="btn-buy">立即购买</div>
+    </div>
+</div>
+<div class="ui-overlayer" id="ui-overlayer" style="display: none;"></div>
+<section class="item-action-layer" id="action-layer">
+    <div class="inner">
+        <div class="section" style="height: 90px;">
+            <div class="iconfont icon-roundclose" id="close-layer"></div>
+            <div class="g-pic">
+                <i class="bg-cover asyncload" data-original="{img $item_data[goods_thumb]}"></i>
+            </div>
+            <div class="g-info">
+                <h3>{$item_data[goods_name]}</h3>
+                <div class="price">{amount:$item_data[goods_price]}</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="label">数量</div>
+            <div class="quantity-action">
+                <div class="btn cell" id="btn-minus">-</div>
+                <div class="cell"><input type="text" class="text" value="1" id="quantity"></div>
+                <div class="btn cell" id="btn-plus">+</div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="btn cart" id="addtocart">加入购物车</div>
+            <div class="btn buy" id="buynow">立即购买</div>
+        </div>
+    </div>
+</section>-->
+<script type="text/javascript">
+    onBridgeReady(function (bridge) {
+        bridge.registerHandler('getData', function (data, responseCallback) {
+            var itemData = {echo json_encode($item_data)};
+            responseCallback(itemData);
+        });
+    });
+    function showLayer() {
+        $("#ui-overlayer").show();
+        $("#action-layer").slideDown('fast');
+    }
+    function closeLayer() {
+        $("#action-layer").slideUp('fast', function () {
+            $("#ui-overlayer").hide();
+        });
+    }
+    $(function () {
+        $("#action-layer").on('click', function (e) {
+            DSXUtil.stopPropagation(e);
+        });
+        $("#btn-buy,#btn-cart").on('click', function (e) {
+            showLayer();
+        });
+        $("#ui-overlayer,#close-layer").on('click', function () {
+            closeLayer();
+        });
+        $("#btn-minus").on('click', function () {
+            var quantity = $("#quantity").val();
+            if (quantity <= 1) {
+                return;
+            }else {
+                quantity--;
+                $("#quantity").val(quantity);
+            }
+        });
+        $("#btn-plus").on('click', function () {
+            var quantity = $("#quantity").val();
+            quantity++;
+            $("#quantity").val(quantity);
+        });
+        var spinner;
+        $("#btn-favor").on('click', function () {
+            $.ajax({
+                type:'POST',
+                url:"{U:('m=member&c=collection&a=add')}",
+                data:{'dataid':'{$item_data[shop_id]}', 'datatype':'shop'},
+                //dataType:'json',
+                beforeSend:function () {
+                    //spinner = DSXUI.showSpinner();
+                },
+                success:function (response) {
+                    setTimeout(function () {
+                        //spinner.close();
+                        showAppMsg('已成功加入收藏');
+                    }, 50);
+                }
+            });
+        });
+        //showAppMsg('已成功加入收藏');
+        $("#buynow").on('click', function () {
+            closeLayer();
+            onBridgeReady(function (bridge) {
+                bridge.callHandler('buyNow', {'itemid':'{$item_data[id]}','quantity':$('#quantity').val()});
+            });
+        });
+    });
+</script>
+{template footer}

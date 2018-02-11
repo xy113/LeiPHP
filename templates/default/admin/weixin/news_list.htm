@@ -1,0 +1,73 @@
+{template header}
+<div class="console-title">
+    <h2>微信管理->图文消息管理</h2>
+</div>
+<div class="content-div">
+    <form method="post" id="listForm" autocomplete="off">
+        <input type="hidden" name="formsubmit" value="yes" />
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable">
+            <thead>
+            <tr>
+                <th width="20" class="center">选?</th>
+                <th width="50">图片</th>
+                <th width="300">标题</th>
+                <th width="340">media_id</th>
+                <th width="60">文章数</th>
+                <th width="140">创建时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $itemlist $item}
+            <tr>
+                <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="materials[]" value="{$item[media_id]}"></td>
+                <td><div class="bg-cover lazyload" data-original="{U:('c=wxmaterial&a=viewimage&media_id='.$item[thumb_media_id])}" style="width: 50px; height: 50px;"></div></td>
+                <td>{$item[title]}</td>
+                <td>{$item[media_id]}</td>
+                <td>{$item[item_count]}</td>
+                <td>{echo @date('Y-m-d H:i:s', $item[update_time])}</td>
+            </tr>
+            {/loop}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="10">
+                    <div class="pagination float-right">{$pagination}</div>
+                    <label><input type="checkbox" class="checkbox checkall"> {$_lang[selectall]}</label>
+                    <label><button type="button" class="btn" id="deleteButton">删除</button></label>
+                    <label><button type="button" class="btn" data-action="refresh">刷新</button></label>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#deleteButton").on('click', function () {
+            if ($(".itemCheckBox:checked").length === 0){
+                DSXUI.error('请选择素材');
+                return false;
+            }
+            var spinner = null;
+            DSXUI.showConfirm('删除素材', '确认要删除所选素材吗?', function () {
+                $("#listForm").ajaxSubmit({
+                    dataType:'json',
+                    beforeSend:function () {
+                        spinner = DSXUI.showSpinner();
+                    },success:function (response) {
+                        setTimeout(function () {
+                            spinner.close();
+                            if (response.errcode === 0){
+                                DSXUtil.reFresh();
+                            }else  {
+                                DSXUI.error(response.errmsg);
+                            }
+                        }, 500);
+                    }
+                });
+            });
+        });
+    });
+</script>
+{template footer}

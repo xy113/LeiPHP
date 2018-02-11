@@ -1,0 +1,41 @@
+{template header}
+<div class="top">
+    <div class="area">
+        <h3 class="h3">申请遇到问题，拨打客服电话:0858-8772117</h3>
+        <h1 class="h1">申请开店 > 填写店铺信息</h1>
+    </div>
+</div>
+
+<div class="area sysmessage store-form-div" style="margin: 50px auto;">
+    <h3 class="{$type}">{$msg}</h3>
+    {if $autoredirect}
+    <div class="tips">{$_lang[auto_redirect]}</div>
+    {else}
+    <div class="tips">{$_lang[message_tips]}</div>
+    {/if}
+    <div class="links">
+        {if $links}
+        {loop $links $link}
+        <a href="{$link[url]}"{if $link[target]} target="{$link[target]}"{/if}>{$link[text]}</a>
+        {/loop}
+        {else}
+        <a href="$forward">{$lang[go_back]}</a>
+        <a href="/">{$lang[go_home]}</a>
+        {/if}
+    </div>
+</div>
+{if $autoredirect}
+<script type="text/javascript">
+    var second = 5;
+    var timeid = setInterval(function(){
+        second--;
+        if(second<1){
+            clearTimeout(timeid);
+            window.location = '{$forward}';
+        }else {
+            $("#timer").text(second);
+        }
+    },1000);
+</script>
+{/if}
+{template footer_common}

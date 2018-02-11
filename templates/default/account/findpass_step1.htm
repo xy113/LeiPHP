@@ -1,0 +1,48 @@
+{template header}
+<div class="area">
+    <form method="post" id="J_FrmFindPass" action="{U:('c=findpass&a=step2')}">
+    <div class="findpass">
+        <div class="row row-title">
+            <div class="cell cell-left">粗耕账号</div>
+            <div class="cell cell-right">请输入你需要找回登录密码的账户名</div>
+        </div>
+        <div class="row">
+            <div class="cell cell-left">登录名</div>
+            <div class="cell cell-right">
+                <input type="text" title="" name="account" id="account" class="input-text" placeholder="用户名/手机号/邮箱">
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell cell-left">验证码</div>
+            <div class="cell cell-right">
+                <input type="text" title="" name="captchacode" id="captchacode" class="input-text" placeholder="输入验证码" style="width: 124px;">
+                <img height="35" style="vertical-align: middle;" src="/index.php?m=plugin&c=captcha" onclick="this.src='/index.php?m=plugin&c=captcha&'+Math.random()" title="看不清，换一张">
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell cell-left"></div>
+            <div class="cell cell-right">
+                <button type="submit" class="button">确定</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#J_FrmFindPass").on('submit', function () {
+            var account = $.trim($("#account").val());
+            if(!account) {
+                DSXUI.error('请填写登录账号');
+                return false;
+            }
+
+            var captchacode = $.trim($("#captchacode").val());
+            if (captchacode.length !== 4){
+                DSXUI.error('验证码填写错误');
+                return false;
+            }
+        });
+    });
+</script>
+{template footer}

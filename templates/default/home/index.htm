@@ -1,0 +1,170 @@
+{template header_common}
+<div class="area">
+    <div class="category-panel">
+        <ul class="cat-list" id="cat-list" style="height: 496px;">
+            {loop $item_catlog_list[0] $cat}
+            <li><a href="{U:('m=item&c=search&catid='.$cat[catid])}"><span>{$cat[name]}</span></a></li>
+            {/loop}
+        </ul>
+        <div class="childs-panel" id="childs-panel">
+            {loop $item_catlog_list[0] $cat}
+            <div class="cat-group">
+                <h3><a href="{U:('m=item&c=search&catid='.$cat[catid])}" class="more">更多 >></a> {$cat[name]}</h3>
+                <ul>
+                    {loop $item_catlog_list[$cat[catid]] $child}
+                    <li><a href="{U:('m=item&c=search&catid='.$child[catid])}">{$child[name]}</a></li>
+                    {/loop}
+                </ul>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    <div class="home-main">
+        <div class="swiper-div" id="swiper-div">
+            <div class="swiper" id="swiper">
+                <ul class="swiper-wrapper">
+                    {loop $slide_list $sd}
+                    <li class="swiper-slide"><a href="{$sd[url]}" target="_blank"><img src="{img $sd[image]}"></a></li>
+                    {/loop}
+                </ul>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function(){
+                var swiper = new Swiper('#swiper',
+                        {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+            })();
+        </script>
+        <div class="news">
+            <div class="content">
+                <h3>农产品资讯</h3>
+                <ul>
+                    {loop $newPostList $item}
+                    <li><a href="{U:('m=post&c=detail&aid='.$item[aid])}" target="_blank">&bull; {$item[title]}</a></li>
+                    {/loop}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="best-goods-wrap">
+            <ul class="best-goods">
+                {loop $best_list $item}
+                <li><div class="bd"><a href="{$item[url]}"><img src="{img $item[image]}"></a></div></li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function () {
+    $("#cat-list li").mouseenter(function (e) {
+        var self = this;
+        $(this).addClass('cur').siblings().removeClass('cur');
+        $("#childs-panel").show();
+        $("#childs-panel .cat-group").eq($(this).index()).show().siblings('.cat-group').hide();
+        $(document).mousemove(function (e) {
+            $("#childs-panel").hide();
+            $(self).removeClass('cur');
+        });
+    }).mousemove(function (e) {
+        DSXUtil.stopPropagation(e);
+    });
+    $("#childs-panel").mousemove(function (e) {
+        DSXUtil.stopPropagation(e);
+    });
+});
+</script>
+<div class="blank10"></div>
+<div class="area">
+    <div class="home-youxuan">
+        <h2>
+            <span><a href="http://cg.liaidi.com/index.php?m=item&c=youxuan">更多>></a></span>
+            <strong>粗耕优选</strong>
+        </h2>
+        <div id="glist-wrap">
+            <ul class="glist">
+                {loop $youxuanList $item}
+                <li>
+                    <div class="bd">
+                        <div class="pic bg-cover asyncload" data-original="{img $item[thumb]}">
+                            <a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank"></a>
+                        </div>
+                        <div class="name"><a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank">{$item[title]}</a></div>
+                        <div class="price">
+                            <strong class="shop-price">￥:{$item[price]}</strong>
+                        </div>
+                        <div class="buynow">
+                            <a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank" class="btn">立即购买</a>
+                        </div>
+                    </div>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="blank"></div>
+<div class="area home">
+    <div class="qiyedianpu-title">
+        <a href="{U:('m=shop&c=index')}" class="more">更多>></a>
+        <strong>企业店铺</strong>
+    </div>
+    <div class="qiyedianpu-wrap">
+        <div class="shop-list">
+            <ul>
+                {loop $shop_list $shop}
+                <li>
+                    <div class="bd">
+                        <div class="pic bg-cover asyncload" data-original="{img $shop[shop_logo]}">
+                            <a href="{U:('m=shop&c=viewshop&shop_id='.$shop[shop_id])}" target="_blank"></a>
+                        </div>
+                        <div class="name"><a href="{U:('m=shop&c=viewshop&shop_id='.$shop[shop_id])}" target="_blank">{$shop[shop_name]}</a></div>
+                    </div>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+
+        <div class="remai">
+            <h3 class="hot-sale">掌柜热卖</h3>
+            <ul>
+                {loop $item_list['hot'] $item}
+                <li>
+                    <div class="pic bg-cover asyncload" data-original="{img $item[thumb]}">
+                        <a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank"></a>
+                    </div>
+                    <div class="g-info">
+                        <p class="name"><a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank">{$item[title]}</a></p>
+                        <p class="market-price"><s>￥{amount:$item[market_price]}</s></p>
+                        <p class="shop-price">￥{amount:$item[price]}</p>
+                    </div>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+    <div class="blank"></div>
+</div>
+<div style="background-color: #F2F2F2;">
+    <div class="area">
+        <div class="home-recommend-list">
+            <h2>猜你喜欢</h2>
+            {loop $recommendList $item}
+            <div class="item">
+                <div class="hd">
+                    <a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank">
+                        <div class="img bg-cover asyncload" data-original="{img $item[thumb]}"></div>
+                    </a>
+                    <div class="info">
+                        <div class="title">{$item[title]}</div>
+                        <div class="price">￥{$item[price]}</div>
+                    </div>
+                </div>
+            </div>
+            {/loop}
+        </div>
+    </div>
+</div>
+{template footer_common} 

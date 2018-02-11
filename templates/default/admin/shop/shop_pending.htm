@@ -1,0 +1,106 @@
+{template header}
+<div class="console-title">
+    <div class="float-right">
+        <form name="search" action="/?">
+            <input type="hidden" name="m" value="{$_G[m]}">
+            <input type="hidden" name="c" value="{$_G[c]}">
+            <input type="hidden" name="a" value="{$_G[a]}">
+            <input type="text" class="input-text" name="q" value="{$q}" placeholder="店铺名称">
+            <input type="submit" class="button" value="{$_lang[search]}">
+        </form>
+    </div>
+    <h2>店铺管理->等待审核的店铺</h2>
+</div>
+<div class="content-div">
+    <form method="post" id="listForm" autocomplete="off">
+        <input type="hidden" name="formsubmit" value="yes">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <input type="hidden" name="eventType" value="" id="J_eventType">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="listtable">
+            <thead>
+            <tr>
+                <th width="20"><input title="" type="checkbox" class="checkbox checkall checkmark"></th>
+                <th width="70">LOGO</th>
+                <th>店铺名称</th>
+                <th>店主账号</th>
+                <th>电话</th>
+                <th width="80">状态</th>
+                <th width="120">开店时间</th>
+                <th width="60">详情</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $shoplist $shop}
+            <tr>
+                <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="shops[]" value="{$shop[shop_id]}"></td>
+                <td>
+                    <a href="{U:('m=shop&c=viewshop&shop_id='.$shop['shop_id'])}" target="_blank">
+                        <div class="bg-cover lazyload" data-original="{img $shop[shop_logo]}" style="width: 50px; height: 50px;"></div>
+                    </a>
+                </td>
+                <td><a href="{U:('m=shop&c=viewshop&shop_id='.$shop['shop_id'])}" target="_blank">{$shop[shop_name]}</a></td>
+                <td>{$shop[owner_username]}</td>
+                <td>{$shop[phone]}</td>
+                <td>
+                    {if $shop[auth_status]=='FAIL'}
+                    <span>审核不过</span>
+                    {else}
+                    <span>等待审核</span>
+                    {/if}
+                </td>
+                <td>{date:$shop[create_time]|'Y年m月d日'}</td>
+                <td><a href="{U:('c=shop&a=detail&shop_id='.$shop[shop_id])}" target="_blank">查看</a></td>
+            </tr>
+            {/loop}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="20">
+                    <div class="pagination float-right">{$pagination}</div>
+                    <label><input type="checkbox" class="checkbox checkall checkmark"> 全选</label>
+                    <label><button type="button" class="btn btn-action" data-action="delete">删除</button></label>
+                    <label><button type="button" class="btn btn-action" data-action="accept">审核通过</button></label>
+                    <label><button type="button" class="btn btn-action" data-action="refuse">审核不过</button></label>
+                    <label><button type="button" class="btn" data-action="refresh">刷新</button></label>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".btn-action").on('click', function () {
+            if ($(".itemCheckBox:checked").length === 0){
+                DSXUI.error('请选择店铺');
+                return false;
+            }
+            var eventType = $(this).attr('data-action');
+            var submitForm = function () {
+                var spinner = null;
+                $("#listForm").ajaxSubmit({
+                    dataType:'json',
+                    beforeSend:function () {
+                        spinner = DSXUI.showSpinner();
+                    },success:function (response) {
+                        setTimeout(function () {
+                            spinner.close();
+                            if (response.errcode === 0){
+                                DSXUtil.reFresh();
+                            }else {
+                                DSXUI.error(response.errmsg);
+                            }
+                        }, 500);
+                    }
+                });
+            }
+            $("#J_eventType").val(eventType);
+            if (eventType === 'delete'){
+                DSXUI.showConfirm('删除店铺', '确认要删除所选店铺吗?', submitForm);
+            }else {
+                submitForm();
+            }
+        });
+    });
+</script>
+{template footer}

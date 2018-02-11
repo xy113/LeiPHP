@@ -1,0 +1,193 @@
+{template header}
+
+<div class="top">
+    <div class="area">
+        <h3 class="h3">申请遇到问题，拨打客服电话:0858-8772117</h3>
+        <h1 class="h1">申请开店->填写认证资料</h1>
+    </div>
+</div>
+
+<div class="area store-form-div">
+    <div class="form-content">
+        <form method="post" id="shopForm">
+            <input type="hidden" name="formsubmit" value="yes">
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <div class="form-group">
+                <div class="lable-name">店主姓名:</div>
+                <div class="label-input">
+                    <input type="text" class="input-text" name="owner[owner_name]" value="{$owner[owner_name]}" id="owner_name" maxlength="40" placeholder="请输入你的姓名">
+                    <div class="err-tips" id="err_owner_name"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="lable-name">身份证号:</div>
+                <div class="label-input">
+                    <input type="text" class="input-text" name="owner[id_card_no]" value="{$owner[id_card_no]}" id="id_card_no" maxlength="18" placeholder="请输入身份证号">
+                    <div class="err-tips" id="err_id_card_no"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="lable-name">身份证照正面:</div>
+                <div class="label-input">
+                    <div class="pic-item">
+                        <div class="pic-demo">
+                            <img src="/static/images/common/id_1.png">
+                            <span class="t">示例</span>
+                        </div>
+                        <div class="pic-uploader">
+                            <div class="t">点击上传</div>
+                            <div class="pic" id="pic_preview_1"{if $owner[id_card_pic_3]} style="background-image: url({echo image($owner[id_card_pic_1])}); display: block;"{/if}>
+                            <div class="b"></div>
+                            <div class="t">重新上传</div>
+                        </div>
+                        <input type="file" class="file" accept="image/*" id="file_1" name="filedata">
+                        <input type="hidden" name="owner[id_card_pic_1]" value="{$owner[id_card_pic_1]}" id="id_card_pic_1" value="">
+                    </div>
+                    <div class="pic-tips">一张清晰的身份证正面照片<br>支持JPG/JPEG/PNG格式图片，文件大小不超过5MB</div>
+                </div>
+                <div class="err-tips" id="err_id_card_pic_1"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="lable-name">身份证照背面:</div>
+                <div class="label-input">
+                    <div class="pic-item">
+                        <div class="pic-demo">
+                            <img src="/static/images/common/id_2.png">
+                            <span class="t">示例</span>
+                        </div>
+                        <div class="pic-uploader">
+                            <div class="t">点击上传</div>
+                            <div class="pic" id="pic_preview_2"{if $owner[id_card_pic_3]} style="background-image: url({echo image($owner[id_card_pic_2])}); display: block;"{/if}>
+                            <div class="b"></div>
+                            <div class="t">重新上传</div>
+                        </div>
+                        <input type="file" class="file" accept="image/*" id="file_2" name="filedata">
+                        <input type="hidden" name="owner[id_card_pic_2]" value="{$owner[id_card_pic_2]}" id="id_card_pic_2" value="">
+                    </div>
+                    <div class="pic-tips">一张清晰的身份证背面照片<br>支持JPG/JPEG/PNG格式图片，文件大小不超过5MB</div>
+                </div>
+                <div class="err-tips" id="err_pic_front"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="lable-name">手持身份证照:</div>
+                <div class="label-input">
+                    <div class="pic-item">
+                        <div class="pic-demo">
+                            <img src="/static/images/common/id_3.png">
+                            <span class="t">示例</span>
+                        </div>
+                        <div class="pic-uploader">
+                            <div class="t">点击上传</div>
+                            <div class="pic" id="pic_preview_3"{if $owner[id_card_pic_3]} style="background-image: url({echo image($owner[id_card_pic_3])}); display: block;"{/if}>
+                            <div class="b"></div>
+                            <div class="t">重新上传</div>
+                        </div>
+                        <input type="file" class="file" accept="image/*" id="file_3" name="filedata">
+                        <input type="hidden" name="owner[id_card_pic_3]" value="{$owner[id_card_pic_3]}" id="id_card_pic_3" value="">
+                    </div>
+                    <div class="pic-tips">一张清晰的手持身份证正面照片<br>支持JPG/JPEG/PNG格式图片，文件大小不超过5MB</div>
+                </div>
+                <div class="err-tips" id="err_pic_inside"></div>
+            </div>
+
+            <div class="button-div">
+                <input type="submit" class="ui-button button" value="下一步">
+            </div>
+        </form>
+    </div>
+</div>
+<div id="console-log"></div>
+<script type="text/javascript">
+    $(function () {
+        var spinner = null;
+        $("#file_1").AjaxFileUpload({
+            action:"{U:('m=jsapi&c=material&a=uploadimg')}",
+            onSubmit:function () {
+                spinner = DSXUI.showSpinner();
+            },
+            onComplete:function (filename, response) {
+                setTimeout(function () {
+                    spinner.close();
+                    if (response.errcode == 0){
+                        $("#pic_preview_1").css({'background-image':'url('+response.data.thumburl+')'}).show();
+                        $("#id_card_pic_1").val(response.data.image);
+                    }else {
+                        DSXUI.error('上传失败');
+                    }
+                },500);
+            }
+        });
+        $("#file_2").AjaxFileUpload({
+            action:"{U:('m=jsapi&c=material&a=uploadimg')}",
+            onSubmit:function () {
+                spinner = DSXUI.showSpinner();
+            },
+            onComplete:function (filename, response) {
+                setTimeout(function () {
+                    spinner.close();
+                    if (response.errcode == 0){
+                        $("#pic_preview_2").css({'background-image':'url('+response.data.thumburl+')'}).show();
+                        $("#id_card_pic_2").val(response.data.image);
+                    }else {
+                        DSXUI.error('上传失败');
+                    }
+                },500);
+            }
+        });
+        $("#file_3").AjaxFileUpload({
+            action:"{U:('m=jsapi&c=material&a=uploadimg')}",
+            onSubmit:function () {
+                spinner = DSXUI.showSpinner();
+            },
+            onComplete:function (filename, response) {
+                setTimeout(function () {
+                    spinner.close();
+                    if (response.errcode == 0){
+                        $("#pic_preview_3").css({'background-image':'url('+response.data.thumburl+')'}).show();
+                        $("#id_card_pic_3").val(response.data.image);
+                    }else {
+                        DSXUI.error('上传失败');
+                    }
+                },500);
+            }
+        });
+        //提交表单
+        $("#shopForm").submit(function () {
+            var owner_name = $("#owner_name").val();
+            if (!owner_name){
+                DSXUI.error('请填写姓名');
+                return false;
+            }
+            if (!DSXValidate.IsChineseName(owner_name)){
+                DSXUI.error('姓名填写有误');
+                return false;
+            }
+            var id_card_no = $("#id_card_no").val();
+            if (!id_card_no){
+                DSXUI.error('请填写身份证号码');
+                return false;
+            }
+            if (!DSXValidate.IsIdCardNo(id_card_no)){
+                DSXUI.error('身份证号码填写错误');
+                return false;
+            }
+            if (!$("#id_card_pic_1").val()){
+                DSXUI.error('请上传身份证正面照片');
+                return false;
+            }
+            if (!$("#id_card_pic_2").val()){
+                DSXUI.error('请上传身份证背面照片');
+                return false;
+            }
+            if (!$("#id_card_pic_3").val()){
+                DSXUI.error('请上传手持身份证正面照片');
+                return false;
+            }
+        });
+    });
+</script>
+{template footer_common}

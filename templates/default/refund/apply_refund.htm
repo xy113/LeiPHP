@@ -1,0 +1,134 @@
+{template header}
+<div class="area">
+    <div class="refund-step">
+        <div class="step-item step-on">
+            <span class="n">1</span>
+            <span>买家申请退款</span>
+            <i class="separate"></i>
+        </div>
+        <div class="step-item">
+            <span class="n">2</span>
+            <span>卖家处理退款</span>
+            <i class="separate"></i>
+        </div>
+        <div class="step-item">
+            <span class="n">3</span>
+            <span>退款完成</span>
+        </div>
+    </div>
+</div>
+
+<div class="area">
+    <div class="refund-container">
+        <div class="left-container">
+            <div class="container">
+                <form method="post" id="refundForm" autocomplete="off">
+                    <input type="hidden" name="formsubmit" value="yes">
+                    <input type="hidden" name="formhash" value="{FORMHASH}">
+                    <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+                        <tbody>
+                        <tr>
+                            <td class="cell-name" width="80">服务类型</td>
+                            <td>
+                                <label><input type="radio" class="radio" name="refund[refund_type]" value="1" checked> 退款</label>
+                                <label><input type="radio" class="radio" name="refund[refund_type]" value="2"> 退款退货</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cell-name">退款原因</td>
+                            <td>
+                                <select class="select" name="refund[refund_reason]" id="J_RefundReason" style="width: auto;">
+                                    <option value="">请选择退款原因</option>
+                                    <option value="多拍/错拍/不想要">多拍/错拍/不想要</option>
+                                    <option value="快递一直未送达">快递一直未送达</option>
+                                    <option value="未按约定时间发货">未按约定时间发货</option>
+                                    <option value="产品质量有问题">产品质量有问题</option>
+                                    <option value="其他原因">其他原因</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cell-name">退款金额</td>
+                            <td>
+                                <input type="text" name="refund[refund_fee]" id="J_RefundFee" class="input-text w300" value="{amount:$order[total_fee]}">
+                                <p style="padding-top: 5px; color: #888;">最多{amount:$order[total_fee]}, 含发货运费:{amount:$order[shipping_fee]}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cell-name">退款说明</td>
+                            <td>
+                                <textarea class="textarea" name="refund[refund_desc]" style="width: 500px; height: 150px;" placeholder="退款说明"></textarea>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td width="80"></td>
+                            <td colspan="2"><button type="submit" class="button" style="width: 160px; border-radius: 4px;">提交</button></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="container">
+                <div class="title">订单详情</div>
+                <div class="item-container">
+                    <img src="{img $item[thumb]}" class="item-img">
+                    <div class="item-info">
+                        <h3><a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank">{$item[title]}</a></h3>
+                    </div>
+                </div>
+
+                <div class="separate-line"></div>
+                <div class="order-detail-row">
+                    <span class="label">卖家</span>
+                    <span>:</span>
+                    <span class="text">{$order[seller_name]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">联系电话</span>
+                    <span>:</span>
+                    <span class="text">{$shop[phone]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">订单编号</span>
+                    <span>:</span>
+                    <span class="text">{$order[order_no]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">商品价格</span>
+                    <span>:</span>
+                    <span class="text">{amount:$order[order_fee]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">运费</span>
+                    <span>:</span>
+                    <span class="text">{amount:$order[shipping_fee]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">总价</span>
+                    <span>:</span>
+                    <span class="text">{amount:$order[total_fee]}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#refundForm").on('submit', function () {
+        var refund_reason = $("#J_RefundReason").val();
+        if (!refund_reason) {
+            DSXUI.error('请选择退款原因');
+            return false;
+        }
+
+        var refund_fee = $.trim($("#J_RefundFee").val());
+        if (!refund_fee){
+            DSXUI.error('请填写退款金额');
+            return false;
+        }
+    });
+</script>
+{template footer}

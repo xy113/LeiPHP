@@ -1,0 +1,27 @@
+{template header}
+<div class="scanlogin">
+    <div class="avatar-wrap">
+        <img src="{echo avatar($_G[uid])}" class="avatar">
+        <div class="desc">粗耕网站登录确认</div>
+        <p class="tips">请不要扫描来源不明的二维码</p>
+    </div>
+    <div class="btn-submit" id="btn-submit">确认登录</div>
+</div>
+<script type="text/javascript">
+    $("#btn-submit").on(tap, function () {
+        $.ajax({
+           type:'POST',
+           data:{"uid":"{$_G[uid]}", "login_code":"{$login_code}"},
+           url:"{U:('c=scanlogin&a=confirm_login')}",
+           dataType:'json',
+           success:function (response) {
+               if (response.errcode == 0){
+                    onBridgeReady(function (birdge) {
+                        birdge.callHandler("afterLogin");
+                    });
+               }
+           }
+        });
+    });
+</script>
+{template footer}

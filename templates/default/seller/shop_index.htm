@@ -1,0 +1,162 @@
+{template header}
+<div class="navigation">
+    <a>我是卖家</a>
+    <span>></span>
+    <a>店铺设置</a>
+    <span>></span>
+    <a>基本设置</a>
+</div>
+{if $shop_data[shop_status]=='CLOSE'}
+<div class="notice-nav">
+    你的店铺由于资料不全，已被管理员关闭，请完善店铺资料和认证资料，向管理员申请重新开启。
+</div>
+{/if}
+<div class="content-div">
+    <div class="tab-console">
+        <span class="item cur">基本信息</span>
+        <span class="item"><a href="{U:('c=shop&a=auth')}" target="_blank">店铺认证</a></span>
+    </div>
+    <div class="form-div">
+        <form method="post" id="shopForm" autocomplete="off">
+            <input type="hidden" name="formsubmit" value="yes">
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+                <tbody>
+                <tr>
+                    <td class="cell-name" width="80">店铺名称</td>
+                    <td><input type="text" name="shop_data[shop_name]" id="shop_name" class="input-text w300" value="{$shop_data[shop_name]}"></td>
+                </tr>
+                <tr>
+                    <td class="cell-name">联系电话</td>
+                    <td><input type="text" name="shop_data[phone]" id="phone" class="input-text w300" value="{$shop_data[phone]}"></td>
+                </tr>
+                <tr>
+                    <td class="cell-name">店铺标志</td>
+                    <td>
+                        <input type="hidden" name="shop_data[shop_logo]" value="{$shop_data[shop_logo]}" id="shop_logo">
+                        <img src="{img $shop_data[shop_logo]}" width="100" height="100" id="shop_logo_preview">
+                        <p>
+                            <span class="button button-cancel" style="border-radius: 5px;" id="upload-shop-logo">上传图标</span>
+                            <span>文件格式GIF、JPG、JPEG、PNG文件大小100K以内，建议尺寸150px*150px</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-name">门头照片</td>
+                    <td>
+                        <input type="hidden" name="shop_data[shop_image]" value="{$shop_data[shop_image]}" id="shop_image">
+                        <img src="{img $shop_data[shop_image]}" width="100" height="100" id="shop_image_preview">
+                        <p>
+                            <span class="button button-cancel" style="border-radius: 5px;" id="upload-shop-image">上传图标</span>
+                            <span>图片将显示在APP店铺主页中，文件格式GIF、JPG、JPEG、PNG文件大小2MB以内，尺寸750px-1500px之间</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-name">店铺简介</td>
+                    <td>
+                        <textarea class="textarea" name="shop_data[intro]" style="width: 300px; height: 80px;" placeholder="【掌柜签名】/【店铺动态】/【主营宝贝】">{$shop_data[intro]}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-name">经营地址</td>
+                    <td>
+                        <select class="select" name="shop_data[province]" id="province" style="width: auto;">
+                            <option value="">请选择</option>
+                        </select>
+                        <select class="select" name="shop_data[city]" id="city" style="width: auto;">
+                            <option value="">请选择</option>
+                        </select>
+                        <select class="select" name="shop_data[county]" id="county" style="width: auto;">
+                            <option value="">请选择</option>
+                        </select>
+                        <input type="text" name="shop_data[street]" id="street" class="input-text w300" value="{$shop_data[street]}" placeholder="街道地址">
+                        <a present-modal="#modal" style="color: #0B90EF;">地图定位</a>
+                        <input type="hidden" name="shop_data[lng]" id="longitude" value="{$shop_data[lng]}">
+                        <input type="hidden" name="shop_data[lat]" id="latitude" value="{$shop_data[lat]}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-name">主要货源</td>
+                    <td>
+                        <label><input type="radio" class="radio" name="shop_data[main_source]" value="1"{if $shop_data[main_source]=="1"||!$shop_data[main_source]} checked{/if}> 自己生产</label>
+                        <label><input type="radio" class="radio" name="shop_data[main_source]" value="2"{if $shop_data[main_source]=="2"} checked{/if}> 代工生产</label>
+                        <label><input type="radio" class="radio" name="shop_data[main_source]" value="3"{if $shop_data[main_source]=="3"} checked{/if}> 线下批发</label>
+                        <label><input type="radio" class="radio" name="shop_data[main_source]" value="4"{if $shop_data[main_source]=="4"} checked{/if}> 分销代销</label>
+                        <label><input type="radio" class="radio" name="shop_data[main_source]" value="5"{if $shop_data[main_source]=="5"} checked{/if}> 自由渠道</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cell-name">店铺介绍</td>
+                    <td>
+                        <div style="width: 660px;">{template editor}</div>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td width="80"></td>
+                    <td colspan="2"><button type="submit" class="button btn-100" id="button-submit">提交</button></td>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="dsx-modal" id="modalbox">
+    <div class="dialog" style="width: 750px;">
+        <div class="dialog-header">
+            <a class="close" dismiss-modal="">&times;</a>
+            <h4 class="dialog-title">地图定位</h4>
+        </div>
+        <div class="dialog-body">
+            <iframe id="map" frameborder="0" scrolling="no" src="" width="100%" height="500"></iframe>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/DSXModal.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var district = new DistrictSelector({
+            province:'{$shop_data[province]}',
+            city:'{$shop_data[city]}',
+            county:'{$shop_data[county]}'
+        });
+        $("#upload-shop-logo").on('click', function () {
+            DSXUI.showImagePicker(function (data) {
+                $("#shop_logo").val(data.image);
+                $("#shop_logo_preview").attr('src', data.imageurl);
+            });
+        });
+        $("#upload-shop-image").on('click', function () {
+            DSXUI.showImagePicker(function (data) {
+                $("#shop_image").val(data.image);
+                $("#shop_image_preview").attr('src', data.imageurl);
+            });
+        });
+        $("#shopForm").on('submit', function () {
+            var shop_name = $.trim($("#shop_name").val());
+            if (!shop_name) {
+                DSXUI.error('请输入店铺名称');
+                return false;
+            }
+            var phone = $.trim($("#phone").val());
+            if (!DSXValidate.IsMobile(phone)){
+                DSXUI.error('手机号码输入错误');
+                return false;
+            }
+        });
+
+        $("[present-modal]").on('click', function () {
+            var address = $("#province").val()+' '+$("#city").val()+' '+$("#county").val()+' '+$("#street").val();
+            $("#map").attr('src','/index.php?m=plugin&c=map&address='+address);
+            $("#modalbox").DSXModal();
+            window.setLocation = function (location) {
+                $("#longitude").val(location.lng);
+                $("#latitude").val(location.lat);
+                $("#modalbox").DSXModal({event:'hide'});
+            }
+        });
+    });
+</script>
+{template footer}

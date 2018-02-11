@@ -1,0 +1,103 @@
+{template header}
+<div class="shop">
+    <div class="title-tuijian">
+        <div class="line"></div>
+        <span class="title">查询结果</span>
+    </div>
+
+    <div class="shop-horizontal-list">
+        <ul id="item-list-ul"></ul>
+    </div>
+</div>
+<div style="clear: both; height: 30px;"></div>
+<script type="text/template" id="itemTpl">
+    <li>
+        <div class="bd">
+            <div class="pic bg-cover lazyload" id="item_{item[shop_id]}" data-original="{item[shop_logo]}" handler="viewShop" data-id="{item[shop_id]}"></div>
+            <div class="con">
+                <div class="name">{item[shop_name]}</div>
+                <div class="addr">{item[city]} {item[county]}</div>
+                <div class="line">
+                    <span class="sold">已售{item[total_sold]}件</span>
+                    <strong class="price">￥{item[min_price]}</strong>
+                    <span class="qi">起</span>
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+<script>var formdata = {$formdata};</script>
+<script type="text/javascript">
+    var current_page = 0;
+    var isLoading = false;
+    var isRefreshing = false;
+    function loadDatasource() {
+        if (isLoading) return;
+        isLoading = true;
+        current_page++;
+        $.ajax({
+            url:"{U:('c=shopsearch&a=batchget')}&page="+current_page,
+            dataType:'json',
+            data:formdata,
+            beforeSend:function () {
+                if (!isRefreshing) $("#onloading").show();
+            },
+            success:function (response) {
+                setTimeout(function () {
+                    $("#onloading").hide();
+                    if (response.data.length > 0){
+                        isLoading = false;
+                        var tpl = $("#itemTpl").html();
+                        var items = '';
+                        var item_ids = [];
+                        $(response.data).each(function (i, data) {
+                            items+= tpl.replace(/\{item\[(.*?)\]\}/g, function (s, k) {
+                                if (typeof data[k] == 'undefined'){
+                                    return '';
+                                }else {
+                                    return data[k];
+                                }
+                            });
+                            item_ids.push(data.shop_id);
+                        });
+                        if (isRefreshing) {
+                            $("#item-list-ul").html(items);
+                        }else {
+                            $("#item-list-ul").append(items);
+                        }
+                        $(item_ids).each(function (i, id) {
+                            $("#item_"+id).lazyload({
+                                effect:'fadeIn',
+                                placeholder:'/static/images/common/placeholder.png'
+                            });
+                        });
+                        onBridgeReady(function (bridge) {
+                            $(item_ids).each(function (i, id) {
+                                $("#item_"+id).on(tap, function (e) {
+                                    var id = $(this).attr('data-id');
+                                    bridge.callHandler('viewShop', id);
+                                });
+                            });
+                        });
+                    }else {
+                        isLoading = true;
+                    }
+                },300);
+            }
+        });
+    }
+    //加载更多
+    loadDatasource();
+    $(window).scroll(function() {
+        if ($(document).height() <= $(window).height()) {
+            return false;
+        }
+        var totalheight = parseFloat($(window).height()) + parseFloat($(document).scrollTop());
+        if ($(document).height() <= totalheight){
+            if (isLoading) return;
+            isRefreshing = false;
+            loadDatasource();
+        }
+    });
+</script>
+{template footer}

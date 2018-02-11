@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{$_G[title]}</title>
+    <meta name="keywords" content="{$_G[keywords]}">
+    <meta name="description" content="{$_G[description]}">
+    <link rel="icon" href="/static/images/common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/image_plugin.css">
+    <script src="/static/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+</head>
+<body>
+<!--<div class="side-bar">-->
+
+<!--</div>-->
+<div class="main-frame">
+    <div class="title">
+        <div class="button upload-button">
+            <span>上传图片</span>
+            <input type="file" class="file" name="filedata" id="filedata" accept="image/*">
+        </div>
+    </div>
+    <div class="content">
+        <div class="image-list">
+            <ul>
+                {loop $imagelist $img}
+                <li>
+                    <div class="con" rel="item" data-id="{$img[id]}" data-image="{$img[path]}" data-thumb="{$img[thumb]}" data-image-url="{img $img[path]}" data-thumb-url="{img $img[thumb]}">
+                        <div class="img bg-cover" style="background-image: url({img $img[thumb]})"></div>
+                    </div>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        <div class="action-bar">
+            <div class="pagination">{$pagination}</div>
+        </div>
+    </div>
+</div>
+<div class="spinner">
+    <div class="modal"></div>
+    <span class="animation"></span>
+</div>
+<script type="text/javascript">
+    var spinner = null;
+    $("#filedata").AjaxFileUpload({
+        action:"{U:('m=material&c=image&a=upload')}",
+        onSubmit:function () {
+            spinner = DSXUI.showSpinner();
+        },onComplete:function (file,response) {
+            setTimeout(function () {
+                spinner.close();
+                if (window.parent.onPickedImage){
+                    window.parent.onPickedImage({
+                        "id":response.data.id,
+                        "image":response.data.image,
+                        "thumb":response.data.thumb,
+                        "imageurl":response.data.imageurl,
+                        "thumburl":response.data.thumburl
+                    });
+                }
+            }, 500);
+        }
+    });
+    $("[rel=item]").on('click', function () {
+        var id = $(this).attr('data-id');
+        var image = $(this).attr('data-image');
+        var thumb = $(this).attr('data-thumb');
+        var imageurl = $(this).attr('data-image-url');
+        var thumburl = $(this).attr('data-thumb-url');
+        if (window.parent.onPickedImage){
+            window.parent.onPickedImage({
+                "id":id,
+                "image":image,
+                "thumb":thumb,
+                "imageurl":imageurl,
+                "thumburl":thumburl
+            });
+        }
+    });
+</script>
+</body>
+</html>

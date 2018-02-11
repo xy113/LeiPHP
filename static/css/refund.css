@@ -1,0 +1,57 @@
+@import "common.css";
+.area{width: 990px; margin: 0 auto;}
+.header{display: block;}
+.header .banner{display: block; padding: 20px 0; position: relative;}
+.header .global-logo{height: 60px; float: left; width: 240px;}
+.header .global-logo img{height: 60px; width: auto; display: block;}
+.header .global-search-box{height: 60px; float: right; position: relative; padding-top: 13px;}
+.header .global-search-box .input-box{
+    height: 34px; border: 2px #f40 solid; width: 500px; position: relative;
+}
+.header .global-search-box .text{
+    position: absolute; left: 0; top: 0; bottom: 0;
+    border: 0; background: none; width: 460px; height: 30px;
+    font-size: 14px; font-weight: 400; color: #333; padding: 0 10px;
+}
+.header .global-search-box .btn{
+    background-color: #f40; color: #fff; position: absolute; border: none; width: 60px; cursor: pointer;
+    top: 0; right: 0; bottom: 0; font-size: 16px; font-weight: bold; text-align: center;
+}
+.header .global-search-box .hot{display: block; padding-top: 10px; font-size: 12px; line-height: 1.0; color: #666;}
+
+.refund-step{
+    height: 38px; display: block; margin-bottom: 10px; background-color: #CCCCCC; color: #333;
+}
+.refund-step .step-item{width: 33.33%; float: left; position: relative; text-align: center; line-height: 38px; font-size: 14px; font-weight: 500;}
+.refund-step .step-item .separate{
+    background-image: url("../images/common/path-2.png");
+    background-repeat: no-repeat; background-position: center; background-color: #fff;
+    background-size: auto 100%; position: absolute; top: 0; right: 0; height: 38px; width: 20px;
+}
+.refund-step .step-item .n{width: 20px; height: 20px; line-height: 20px; margin-right: 3px; background-color: #fff; border-radius: 50%; color: #888; text-align: center; display: inline-block;}
+.refund-step .step-on{background-color: #FF4200; color: #fff;}
+.refund-step .step-on .separate{background-image: url("../images/common/path-1.png");}
+
+.refund-container{min-height: 500px; border: 1px #DDD solid;}
+.refund-container .left-container{width: 770px; border-right: 1px #DDD solid; min-height: 500px; float: left;}
+.refund-container .left-container .container{padding: 30px; display: block;}
+.refund-container .left-container .title{font-size: 14px; display: block; padding: 15px 0;}
+.refund-container .right-container{overflow: hidden;}
+.refund-container .right-container .container{padding: 20px 15px; display: block;}
+.refund-container .right-container .title{font-size: 16px; display: block; margin-bottom: 15px;}
+.refund-container .right-container .item-container{display: block; border-top: 1px #DDD solid; padding: 7px 0;}
+.refund-container .right-container .item-container .item-img{width: 60px; height: 60px; float: left; margin-right: 10px;}
+.refund-container .right-container .item-container .item-info{overflow: hidden;}
+.refund-container .right-container .item-container .item-info h3{font-size: 12px; line-height: 1.2; color: #222; font-weight: 400;}
+.refund-container .right-container .separate-line{height: 1px; clear: both; border-top: 1px #DDD solid; margin: 15px 0;}
+.refund-container .right-container .order-detail-row{height: 26px; line-height: 26px; font-size: 12px; color: #888;}
+.refund-container .right-container .order-detail-row .label{
+    width: 50px; color: #888; text-align: justify; text-align-last: justify; display: inline-block;
+}
+.refund-container .right-container .order-detail-row span{display: inline-block;}
+.refund-container .right-container .order-detail-row .text{color: #333; display: inline-block; margin-left: 5px;}
+
+.formtable{}
+.formtable{table-layout:auto;}
+.formtable th, .formtable td{padding:8px 0; text-align:left; font-size:12px;}
+.formtable .cell-name{text-align:right; padding-right:10px;}

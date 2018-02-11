@@ -1,0 +1,93 @@
+{template header}
+<div class="article">
+    <div class="article-list" style="padding: 10px 0 0;">
+        <ul id="item-list-ul"></ul>
+    </div>
+</div>
+<script type="text/template" id="itemTpl">
+    <li id="item_{item.aid}" data-id="{item.aid}">
+        <div class="img bg-cover lazyload" id="pic_{item.aid}" data-original="{item.image}"></div>
+        <div class="info">
+            <h3>{item.title}</h3>
+            <p>
+                <span>{item.pubtime}</span>
+                <span><i class="iconfont icon-appreciate"></i> {item.view_num}</span>
+            </p>
+        </div>
+    </li>
+</script>
+<script>var formdata = {};</script>
+<script type="text/javascript">
+    var current_page = 0;
+    var isLoading = false;
+    var isRefreshing = false;
+    function loadDatasource() {
+        if (isLoading) return;
+        isLoading = true;
+        current_page++;
+        $.ajax({
+            url:"{U:('c=article&a=batchget')}&page="+current_page,
+            dataType:'json',
+            data:formdata,
+            beforeSend:function () {
+                if (!isRefreshing) $("#onloading").show();
+            },
+            success:function (response) {
+                setTimeout(function () {
+                    $("#onloading").hide();
+                    if (response.data.length > 0){
+                        isLoading = false;
+                        var tpl = $("#itemTpl").html();
+                        var items = '';
+                        var item_ids = [];
+                        $(response.data).each(function (i, data) {
+                            items+= tpl.replace(/\{item\.(.*?)\}/g, function (s, k) {
+                                if (typeof data[k] === 'undefined'){
+                                    return '';
+                                }else {
+                                    return data[k];
+                                }
+                            });
+                            item_ids.push(data.aid);
+                        });
+                        if (isRefreshing) {
+                            $("#item-list-ul").html(items);
+                        }else {
+                            $("#item-list-ul").append(items);
+                        }
+                        $(item_ids).each(function (i, aid) {
+                            $("#pic_"+aid).lazyload({
+                                effect:'fadeIn',
+                                placeholder:'/static/images/common/placeholder.png'
+                            });
+                        });
+                        onBridgeReady(function (bridge) {
+                            $(item_ids).each(function (i, aid) {
+                                $("#item_"+aid).on('click', function (e) {
+                                    //var id = $(this).attr('data-id');
+                                    bridge.callHandler('viewArticle', aid);
+                                });
+                            });
+                        });
+                    }else {
+                        isLoading = true;
+                    }
+                },300);
+            }
+        });
+    }
+    //加载更多
+    loadDatasource();
+    $(window).scroll(function() {
+        if ($(document).height() <= $(window).height()) {
+            return false;
+        }
+        var totalheight = parseFloat($(window).height()) + parseFloat($(document).scrollTop());
+        if ($(document).height() <= totalheight){
+            if (isLoading) return;
+            isRefreshing = false;
+            loadDatasource();
+        }
+    });
+</script>
+{template footer}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{$_G[title]}</title>
+    <meta name="keywords" content="{$_G[keywords]}">
+    <meta name="description" content="{$_G[description]}">
+    <link rel="icon" href="/static/images/common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/member.css">
+    <script src="/static/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+</head>
+<body>
+<div style="padding: 20px;">
+    <form method="post" id="J_CloseForm">
+        <input type="hidden" name="formsubmit" value="yes">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+            <tbody>
+            <tr>
+                <td width="140">请选择取消订单的理由</td>
+                <td>
+                    <select class="select width-auto" id="J_CloseReason" name="closeReason">
+                        <option value="">请选择关闭理由</option>
+                        <option value="我不想买了">&nbsp;我不想买了</option>
+                        <option value="信息填写错误，重新拍">&nbsp;信息填写错误，重新拍</option>
+                        <option value="卖家缺货">&nbsp;卖家缺货</option>
+                        <option value="同城见面交易">&nbsp;同城见面交易</option>
+                        <option value="付款遇到问题（如余额不足、不知道怎么付款等）">&nbsp;付款遇到问题（如余额不足、不知道怎么付款等）</option>
+                        <option value="拍错了">&nbsp;拍错了</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>其他原因</td>
+                <td><textarea class="textarea" name="otherReason" id="J_OtherReason" style="width: 300px;"></textarea></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td></td>
+                <td><input type="button" class="button" value="确认" id="submitButton" style="width: 160px;"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $("#submitButton").on('click', function () {
+        var closeReason = $("#J_CloseReason").val();
+        var otherReason = $.trim($("#J_OtherReason").val());
+        if (!closeReason && !otherReason){
+            alert('请选择关闭订单的原因');
+            return false;
+        }
+        $("#J_CloseForm").ajaxSubmit({
+            dataType:'json',
+            success:function (response) {
+                if(response.errcode == 0){
+                    if (window.parent.afterCloseOrder) window.parent.afterCloseOrder(response);
+                }else {
+                    alert(response.errmsg);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

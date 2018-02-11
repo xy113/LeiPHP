@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{$_G[title]}</title>
+    <meta name="keywords" content="{$_G[keywords]}">
+    <meta name="description" content="{$_G[description]}">
+    <link rel="icon" href="/static/images/common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/seller.css">
+    <script src="/static/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+</head>
+<body>
+{template top_common}
+<div class="seller-header">
+    <div class="area header">
+        <strong class="logo"><img src="/static/images/common/maijia_logo.png"></strong>
+        <div class="right-menu">
+            <a href="{U:('m=seller&a=index')}">首页</a>
+            <a href="{U:('c=shop&a=index')}">基本设置</a>
+            <a href="{U:('c=shop&a=auth')}" target="_blank">店铺认证</a>
+        </div>
+    </div>
+</div>
+<div class="area" style="margin-top: 20px;">
+<div class="sidebar">
+    <div class="sidebar-content">
+        <div class="menus">
+            <dl>
+                <dd><a><i class="iconfont icon-shopfill"></i>我的店铺</a></dd>
+                <dt>
+                    <ul>
+                        <li><a href="{U:('c=shop')}"{if $_GET[menu]=="shop_set"} class="cur"{/if}>店铺设置</a></li>
+                        <li><a href="{U:('c=analyse')}"{if $_G[menu]=="analyse"} class="cur"{/if}>数据统计</a></li>
+                    </ul>
+                </dt>
+            </dl>
+
+            <dl>
+                <dd><a><i class="iconfont icon-presentfill"></i>宝贝管理</a></dd>
+                <dt>
+                    <ul>
+                        <li><a href="{U:('c=item&a=sell')}"{if $_G[menu]=="sell"} class="cur"{/if}>发布宝贝</a></li>
+                        <li><a href="{U:('c=item&a=itemlist&type=1')}"{if $_G[menu]=="on_sale_item"} class="cur"{/if}>出售中的宝贝</a></li>
+                        <li><a href="{U:('c=item&a=itemlist&type=2')}"{if $_G[menu]=="off_sale_item"} class="cur"{/if}>仓库中的宝贝</a></li>
+                    </ul>
+                </dt>
+            </dl>
+            <dl>
+                <dd><a><i class="iconfont icon-moneybagfill"></i>交易管理</a></dd>
+                <dt>
+                    <ul>
+                        <li><a href="{U:('c=sold')}"{if $_G[menu]=="sold_item"} class="cur"{/if}>已卖出的宝贝</a></li>
+                    </ul>
+                </dt>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="mainframe">
+    <div class="main-content">

@@ -1,0 +1,35 @@
+{template header_common}
+<div class="area shop-filter">
+    <ul class="tab">
+        <li><a class="cur">默认</a></li>
+        <li><a>销量</a></li>
+        <li><a>信誉</a></li>
+    </ul>
+    <div class="search-hd">
+        <form method="get">
+            <input type="hidden" name="m" value="shop">
+            <input type="hidden" name="c" value="index">
+            <span>店铺名称:</span>
+            <input type="text" class="input-text" name="q" value="{$q}">
+            <input type="submit" class="button" value="搜索">
+        </form>
+    </div>
+</div>
+<div class="area shop" style="min-height: 600px;">
+    <div class="shop-grid-wrap">
+        <ul>
+            {loop $shoplist $shop}
+            <li>
+                <div class="hd">
+                    <div class="logo bg-cover asyncload" data-original="{img $shop[shop_logo]}">
+                        <a href="{U:('m=shop&c=viewshop&shop_id='.$shop[shop_id])}" target="_blank" title="{$shop[shop_name]}"></a>
+                    </div>
+                    <div class="shop-name"><a href="{U:('m=shop&c=viewshop&shop_id='.$shop[shop_id])}" target="_blank">{$shop[shop_name]}</a></div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="pagination">{$pagination}</div>
+</div>
+{template footer_common}

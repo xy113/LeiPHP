@@ -1,0 +1,23 @@
+{template header}
+<div class="notice-list">
+    <ul>
+        {loop $itemlist $item}
+        <li handler="viewNotice" data-id="{$item[id]}">
+            <img src="{echo avatar($item[uid])}" class="img">
+            <div class="con">
+                <h3>{$item[title]}</h3>
+                <div class="digest">{echo stripHtml($item[message])}</div>
+                <span class="time">{date:$item[dateline]|'y/m/d'}</span>
+            </div>
+        </li>
+        {/loop}
+    </ul>
+</div>
+<script type="text/javascript">
+    onBridgeReady(function (bridge) {
+        $("[handler=viewNotice]").on(tap, function (e) {
+            bridge.callHandler('viewNotice', $(this).attr('data-id'));
+        });
+    });
+</script>
+{template footer}

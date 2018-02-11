@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{$_G[title]}</title>
+    <meta name="keywords" content="{$_G[keywords]}">
+    <meta name="description" content="{$_G[description]}">
+    <link rel="icon" href="/static/images/common/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/css/buy.css">
+    <script src="/static/js/jquery.js" type="text/javascript"></script>
+    <script src="/static/js/common.js" type="text/javascript"></script>
+</head>
+<body>
+{template top_common}
+<div class="header">
+    <div class="area banner">
+        <div class="global-logo">
+            <img src="/static/images/cugeng/global-logo.png">
+        </div>
+        <ul class="order-stepbar">
+            <li{if $_G[step]=='confirm_order'} class="cur"{/if}><span>1. 确认订单</span></li>
+            <li{if $_G[step]=='pay_order'} class="cur"{/if}><span>2. 支付订单</span></li>
+            <li><span>3. 确认订单</span></li>
+            <li><span>4. 双方互评</span></li>
+        </ul>
+    </div>
+</div>

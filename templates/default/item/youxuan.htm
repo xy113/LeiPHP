@@ -1,0 +1,33 @@
+{template header_common}
+<div class="area youxuan" style="margin-top: 20px;">
+    <div class="filter">
+        <ul>
+            <li><a>人气</a></li>
+            <li><a>销量</a></li>
+            <li><a>新品</a></li>
+            <li><a>价格</a></li>
+            <li><a collection="true" data-id="{$shop[shop_id]}" data-type="shop">收藏</a></li>
+        </ul>
+    </div>
+    <div class="item-list-wrap">
+        <ul class="item-list">
+            {loop $itemlist $item}
+            <li>
+                <div class="bd">
+                    <div class="g-pic bg-cover asyncload" data-original="{img $item[thumb]}">
+                        <a href="{U:('m=item&c=item&itemid='.$item[itemid])}" title="{$item[name]}" target="_blank"></a>
+                    </div>
+                    <div class="g-name"><a href="{U:('m=item&c=item&itemid='.$item[itemid])}" title="{$item[title]}" target="_blank">{$item[title]}</a></div>
+                    <div class="line">
+                        <span class="sold">已售{$item[sold]}件</span>
+                        <div class="price"><span>￥</span><strong>{amount:$item[price]}</strong></div>
+                    </div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+        <div class="blank"></div>
+        <div class="pagination">{$pagination}</div>
+    </div>
+</div>
+{template footer_common}

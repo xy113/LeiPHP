@@ -1,0 +1,188 @@
+{template header}
+<div class="area">
+    <h3>订单信息</h3>
+    <div class="pay-order-info">
+        <div class="item-info">
+            <div class="order-field">订单编号</div>
+            <div class="order-info">{$order[order_no]}</div>
+        </div>
+        <div class="item-info">
+            <div class="order-field">订单金额</div>
+            <div class="order-info">{amount:$order[total_fee]}</div>
+        </div>
+        <div class="item-info">
+            <div class="order-field">下单时间</div>
+            <div class="order-info">{date:$order[create_time]|'Y-m-d H:i:s'}</div>
+        </div>
+        <div class="item-info">
+            <div class="order-field">交易流水</div>
+            <div class="order-info">{$order[trade_no]}</div>
+        </div>
+    </div>
+
+    <h3>付款方式</h3>
+    <div class="pay-type-choose">
+        <div class="pay-type-div">
+            <div class="type-radio-box">
+                <label>
+                    <input type="radio" class="radio" name="pay_type" value="1">
+                    <span>余额支付</span>
+                </label>
+            </div>
+            <div class="type-info">
+                <form method="post" id="J_Frmbalance" action="{U:('c=pay&a=balance_pay')}">
+                    <input type="hidden" name="formhash" value="{FORMHASH}">
+                    <input type="hidden" name="order_id" value="{$order[order_id]}">
+                    <p>你当前的账户余额:{amount:$wallet[balance]}元</p>
+                    <p>支付密码:<input type="password" name="password" class="input-text" id="J_password"></p>
+                    <p>余额支付请输入登录密码进行支付</p>
+                </form>
+            </div>
+        </div>
+        <div class="pay-type-div">
+            <div class="type-radio-box" style="padding-top: 9px;">
+                <label>
+                    <input type="radio" class="radio" name="pay_type" value="2" checked>
+                    <span>在线支付</span>
+                </label>
+            </div>
+            <div class="type-info">
+                <dl class="pay-channel">
+                    <dt><input type="radio" name="pay_channel" value="wxpay" checked></dt>
+                    <dd>
+                        <span class="pay-icon pay-icon-wxpay"></span>
+                        <span class="pay-name">微信支付</span>
+                    </dd>
+                </dl>
+                <dl class="pay-channel">
+                    <dt><input type="radio" name="pay_channel" value="alipay"></dt>
+                    <dd>
+                        <span class="pay-icon pay-icon-alipay"></span>
+                        <span class="pay-name">支付宝支付</span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="pay-type-div">
+            <div class="type-radio-box">&nbsp;</div>
+            <div class="type-info"><div class="confirm-pay-button" id="confirm-pay-button">确认支付</div></div>
+        </div>
+    </div>
+</div>
+<form method="post" id="J_Frmpay" action="{U:('c=pay&a=order_query')}">
+    <input type="hidden" name="order_id" value="{$order[order_id]}">
+    <input type="hidden" name="pay_type" value="1" id="J_pay_type">
+    <input type="hidden" name="pay_channel" value="" id="J_pay_channel">
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#confirm-pay-button").on('click', function () {
+            var pay_type = $("input[name=pay_type]:checked").val();
+            var pay_channel = $("input[name=pay_channel]:checked").val();
+            $("#J_pay_type").val(pay_type);
+            $("#J_pay_channel").val(pay_channel);
+            if (pay_type == 1){//余额支付
+                var password = $.trim($("#J_password").val());
+                if (!DSXValidate.IsPassword(password)){
+                    DSXUI.error('请输入登录密码');
+                    return false;
+                }
+                var total_fee = parseFloat('{$order[total_fee]}');
+                var balance = parseFloat('{$wallet[balance]}');
+                if (balance < total_fee){
+                    DSXUI.error('账户余额不足，请选择其他方式付款');
+                    return false;
+                }
+                var spinner = null;
+                $("#J_Frmbalance").ajaxSubmit({
+                    dataType:'json',
+                    beforeSend:function () {
+                        spinner = DSXUI.showSpinner();
+                    },
+                    success:function (response) {
+                        setTimeout(function () {
+                            spinner.close();
+                            if (response.errcode == 0){
+                                $("#J_Frmpay").submit();
+                            }else {
+                                DSXUI.error(response.errmsg);
+                            }
+                        }, 500);
+                    }
+                });
+            }
+            if (pay_type == 2){
+                if (pay_channel == 'wxpay'){
+                    var qrCode = "{U:('c=pay&a=wxpay_qrcode&order_id='.$order[order_id])}";
+                    var queryOrder = function (callback) {
+                        $.ajax({
+                            url:"{U:('c=pay&a=wxpay_query&order_id='.$order[order_id])}",
+                            dayaType:'json',
+                            success:function (response) {
+                                if (response.errcode == 0){
+                                    if(callback) callback();
+                                }
+                            }
+                        });
+                    }
+                    DSXUI.dialog({
+                        title:'微信支付',
+                        hideTitle:true,
+                        yesBtn:'完成付款',
+                        width:'400px',
+                        content:'<div class="pay-qrcode">' +
+                        '<img src="'+qrCode+'" class="qrcode">'+
+                        '<div class="tips">用微信扫一扫进行付款</div> '+
+                        '</div>',
+                        onConfirm:function (dlg) {
+                            queryOrder(function () {
+                                dlg.close();
+                                $("#J_Frmpay").submit();
+                            });
+                        },
+                        onCancel:function (dlg) {
+                            queryOrder();
+                        }
+                    });
+                }
+
+                if (pay_channel == 'alipay'){
+                    var alipay_query = function (callback) {
+                        $.ajax({
+                            url:"{U:('c=pay&a=wxpay_query&order_id='.$order[order_id])}",
+                            dayaType:'json',
+                            success:function (response) {
+                                if (response.errcode == 0){
+                                    if(callback) callback();
+                                }
+                            }
+                        });
+                    }
+                    DSXUI.dialog({
+                        hideTitle:true,
+                        yesBtn:'完成付款',
+                        width:'400px',
+                        content:'<div class="pay-qrcode">' +
+                        '<div class="tips">请在支付宝页面完成付款</div> '+
+                        '</div>',
+                        onConfirm:function (dlg) {
+                            alipay_query(function () {
+                                dlg.close();
+                                window.location.href = "{U:('c=pay&a=alipay_query&order_id='.$order[order_id])}";
+                            });
+                        },
+                        onCancel:function (dlg) {
+                            alipay_query(function () {
+                                dlg.close();
+                                window.location.href = "{U:('c=pay&a=alipay_query&order_id='.$order[order_id])}";
+                            });
+                        }
+                    });
+                    window.open("{U:('c=pay&a=alipay&order_id='.$order_id)}");
+                }
+            }
+        });
+    });
+</script>
+{template footer}

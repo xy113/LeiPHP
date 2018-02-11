@@ -1,0 +1,47 @@
+{template header}
+<div class="delivery-address">
+    <div class="iconfont icon-location"></div>
+    <div class="address">
+        <div class="row">
+            <span style="float: right;">{$order[phone]}</span>
+            <span>收货人:{$order[consignee]}</span>
+        </div>
+        <p class="addr">{$order[address]}</p>
+    </div>
+</div>
+<div class="order">
+    <div class="order-list">
+        <section class="list-item">
+            <div class="top">
+                <span class="shop-name">{$shop[shop_name]}</span>
+            </div>
+            {eval $item_count=0}
+            {loop $itemlist $item}
+            {eval $item_count+=$item[quantity]}
+            <div class="order-item">
+                <div class="pic bg-cover cell" style="background-image: url({img $item[thumb]})"></div>
+                <div class="info cell">
+                    <h3>{$item[title]}</h3>
+                    <p class="attrs">七夕大优惠</p>
+                    <div class="right">
+                        <div class="price">￥{amount:$item[price]}</div>
+                        <div class="price"><s>￥{amount:$item[market_price]}</s></div>
+                        <div class="quantity">x{$item[quantity]}</div>
+                    </div>
+                </div>
+            </div>
+            {/loop}
+            <div class="simple">
+                共{$item_count}件商品 合计:<strong>￥{amount:$order[total_fee]}</strong>(含运费:<strong>￥{amount:$order[shipping_fee]}</strong>)
+            </div>
+        </section>
+    </div>
+
+    <div class="order-rows">
+        <div class="row">订单编号: {$order[order_no]}</div>
+        <div class="row">创建时间: {date:$order[create_time]|'Y-m-d H:i:s'}</div>
+        {if $order[pay_time]}<div class="row">付款时间: {date:$order[pay_time]|'Y-m-d H:i:s'}</div>{/if}
+        <div class="row">交易流水: {$order[trade_no]}</div>
+    </div>
+</div>
+{template footer}

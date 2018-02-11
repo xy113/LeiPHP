@@ -1,0 +1,32 @@
+{template header}
+<div class="order-query">
+    <div class="result">
+        {if $order[pay_status]}
+        <h2 class="iconfont">&#xe656;</h2>
+        <h3>支付成功</h3>
+        {else}
+        <h2 class="iconfont fail">&#xe658;</h2>
+        <h3 class="fail">支付失败</h3>
+        {/if}
+        <div class="amount">{amount:$order[total_fee]}元</div>
+    </div>
+    <div class="order-info">
+        <div class="row">
+            <span class="value">{$item[name]}</span>
+            <span class="name">商品</span>
+        </div>
+        <div class="row">
+            <span class="value">{date:$order[create_time]|'Y-m-d H:i:s'}</span>
+            <span class="name">交易时间</span>
+        </div>
+        <div class="row">
+            <span class="value">{$_lang[pay_types][$order[pay_type]]}</span>
+            <span class="name">支付方式</span>
+        </div>
+        <div class="row">
+            <span class="value">{$order[trade_no]}</span>
+            <span class="name">交易单号</span>
+        </div>
+    </div>
+</div>
+{template footer}

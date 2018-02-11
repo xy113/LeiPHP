@@ -1,0 +1,36 @@
+{template header}
+<div class="swiper-div" style="padding-top: 50%;">
+    <div class="swiper" id="swiper">
+        <ul class="swiper-wrapper">
+            {loop $slide_list $sd}
+            <li class="swiper-slide"><span class="bg bg-cover asyncload" handler="openURL" data-url="{$sd[url]}" data-original="{img $sd[image]}"></span></li>
+            {/loop}
+        </ul>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    (function(){
+        var swiper = new Swiper('#swiper',
+            {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+    })();
+</script>
+<div class="home">
+    <div class="item-horizontal-list">
+        <ul id="item-list-ul">
+            {loop $itemlist $item}
+            <li>
+                <div class="bd">
+                    <div class="pic bg-cover lazyload" id="item_{$item[itemid]}" data-original="{img $item[thumb]}" handler="viewItem" data-id="{$item[itemid]}"></div>
+                    <div class="name">{$item[title]}</div>
+                    <div class="line">
+                        <span>已售出{$item[sold]}件</span>
+                        <strong>￥{$item[price]}</strong>
+                    </div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+</div>
+{template footer}

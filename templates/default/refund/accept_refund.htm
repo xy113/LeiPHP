@@ -1,0 +1,132 @@
+{template header}
+<div class="area">
+    <div class="refund-step">
+        <div class="step-item">
+            <span class="n">1</span>
+            <span>买家申请退款</span>
+            <i class="separate"></i>
+        </div>
+        <div class="step-item step-on">
+            <span class="n">2</span>
+            <span>卖家处理退款</span>
+            <i class="separate"></i>
+        </div>
+        <div class="step-item">
+            <span class="n">3</span>
+            <span>退款完成</span>
+        </div>
+    </div>
+</div>
+
+<div class="area">
+    <div class="refund-container">
+        <div class="left-container">
+            <div class="container">
+                <h3 class="title">退款信息</h3>
+                <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+                    <tbody>
+                    <tr>
+                        <td width="60">退款编号</td>
+                        <td>{$refund[refund_no]}</td>
+                    </tr>
+                    <tr>
+                        <td>商品名称</td>
+                        <td>{$item[title]}</td>
+                    </tr>
+                    <tr>
+                        <td>买家账号</td>
+                        <td>{$order[buyer_name]}</td>
+                    </tr>
+                    <tr>
+                        <td>退款金额</td>
+                        <td>{amount:$refund[refund_fee]}</td>
+                    </tr>
+                    <tr>
+                        <td>申请时间</td>
+                        <td>{date:$refund[refund_time]|'Y-m-d H:i:s'}</td>
+                    </tr>
+                    <tr>
+                        <td>订单编号</td>
+                        <td>{$order[order_no]}</td>
+                    </tr>
+                    <tr>
+                        <td>退款原因</td>
+                        <td>{$refund[refund_reason]}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h3 class="title">处理退款申请</h3>
+                <form method="post" id="refundForm" autocomplete="off">
+                    <input type="hidden" name="formsubmit" value="yes">
+                    <input type="hidden" name="formhash" value="{FORMHASH}">
+                    <input type="hidden" name="refund_id" value="{$refund[refund_id]}">
+                    <table cellspacing="0" cellpadding="0" width="100%" class="formtable">
+                        <tbody>
+                        <tr>
+                            <td width="60">受理类型</td>
+                            <td>
+                                <label><input type="radio" class="radio" name="accept_type" value="1" checked> 同意买家退款申请</label>
+                                <label><input type="radio" class="radio" name="accept_type" value="0"> 拒绝买家退款申请</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>补充说明</td>
+                            <td><textarea class="textarea" name="reply_text" style="width: 500px; height: 150px;" placeholder="输入拒绝原因"></textarea></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><button type="submit" class="button" style="width: 160px; border-radius: 4px;">提交</button></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="right-container">
+            <div class="container">
+                <div class="title">订单详情</div>
+                <div class="item-container">
+                    <img src="{img $item[thumb]}" class="item-img">
+                    <div class="item-info">
+                        <h3><a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank">{$item[title]}</a></h3>
+                    </div>
+                </div>
+
+                <div class="separate-line"></div>
+                <div class="order-detail-row">
+                    <span class="label">卖家</span>
+                    <span>:</span>
+                    <span class="text">{$order[seller_name]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">联系电话</span>
+                    <span>:</span>
+                    <span class="text">{$shop[phone]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">订单编号</span>
+                    <span>:</span>
+                    <span class="text">{$order[order_no]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">商品价格</span>
+                    <span>:</span>
+                    <span class="text">{amount:$order[order_fee]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">运费</span>
+                    <span>:</span>
+                    <span class="text">{amount:$order[shipping_fee]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span class="label">总价</span>
+                    <span>:</span>
+                    <span class="text">{amount:$order[total_fee]}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{template footer}

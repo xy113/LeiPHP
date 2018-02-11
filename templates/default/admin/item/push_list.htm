@@ -1,0 +1,102 @@
+{template header}
+<div class="console-title">
+    <div class="float-right">
+        <form method="get" id="searchForm" action="">
+            <input type="hidden" name="m" value="{$_G[m]}">
+            <input type="hidden" name="c" value="{$_G[c]}">
+            <input type="hidden" name="a" value="{$_G[a]}">
+            <select title="" name="groupid" class="select">
+                <option value="">全部分组</option>
+                {loop $grouplist $group}
+                <option value="{$group[groupid]}"{if $groupid==$group[groupid]} selected{/if}>{$group[grouptitle]}</option>
+                {/loop}
+            </select>
+            <button type="submit" class="button">搜索</button>
+            <a href="{U:('c=itempush&a=grouplist')}" class="button">分组管理</a>
+        </form>
+    </div>
+    <h2>商品管理->商品推送</h2>
+</div>
+
+<div class="content-div">
+    <form method="post" id="listForm" autocomplete="off">
+        <input type="hidden" name="formsubmit" value="yes">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+        <input type="hidden" name="eventType" value="" id="J_eventType">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="listtable">
+            <thead>
+            <tr>
+                <th width="20"><input type="checkbox" class="checkbox checkall"></th>
+                <th width="80">图片</th>
+                <th>宝贝名称</th>
+                <th>分组</th>
+                <th>价格</th>
+                <th>销量</th>
+                <th width="80">状态</th>
+                <th width="140">创建时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $itemlist $item}
+            {eval $push_id=$item[push_id]}
+            {eval $itemid=$item[itemid]}
+            <tr id="row_{$id}">
+                <td><input title="" type="checkbox" class="checkbox checkmark" name="items[]" value="{$push_id}"></td>
+                <td><a href="{U:('m=item&c=item&itemid='.$itemid)}" target="_blank"><div class="bg-cover" style="background-image: url({img $item[thumb]}); width: 80px; height: 80px;"></div></a></td>
+                <td><h3 class="title"><a href="{U:('m=item&c=item&itemid='.$itemid)}" target="_blank">{$item[title]}</a></h3></td>
+                <td>{$grouplist[$item[groupid]][grouptitle]}</td>
+                <td><p><strong style="color: #f40;">{$item[price]}</strong></p></td>
+                <td>{$item[sold]}</td>
+                <td>
+                    {if $item[on_sale]}
+                    出售中
+                    {else}
+                    已下架
+                    {/if}
+                </td>
+                <td>{date:$item[create_time]|'Y-m-d H:i:s'}</td>
+            </tr>
+            {/loop}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="20">
+                    <div class="pagination float-right">{$pagination}</div>
+                    <label><input type="checkbox" class="checkbox checkall"> 全选</label>
+                    <label><button type="button" class="btn" id="deleteButton">删除宝贝</button></label>
+                    <label><button type="button" class="btn" id="addButton">添加宝贝</button></label>
+                    <label><button type="button" class="btn" data-action="refresh">刷新</button></label>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#deleteButton").on('click', function () {
+            if ($(".checkmark:checked").length === 0){
+                DSXUI.error('请选择商品');
+                return false;
+            }
+            DSXUI.showConfirm('删除商品','确认要删除所选商品吗?', function () {
+                $("#listForm").submit();
+            });
+        });
+        $("#addButton").on('click', function () {
+            DSXUI.dialog({
+                title:'添加推荐商品',
+                iframe:"{u:('c=itempush&a=add&groupid='.$groupid)}",
+                hideFooter:true,
+                height:200,
+                afterShow:function (dlg) {
+                    window.afterAddPush = function () {
+                        dlg.close();
+                        DSXUtil.reFresh();
+                    }
+                }
+            });
+        });
+    });
+</script>
+{template footer}

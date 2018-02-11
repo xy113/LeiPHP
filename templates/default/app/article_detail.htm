@@ -1,0 +1,13 @@
+{template header}
+<div class="article">
+    <div class="article-detail">
+        <h1 class="title">{$article[title]}</h1>
+        <div class="info">
+            <span>{date:$article[pubtime]|'Y-m-d H:i'}</span>
+            <span><i class="iconfont icon-appreciate"></i> {$article[view_num]}</span>
+        </div>
+        <div class="line"></div>
+        <div class="content">{$content}</div>
+    </div>
+</div>
+{template footer}

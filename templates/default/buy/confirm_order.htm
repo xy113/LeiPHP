@@ -1,0 +1,174 @@
+{template header}
+<div style="height: 30px; clear: both; display: block;"></div>
+<div class="area">
+    <div class="order-address-wrap">
+        <h3 class="confirm-address">
+            <a class="manage-address" href="{U:('m=member&c=address')}" target="_blank">管理收货地址</a>
+            <span>确认收货地址</span>
+        </h3>
+        <ul class="address-list" id="address-list"></ul>
+        <div class="use-new-address">
+            <a class="button" id="add-address">使用新地址</a>
+        </div>
+    </div>
+</div>
+<div class="blank"></div>
+<div class="area">
+    <h3>确认订单信息</h3>
+    <table cellspacing="1" cellpadding="0" width="100%" class="order-th-table">
+        <tr>
+            <th>店铺宝贝</th>
+            <th width="125">单价</th>
+            <th width="125">数量</th>
+            <th width="125">小计</th>
+        </tr>
+    </table>
+    <div class="order-item-wrap">
+        <form method="post" id="J_Frmorder" action="{U:('m=buy&c=order&a=confirm_order')}">
+            <input type="hidden" name="formsubmit" value="yes">
+            <input type="hidden" name="formhash" value="{FORMHASH}">
+            <input type="hidden" name="address_id" value="0" id="J_address_id">
+            <input type="hidden" name="shipping_type" value="1" id="J_shipping_type">
+            <input type="hidden" name="pay_type" value="1" id="J_pay_type">
+            <input type="hidden" name="_token_" value="{cookie _token_}">
+            {loop $order_item_list $shop_id $order}
+            <div class="order-item" data-shop-id="{$shop_id}" style="margin-bottom: 20px;">
+                <table cellpadding="0" cellspacing="0" width="100%" class="order-item-table">
+                    <thead>
+                        <tr>
+                            <th colspan="4">店铺: {$order[shop_name]}</th>
+                        </tr>
+                    </thead>
+                    {eval $simple_fee=$order[order_fee]+$order[shipping_fee]}
+                    {loop $order[items] $itemid $item}
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="info-img">
+                                    <img src="{img $item[thumb]}">
+                                    <input type="hidden" name="items[]" value="{$itemid}">
+                                </div>
+                                <div class="info-detail">
+                                    <div class="item-name">{$item[name]}</div>
+                                    <div class="item-attr">颜色:默认 品质:优</div>
+                                </div>
+                            </td>
+                            <td width="125" class="cell-price">{amount:$item[price]}</td>
+                            <td width="125" class="cell-num">{$item[quantity]}</td>
+                            <td width="125" class="cell-simple-price" id="simple-price">{amount:$item[order_fee]}</td>
+                        </tr>
+                    </tbody>
+                    {/loop}
+                </table>
+                <div class="order-ext-wrap">
+                    <div class="order-ext">
+                        <div class="shop-total">
+                            <p>运费: <span class="total-fee">{amount:$order[shipping_fee]}</p>
+                            <p>店铺合计: <span class="total-fee">{amount:$simple_fee}</span></p>
+                        </div>
+                        <div class="ext-name">给掌柜留言:</div>
+                        <div class="ext-info"><textarea name="remark_list[{$shop_id}]" class="textarea remark" placeholder="选填:对本次交易的说明"></textarea></div>
+                    </div>
+                </div>
+            </div>
+            {/loop}
+            <div class="order-ext-wrap">
+                <div class="order-ext">
+                    <div class="shop-total">合计: <span class="total-fee" id="total-fee">{amount:$total_fee}</span></div>
+                    <div class="ext-name">运送方式:</div>
+                    <div class="ext-info">
+                        <label><input type="radio" class="radio shipping_type" name="shipping_type" value="1"{if $shipping_type==1||$shipping_type==0} checked{/if}> 快递</label>
+                        <label><input type="radio" class="radio shipping_type" name="shipping_type" value="2"{if $shipping_type==2} checked{/if}> 物流配送</label>
+                        <label><input type="radio" class="radio shipping_type" name="shipping_type" value="3"{if $shipping_type==3} checked{/if}> 上门自取</label>
+                    </div>
+                </div>
+                <div class="order-ext">
+                    <div class="ext-name">付款方式:</div>
+                    <div class="ext-info">
+                        <label><input type="radio" class="radio pay_type" name="pay_type" value="1"{if $pay_type==1||$pay_type==0} checked{/if}> 在线支付</label>
+                        <label><input type="radio" class="radio pay_type" name="pay_type" value="2"{if $pay_type==2} checked{/if}> 货到付款</label>
+                    </div>
+                </div>
+            </div>
+            <div class="submit-order">
+                <span class="btn" id="submit-order-btn">提交订单</span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="height: 80px; clear: both; display: block;"></div>
+<script type="text/template" id="addressItemTPL">
+    <li>
+        <a class="edit-address" data-id="{address[address_id]}">修改本地址</a>
+        <input title="" type="radio" class="radio" name="address_id" value="{address[address_id]}"{address[checked]}>
+        <span>{address[province]} {address[city]} {address[county]} {address[street]}  ({address[consignee]} 收) {address[phone]}</span>
+    </li>
+</script>
+<script type="text/javascript">
+    var dlg;
+    function afterSaveAddress(data) {
+        dlg.close();
+        loadAddress();
+    }
+    function loadAddress() {
+        $.ajax({
+            url:"{U:('m=member&c=address&a=batchget')}",
+            dataType:'json',
+            success:function (response) {
+                if (response.errcode == 0){
+                    var li = '';
+                    $(response.data).each(function (i, data) {
+                        li += $("#addressItemTPL").html().replace(/\{address\[(.*?)\]\}/g, function(s, k){
+                            data.checked = data.isdefault == 1 ? ' checked' : '';
+                            if(typeof data[k] !== 'undefined'){
+                                return data[k];
+                            }else  {
+                                return '';
+                            }
+                        });
+                    });
+                    $("#address-list").html(li);
+                    $(".edit-address").off('click').on('click', function (e) {
+                        var address_id = $(this).attr('data-id');
+                        dlg = DSXUI.dialog({
+                            title:'添加收货地址',
+                            iframe:"{U:('m=member&c=address&a=frame')}&address_id="+address_id,
+                            width:'700px',
+                            height:'320px',
+                            hideFooter:true
+                        });
+                    });
+                }
+            }
+        });
+    }
+    $(function () {
+        loadAddress();
+        $("#add-address").on('click', function () {
+            dlg = DSXUI.dialog({
+                title:'添加收货地址',
+                iframe:"{U:('m=member&c=address&a=frame')}",
+                width:'700px',
+                height:'320px',
+                hideFooter:true
+            });
+        });
+
+        $("#submit-order-btn").on('click', function () {
+            var shipping_type = $("input.shipping_type:checked").val();
+            var pay_type = $("input.pay_type:checked").val();
+            var address_id = $("#address-list").find('[name=address_id]:checked').val();
+            if (!address_id) {
+                DSXUI.error('请选择收货地址');
+                return false;
+            }else {
+                $("#J_address_id").val(address_id);
+                $("#J_shipping_type").val(shipping_type);
+                $("#J_pay_type").val(pay_type);
+                $("#J_Frmorder").submit();
+            }
+        });
+    });
+</script>
+{template footer}

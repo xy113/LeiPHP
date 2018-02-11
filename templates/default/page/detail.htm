@@ -1,0 +1,24 @@
+{template header_common}
+<div class="area">
+    <div class="page-detail">
+        <div class="sidebar">
+            {loop $catgoryList $cat}
+            <h3>{$cat[title]}</h3>
+            <ul>
+                {loop $pageList[$cat[pageid]] $item}
+                <li><a href="{U:('m=page&c=detail&pageid='.$item[pageid])}">{$item[title]}</a></li>
+                {/loop}
+            </ul>
+            {/loop}
+        </div>
+
+        <div class="main-frame">
+            <div class="frame-content">
+                <h2 class="title">{$pageData[title]}</h2>
+                <div class="content">{$pageData[body]}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>$(".area,.nav").width(960);</script>
+{template footer_common}
