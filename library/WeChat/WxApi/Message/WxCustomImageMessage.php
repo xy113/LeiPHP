@@ -3,27 +3,27 @@
  * Created by PhpStorm.
  * User: songdewei
  * Date: 2017/10/11
- * Time: 下午2:57
+ * Time: 下午2:40
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxCustomMpnewsMessageBuilder extends WxCustomMessageBuilder
+class WxCustomImageMessage extends WxCustomMessage
 {
-    protected $msgtype = 'mpnews';
+    protected $msgtype = 'image';
 
     /**
      * @param $value
      */
-    public function setMedia_id($value){
+    public function setMediaId($value){
         $this->params['media_id'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getMedia_id(){
+    public function getMediaId(){
         return $this->params['media_id'];
     }
 }

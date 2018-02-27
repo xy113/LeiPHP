@@ -6,10 +6,10 @@
  * Time: 下午2:53
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxCustomNewsMessageBuilder extends WxCustomMessageBuilder
+class WxCustomNewsMessage extends WxCustomMessage
 {
     protected $msgtype = 'news';
 

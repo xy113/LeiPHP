@@ -6,10 +6,10 @@
  * Time: 下午12:24
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxTemplateMessageBuilder
+class WxTemplateMessage
 {
     public $touser;//接收者openid
     public $template_id;//模板ID

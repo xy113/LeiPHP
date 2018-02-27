@@ -6,10 +6,10 @@
  * Time: 下午2:16
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxCustomTextMessageBuilder extends WxCustomMessageBuilder
+class WxCustomTextMessage extends WxCustomMessage
 {
     protected $msgtype = 'text';
     /**

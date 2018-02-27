@@ -6,11 +6,12 @@
  * Time: 下午3:38
  */
 
-namespace WxApi;
+namespace WeChat\WxApi;
 
 
 class WxJsApi
 {
+
     /**
      * 获取openID
      * @return mixed
@@ -34,7 +35,7 @@ class WxJsApi
     /**
      * 拼接签名字符串
      * @param array $urlObj
-     * @return 返回已经拼接好的字符串
+     * @return string 返回已经拼接好的字符串
      */
     private function toUrlParams($urlObj)
     {
@@ -53,7 +54,7 @@ class WxJsApi
     /**
      * 构造获取code的url连接
      * @param string $redirectUrl 微信服务器回跳的url，需要url编码
-     * @return 返回构造好的url
+     * @return string 返回构造好的url
      */
     private function __CreateOauthUrlForCode($redirectUrl)
     {
@@ -69,7 +70,7 @@ class WxJsApi
     /**
      * 构造获取open和access_toke的url地址
      * @param $code
-     * @return 请求的url
+     * @return string 请求的url
      */
     private function __CreateOauthUrlForOpenid($code)
     {

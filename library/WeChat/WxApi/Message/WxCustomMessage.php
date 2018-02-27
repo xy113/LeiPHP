@@ -6,10 +6,10 @@
  * Time: 下午3:32
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxCustomMessageBuilder
+class WxCustomMessage
 {
     protected $touser;
     protected $msgtype;
@@ -67,14 +67,14 @@ class WxCustomMessageBuilder
     /**
      * @param $value
      */
-    public function setKf_account($value){
+    public function setKfAccount($value){
         $this->customservice['kf_account'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getKf_account(){
+    public function getKfAccount(){
         return $this->customservice['kf_account'];
     }
 

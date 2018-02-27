@@ -6,38 +6,38 @@
  * Time: 下午2:43
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxCustomVideoMessageBuilder extends WxCustomMessageBuilder
+class WxCustomVideoMessage extends WxCustomMessage
 {
     protected $msgtype = 'video';
 
     /**
      * @param $value
      */
-    public function setMedia_id($value){
+    public function setMediaId($value){
         $this->params['media_id'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getMedia_id(){
+    public function getMediaId(){
         return $this->params['media_id'];
     }
 
     /**
      * @param $value
      */
-    public function setThumb_media_id($value){
+    public function setThumbMediaId($value){
         $this->params['thumb_media_id'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getThumb_media_id(){
+    public function getThumbMediaId(){
         return $this->params['thumb_media_id'];
     }
 

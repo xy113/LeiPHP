@@ -6,10 +6,10 @@
  * Time: 下午3:23
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Content;
 
 
-class WxMenuBuilder
+class WxMenuContent
 {
 
 }

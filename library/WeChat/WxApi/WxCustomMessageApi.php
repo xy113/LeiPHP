@@ -6,7 +6,7 @@
  * Time: 下午3:29
  */
 
-namespace WxApi;
+namespace WeChat\WxApi;
 
 
 use Core\Http;

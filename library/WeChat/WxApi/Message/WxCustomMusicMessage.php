@@ -6,24 +6,24 @@
  * Time: 下午2:48
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 
-class WxCustomMusicMessageBuilder extends WxCustomMessageBuilder
+class WxCustomMusicMessage extends WxCustomMessage
 {
     protected $msgtype = 'music';
 
     /**
      * @param $value
      */
-    public function setThumb_media_id($value){
+    public function setThumbMediaId($value){
         $this->params['thumb_media_id'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getThumb_media_id(){
+    public function getThumbMediaId(){
         return $this->params['thumb_media_id'];
     }
 

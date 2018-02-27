@@ -6,24 +6,24 @@
  * Time: 下午2:59
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 //发送微信卡券
-class WxCustomWxcardMessageBuilder extends WxCustomMessageBuilder
+class WxCustomWxcardMessage extends WxCustomMessage
 {
     protected $msgtype = 'wxcard';
 
     /**
      * @param $value
      */
-    public function setCard_id($value){
+    public function setCardId($value){
         $this->params['card_id'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getCard_id(){
+    public function getCardId(){
         return $this->params['card_id'];
     }
 }

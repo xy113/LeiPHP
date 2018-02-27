@@ -6,10 +6,11 @@
  * Time: 下午3:02
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Message;
 
 //发送小程序
-class WxCustomMiniprogrampageMessageBuilder extends WxCustomMessageBuilder
+
+class WxCustomMiniprogrampageMessage extends WxCustomMessage
 {
     protected $msgtype = 'miniprogrampage';
 
@@ -58,14 +59,14 @@ class WxCustomMiniprogrampageMessageBuilder extends WxCustomMessageBuilder
     /**
      * @param $value
      */
-    public function setThumb_media_id($value){
+    public function setThumbMediaId($value){
         $this->params['thumb_media_id'] = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getThumb_media_id(){
+    public function getThumbMediaId(){
         return $this->params['thumb_media_id'];
     }
 }

@@ -6,10 +6,10 @@
  * Time: 上午9:34
  */
 
-namespace WxApi\Builder;
+namespace WeChat\WxApi\Content;
 
 
-class WxMaterialUploadContentBuilder
+class WxMaterialUploadContent
 {
     public $media;
 
