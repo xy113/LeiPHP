@@ -10,7 +10,7 @@ namespace WeChat\WxApi;
 
 
 use Core\Http;
-use WxApi\Builder\WxTemplateMessageBuilder;
+use WeChat\WxApi\Message\WxTemplateMessage;
 
 class WxTemplateMessageApi extends WxApi
 {
@@ -49,16 +49,16 @@ class WxTemplateMessageApi extends WxApi
 
     /**
      * 发送模板消息
-     * @param WxTemplateMessageBuilder $message
+     * @param WxTemplateMessage $message
      * @return string
      * @throws \Exception
      * 返回示例{
-        "errcode":0,
-        "errmsg":"ok",
-        "msgid":200228332
-        }
+     *"errcode":0,
+     *"errmsg":"ok",
+     *"msgid":200228332
+     *}
      */
-    public function sendMessage(WxTemplateMessageBuilder $message){
+    public function sendMessage(WxTemplateMessage $message){
         if (!$message->touser) {
             throw new \Exception('Empty touser value');
         }

@@ -10,17 +10,17 @@ namespace WeChat\WxApi;
 
 
 use Core\Http;
-use WxApi\Builder\WxCustomMessageBuilder;
+use WeChat\WxApi\Message\WxCustomMessage;
 
 class WxCustomMessageApi extends WxApi
 {
     /**
      * 发送模板消息
-     * @param WxCustomMessageBuilder $message
+     * @param WxCustomMessage $message
      * @return mixed
      * @throws \Exception
      */
-    public function sendMessage(WxCustomMessageBuilder $message){
+    public function sendMessage(WxCustomMessage $message){
         if (!$message->getTouser()){
             throw new \Exception('Empty touser value');
         }
