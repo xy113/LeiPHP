@@ -60,15 +60,15 @@ class WxTemplateMessageApi extends WxApi
      */
     public function sendMessage(WxTemplateMessage $message){
         if (!$message->touser) {
-            throw new \Exception('Empty touser value');
+            throw new \Exception('Empty touser value', 1);
         }
 
         if (!$message->template_id) {
-            throw new \Exception('Empty template_id value');
+            throw new \Exception('Empty template_id value', 2);
         }
 
         if (!$message->data) {
-            throw new \Exception('Empty data value');
+            throw new \Exception('Empty data value', 3);
         }
 
         $res = Http::curlPost("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$this->getAccessToken(), $message->getMsgContent());

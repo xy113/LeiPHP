@@ -1,14 +1,10 @@
 @import "common.css";
 .side-bar{width: 160px; height: 480px; float: left; border-right: 1px #DDD solid;}
 .main-frame{overflow: hidden;}
-.main-frame .title{padding-bottom: 15px; font-size: 14px; border-bottom: 1px #e8e8e8 solid; position: relative;}
+.main-frame .title{padding-bottom: 10px; font-size: 14px; border-bottom: 1px #e8e8e8 solid; position: relative;}
 .main-frame .title .upload-button{
     position: relative; border-radius: 5px;
     float: right; margin: 0;
-}
-.main-frame .title .upload-button .file{
-    position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-    border-radius: 5px; opacity: 0; cursor: pointer;
 }
 .main-frame .content{display: block; height: 440px; overflow: hidden; position: relative;}
 .main-frame .image-list{display: block; height: 400px; overflow: auto; padding: 10px 0; margin-right: -25px; position: relative;}

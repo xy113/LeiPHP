@@ -21,15 +21,15 @@ class WxVideoUploadContent
      */
     public function getContent(){
         if (!$this->media) {
-            throw new \Exception('Empty media value');
+            throw new \Exception('Empty media value', 1);
         }
 
         if (!$this->title){
-            throw new \Exception('Empty title value');
+            throw new \Exception('Empty title value', 2);
         }
 
         if (!$this->introduction){
-            throw new \Exception('Empty introduction value');
+            throw new \Exception('Empty introduction value', 3);
         }
 
         if (version_compare(PHP_VERSION,'5.5.0','<')){

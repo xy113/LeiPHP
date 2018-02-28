@@ -6,7 +6,7 @@ class Upload{
     public $maxsize = 0;
     public $errCode = 0;
     private $file;
-    
+
     public function __construct($inputname = 'filedata'){
         $this->file = &$_FILES[$inputname];
     }
@@ -21,7 +21,7 @@ class Upload{
     	if (!$saveName) $saveName = $this->setfilename();
     	$filepath = $this->savepath.$saveName;
         @mkdir(dirname($filepath),0777,true);
-        
+
         $fileext = $this->getfileextension();
         if (!in_array($fileext, $this->allowtypes)){
         	$this->errCode = 1;
@@ -47,7 +47,7 @@ class Upload{
         	);
         }
     }
-    
+
     /**
      * 设置文件名
      */
@@ -63,7 +63,7 @@ class Upload{
     	$file = $this->file['name'];
     	return strtolower(str_replace(".", "", substr($file, strrpos( $file,'.'))));
     }
-    
+
     protected function oriname(){
     	return $this->file['name'];
     }

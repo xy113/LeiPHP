@@ -40,7 +40,9 @@ abstract class Controller{
         }
         $this->var['inajax'] = &$this->inAjax;
 
-        $this->var['settings']     = Settings::getInstance()->getCache();
+        global $_settings;
+        $_settings = Settings::getInstance()->getCache();
+        $this->var['settings']     = $_settings;
         $this->var['title']        = $this->var['settings']['sitename'];
         $this->var['keywords']     = $this->var['settings']['keywords'];
         $this->var['description']  = $this->var['settings']['description'];

@@ -62,7 +62,7 @@ function L($name=null, $value=''){
  * 增加配置
  * @param string $name
  * @param string $value
- * @return bool|string
+ * @return bool|string|array
  */
 function C($name=null, $value=''){
 	global $_config;
