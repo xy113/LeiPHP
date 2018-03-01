@@ -21,13 +21,13 @@
     <div class="content">
         <div class="image-list">
             <ul>
-                {loop $imagelist $img}
+                {foreach $imagelist $img}
                 <li>
                     <div class="con" rel="item" data-id="{$img[id]}" data-image="{$img[path]}" data-thumb="{$img[thumb]}" data-image-url="{img $img[path]}" data-thumb-url="{img $img[thumb]}">
                         <div class="img bg-cover" style="background-image: url({img $img[thumb]})"></div>
                     </div>
                 </li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
         <div class="action-bar">

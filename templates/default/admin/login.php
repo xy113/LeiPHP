@@ -28,8 +28,8 @@ a:hover{color:#FF0000; text-decoration:underline;}
         {__formhash__}
 	<h1 class="title">粗耕后台管理中心</h1>
     <div class="err" id="err"></div>
-    <div class="item"><input type="text" name="account_{FORMHASH}" class="input-text" value="{$_G[username]}" placeholder="用户名/手机号/邮箱"></div>
-    <div class="item"><input type="password" name="password_{FORMHASH}" class="input-text" placeholder="密码"></div>
+    <div class="item"><input type="text" name="account_{{FORMHASH}}" class="input-text" value="{$_G[username]}" placeholder="用户名/手机号/邮箱"></div>
+    <div class="item"><input type="password" name="password_{{FORMHASH}}" class="input-text" placeholder="密码"></div>
     <div class="item"><div class="button" tabindex="1" id="button-login">登录</div></div>
     </form>
 </div>
@@ -37,7 +37,7 @@ a:hover{color:#FF0000; text-decoration:underline;}
 (function(){
 	var form = $("#Form");
 	function submitLogin(){
-		var password = form.find("input[name=password_{FORMHASH}]").val();
+		var password = form.find("input[name=password_{{FORMHASH}}]").val();
 		if(DSXValidate.IsPassword(password)){
 			form.ajaxSubmit({
 				dataType:'json',
@@ -45,12 +45,12 @@ a:hover{color:#FF0000; text-decoration:underline;}
 					if(json.errcode === 0){
 						DSXUtil.reFresh();
 					}else{
-						$("#err").text("{lang 'password incorrect'}").show();
+						$("#err").text("{{lang('password incorrect')}}").show();
 					}
 				}
 			});
 		}else {
-			$("#err").text("{lang 'password incorrect'}").show();
+			$("#err").text("{{lang('password incorrect')}}").show();
 		}
 	}
 	form.find("input").blur(function(e) {

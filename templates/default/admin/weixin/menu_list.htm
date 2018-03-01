@@ -22,7 +22,7 @@
             </thead>
         </table>
         <div id="menu-item-list">
-            {loop $menulist[0] $id $menu}
+            {foreach $menulist[0] $id $menu}
             <div class="menu-item">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable border-none">
                     <tbody>
@@ -39,7 +39,7 @@
                     </tbody>
                 </table>
                 <div class="menu-sub-list">
-                    {loop $menulist[$id] $id2 $menu2}
+                    {foreach $menulist[$id] $id2 $menu2}
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable sub-item border-none">
                         <tbody>
                         <tr>
@@ -54,10 +54,10 @@
                         </tr>
                         </tbody>
                     </table>
-                    {/loop}
+                    {/foreach}
                 </div>
             </div>
-            {/loop}
+            {/foreach}
         </div>
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable border-none">
             <tfoot>

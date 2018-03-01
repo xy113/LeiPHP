@@ -50,9 +50,9 @@
 
 <div class="tabs-container">
     <div class="tabs">
-        {loop $_lang[material_types] $k $v}
-        <div class="tab{if $type==$k} on{/if}"><a href="{URL:('/admin/material/itemlist','type='.$k)}">{$v}</a><span>|</span></div>
-        {/loop}
+        @foreach($_lang['material_types'] as $k=>$v)
+        <div class="tab@if($type==$k) on@endif"><a href="{URL:('/admin/material/itemlist','type='.$k)}">{$v}</a><span>|</span></div>
+        @endforeach
     </div>
 </div>
 <div class="content-div">
@@ -70,7 +70,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            @foreach($itemlist as $item)
             <tr>
                 <td class="center"><input type="checkbox" title="" class="checkbox checkmark itemCheckBox" name="materials[]" value="{$item[id]}"></td>
                 <td>
@@ -91,7 +91,7 @@
                 <td>{echo formatSize($item[size])}</td>
                 <td>{date:$item[create_at]|'Y-m-d H:i:s'}</td>
             </tr>
-            {/loop}
+            @endforeach
             </tbody>
             <tfoot>
             <tr>

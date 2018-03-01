@@ -2,11 +2,11 @@
 <div class="swiper-div">
     <div class="swiper" id="swiper">
         <ul class="swiper-wrapper">
-            {loop $slide_list $sd}
+            {foreach $slide_list $sd}
             <li class="swiper-slide">
                 <span href="{$sd[url]}" class="bg bg-cover asyncload" data-original="{img $sd[image]}" style="background-image: none;"></span>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
         <div class="swiper-pagination"></div>
     </div>
@@ -14,7 +14,7 @@
 <script type="text/javascript">
     (function(){
         var swiper = new Swiper('#swiper',
-            {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+            {foreach:true,pagination:'.swiper-pagination',autoplay:2500});
     })();
 </script>
 
@@ -28,11 +28,11 @@
 
     <div class="brand">
         <ul>
-            {loop $brand_list $brand}
+            {foreach $brand_list $brand}
             <li handler="openURL" data-url="{$brand[url]}">
                 <div class="bg bg-cover lazyload" data-original="{img $brand[image]}"></div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
     </div>
 

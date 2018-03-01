@@ -1,7 +1,7 @@
 {template header}
 <div class="notice-list">
     <ul>
-        {loop $itemlist $item}
+        {foreach $itemlist $item}
         <li handler="viewNotice" data-id="{$item[id]}">
             <img src="{echo avatar($item[uid])}" class="img">
             <div class="con">
@@ -10,7 +10,7 @@
                 <span class="time">{date:$item[dateline]|'y/m/d'}</span>
             </div>
         </li>
-        {/loop}
+        {/foreach}
     </ul>
 </div>
 <script type="text/javascript">

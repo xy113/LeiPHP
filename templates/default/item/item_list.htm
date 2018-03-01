@@ -30,7 +30,7 @@
         </div>
         <div class="item-list-wrap">
             <ul class="item-list">
-                {loop $itemlist $id $item}
+                {foreach $itemlist $id $item}
                 <li>
                     <div class="item-img bg-cover asyncload" data-original="{img $item[thumb]}">
                         <a href="{$item[url]}" target="_blank" title="{$item[name]}"></a>
@@ -50,7 +50,7 @@
                         <p><a>{$item[reviews_num]}条评论</a></p>
                     </div>
                 </li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
 
@@ -61,7 +61,7 @@
         <div class="inner">
             <h3 class="hot-sale-title">掌柜热卖</h3>
             <ul class="hot-item-list">
-                {loop $hot_sale_list $item}
+                {foreach $hot_sale_list $item}
                 <li>
                     <div class="g-pic bg-cover asyncload" data-original="{img $item[thumb]}">
                         <div class="g-name"><p>{$item[title]}</p></div>
@@ -72,7 +72,7 @@
                         <strong class="price"><span>¥</span>{amount:$item[price]}</strong>
                     </div>
                 </li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
     </div>

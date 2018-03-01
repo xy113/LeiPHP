@@ -9,9 +9,9 @@
 <div class="tabs-container">
     <div class="tabs">
         <div class="tab{if !$catid} on{/if}"><a href="{URL:('/admin/pages')}">全部</a><span>|</span></div>
-        {loop $categorylist $clist}
+        {foreach $categorylist $clist}
         <div class="tab{if $catid==$clist[pageid]} on{/if}"><a href="{URL:('/admin/pages','catid='.$clist[pageid])}">{$clist[title]}</a><span>|</span></div>
-        {/loop}
+        {/foreach}
     </div>
 </div>
 
@@ -31,7 +31,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $pagelist $item}
+            {foreach $pagelist $item}
             {eval $pageid=$item[pageid]}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="delete[]" value="{$pageid}"></td>
@@ -42,7 +42,7 @@
                 <td>{echo @date('Y-m-d H:i',$item[update_at])}</td>
                 <td><a href="{URL:('/admin/pages/edit','pageid='.$pageid)}">编辑</a></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

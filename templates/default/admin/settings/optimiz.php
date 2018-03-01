@@ -3,7 +3,7 @@
     <h2>系统设置->优化配置</h2>
 </div>
 <div class="content-div">
-    <form method="post" id="settingForm" action="{URL:('/admin/settings/save')}">
+    <form method="post" id="settingForm" action="{{url('/admin/settings/save')}}">
         {__formhash__}
         <table width="100%" cellspacing="0" cellpadding="0" border="0" class="formtable">
             <tbody>

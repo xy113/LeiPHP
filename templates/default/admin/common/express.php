@@ -15,14 +15,14 @@
             </tr>
             </thead>
             <tbody id="express_list">
-            {loop $express_list $list}
+            {foreach $express_list $list}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark" name="delete[]" value="{$list[id]}"></td>
                 <td><input title="" type="text" class="input-text" name="express_list[{$list[id]}][name]" value="{$list[name]}"></td>
                 <td><input title="" type="text" class="input-text w100" name="express_list[{$list[id]}][code]" value="{$list[code]}"></td>
                 <td><input title="" type="text" class="input-text w300" name="express_list[{$list[id]}][regular]" value="{$list[regular]}"></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

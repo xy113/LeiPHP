@@ -17,14 +17,14 @@
             </tr>
             </thead>
             <tbody id="mainbody">
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr>
                 <td><input type="checkbox" class="checkbox checkmark" name="ids[]" value="{$item[block_id]}"></td>
                 <td>{$item[block_id]}</td>
                 <td><a rel="edit" data-id="{$item[block_id]}">{$item[block_name]}</a></td>
                 <td>{$item[block_desc]}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

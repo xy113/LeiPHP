@@ -2,14 +2,14 @@
 <div class="area">
     <div class="page-detail">
         <div class="sidebar">
-            {loop $catgoryList $cat}
+            {foreach $catgoryList $cat}
             <h3>{$cat[title]}</h3>
             <ul>
-                {loop $pageList[$cat[pageid]] $item}
+                {foreach $pageList[$cat[pageid]] $item}
                 <li><a href="{U:('m=page&c=detail&pageid='.$item[pageid])}">{$item[title]}</a></li>
-                {/loop}
+                {/foreach}
             </ul>
-            {/loop}
+            {/foreach}
         </div>
 
         <div class="main-frame">

@@ -19,8 +19,6 @@ class IndexController extends Controller
      *
      */
     public function index(){
-        $member = new Member(array('uid'=>10000,'username'=>'name'));
-        echo $member->uid;
-        echo $member->username;
+        include view('index');
     }
 }

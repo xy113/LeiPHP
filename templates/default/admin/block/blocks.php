@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $blocklist $block}
+            {foreach $blocklist $block}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="blocks[]" value="{$block[block_id]}"></td>
                 <td>{$block[block_id]}</td>
@@ -25,7 +25,7 @@
                 <td>{$block[block_desc]}</td>
                 <td><a href="{URL:('/admin/block/itemlist', array('block_id'=>$block[block_id]))}">内容管理</a></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

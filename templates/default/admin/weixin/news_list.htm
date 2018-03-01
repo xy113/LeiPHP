@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="materials[]" value="{$item[media_id]}"></td>
                 <td><div class="bg-cover lazyload" data-original="{U:('c=wxmaterial&a=viewimage&media_id='.$item[thumb_media_id])}" style="width: 50px; height: 50px;"></div></td>
@@ -27,7 +27,7 @@
                 <td>{$item[item_count]}</td>
                 <td>{echo @date('Y-m-d H:i:s', $item[update_time])}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

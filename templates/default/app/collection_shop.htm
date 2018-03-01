@@ -2,7 +2,7 @@
 <div class="shop">
     <div class="shop-horizontal-list">
         <ul id="item-list-ul">
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <li>
                 <div class="bd">
                     <div class="pic bg-cover lazyload" id="item_{$item[dataid]}" data-original="{img $item[image]}" handler="viewShop" data-id="{$item[dataid]}"></div>
@@ -11,7 +11,7 @@
                     </div>
                 </div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
     </div>
 </div>

@@ -1,7 +1,7 @@
 {template header}
 <div class="cart">
     <div class="cart-list">
-        {loop $cart_item_list $shop_id $shop}
+        {foreach $cart_item_list $shop_id $shop}
         <div class="cart-item">
             <div class="console-bar">
                 <!--<span class="edit">编辑</span>-->
@@ -9,7 +9,7 @@
                 <div class="shop-name">{$shop[shop_name]}</div>
             </div>
 
-            {loop $shop[items] $itemid $item}
+            {foreach $shop[items] $itemid $item}
             <div class="item-box">
                 <div class="item-div">
                     <label class="iconfont icon-round itemLabel group-{$shop_id}">
@@ -34,9 +34,9 @@
                     </div>
                 </div>
             </div>
-            {/loop}
+            {/foreach}
         </div>
-        {/loop}
+        {/foreach}
     </div>
 </div>
 <script type="text/javascript">

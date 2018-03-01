@@ -77,14 +77,14 @@
             </tr>
             </thead>
             <tbody id="members">
-            {loop $memberlist $uid $member}
+            {foreach $memberlist $uid $member}
             {eval $uid=$member[uid]}
             {eval $status_name=$_lang[member_status][$member[status]]}
             {eval $isfounder=in_array($uid, C('FOUNDERS'));}
             {eval $grouptitle=$grouplist[$member[gid]][title]}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark"{if $isfounder} disabled="disabled"{else} name="members[]" value="{$uid}"{/if} /></td>
-                <td><img src="{avatar:$uid|small}" width="30" height="30" style="border-radius:100%;"></td>
+                <td><img src="{{avatar($uid,'small')}}" width="30" height="30" style="border-radius:100%;"></td>
                 <th><a>{$member[username]}</a></th>
                 <td>{$member[mobile]}</td>
                 <td>{$member[email]}</td>
@@ -93,7 +93,7 @@
                 <td><a href="http://ip.taobao.com/?ip={$member[lastvisitip]}" target="_blank">{date:$member[lastvisit]|'Y-m-d H:i:s'}</a></td>
                 <td>{$status_name}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

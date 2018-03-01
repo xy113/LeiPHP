@@ -16,7 +16,7 @@
                 <span class="shop-name">{$shop[shop_name]}</span>
             </div>
             {eval $item_count=0}
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             {eval $item_count+=$item[quantity]}
             <div class="order-item">
                 <div class="pic bg-cover cell" style="background-image: url({img $item[thumb]})"></div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            {/loop}
+            {/foreach}
             <div class="simple">
                 共{$item_count}件商品 合计:<strong>￥{amount:$order[total_fee]}</strong>(含运费:<strong>￥{amount:$order[shipping_fee]}</strong>)
             </div>

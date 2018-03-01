@@ -34,18 +34,18 @@
         <div class="about-content">
             <div class="content-title">最新发布</div>
             <ul>
-                {loop $postlist[1] $list}
+                {foreach $postlist[1] $list}
                 <li><span>{echo date('Y-m-d H:i',$list[pubtime])}</span><a href="{$list[url]}" target="_blank">{$list[title]}</a></li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
         <div class="blank"></div>
         <div class="about-content">
             <div class="content-title">待审文章</div>
             <ul>
-                {loop $postlist[2] $list}
+                {foreach $postlist[2] $list}
                 <li><span>{echo date('Y-m-d H:i',$list[pubtime])}</span><a href="{$list[url]}" target="_blank">{$list[title]}</a></li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
     </div>

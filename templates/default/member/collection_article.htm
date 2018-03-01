@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        {loop $itemlist $item}
+        {foreach $itemlist $item}
         <tr id="favorite-item-{$item[id]}">
             <td><div class="pic"><a href="{U:('m=post&c=detail&id='.$item['dataid'])}" target="_blank"><img src="{img $item[image]}"></a></div></td>
             <td>
@@ -36,7 +36,7 @@
             <td>{date:$item[create_time]|'Y-m-d H:i:s'}</td>
             <td class="align-right"><a rel="a-delete" data-id="{$item[id]}">取消收藏</a></td>
         </tr>
-        {/loop}
+        {/foreach}
         </tbody>
     </table>
 </div>

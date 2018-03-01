@@ -26,15 +26,15 @@
                 <td>移入分类</td>
                 <td>
                     <select name="moveto" id="moveto" class="w300" title="" size="10" style="height: 200px;">
-                        {loop $catloglist[0] $catid1 $cat1}
+                        {foreach $catloglist[0] $catid1 $cat1}
                         <option value="{$catid1}"{if $catid==$catid1} disabled{/if}>{$cat1[name]}</option>
-                            {loop $catloglist[$catid1] $catid2 $cat2}
+                            {foreach $catloglist[$catid1] $catid2 $cat2}
                             <option value="{$catid2}"{if $catid==$catid2} disabled{/if}>|--{$cat2[name]}</option>
-                                {loop $catloglist[$catid2] $catid3 $cat3}
+                                {foreach $catloglist[$catid2] $catid3 $cat3}
                                 <option value="{$catid3}" {if $catid==$catid3} disabled{/if}>|--|--{$cat3[name]}</option>
-                                {/loop}
-                            {/loop}
-                        {/loop}
+                                {/foreach}
+                            {/foreach}
+                        {/foreach}
                     </select>
                 </td>
                 <td class="tips">删除后将分类下的文章移动到此分类</td>

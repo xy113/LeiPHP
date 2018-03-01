@@ -69,7 +69,7 @@
         </tr>
         </thead>
         <tbody>
-        {loop $itemlist $item}
+        {foreach $itemlist $item}
         <tr id="item-{$item[address_id]}" class="addrRow">
             <th height="50">{$item[consignee]}</th>
             <td>{$item[phone]}</td>
@@ -87,7 +87,7 @@
                 {/if}
             </td>
         </tr>
-        {/loop}
+        {/foreach}
         </tbody>
     </table>
 </div>

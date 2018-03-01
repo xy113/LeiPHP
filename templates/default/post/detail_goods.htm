@@ -5,9 +5,9 @@
     	<div class="goods-image"><img src="$post[image]"></div>
         <div class="goods-attr">
         	<h3>$post[title]</h3>
-            {loop $post[postdata][goodsattr] $attr}
+            {foreach $post[postdata][goodsattr] $attr}
             <div class="item"><div class="name">$attr[name]</div><div class="value">$attr[value]</div></div>
-            {/loop}
+            {/foreach}
         </div>
         <div class="goods-detail-bar">
               <span>浏览:$post[views]</span>
@@ -15,7 +15,7 @@
             {if $allowdelpost}<a href="javascript:;" onclick="deletePost($post[id])">删除</a>{/if}
             {if $alloweditpost}<a href="/?mod=post&act=editpost&id=$post[id]">编辑</a>{/if}
             {if $allowauditpost}
-            <a href="javascript:;" onclick="setPostState($post[id],0)">通过审核</a> 
+            <a href="javascript:;" onclick="setPostState($post[id],0)">通过审核</a>
             <a href="javascript:;" onclick="setPostState($post[id],2)">取消审核</a>
             {/if}
         </div>

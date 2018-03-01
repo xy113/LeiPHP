@@ -4,7 +4,7 @@
 	<div class="post-detail-main">
         <div class="post-content-body">
             <h1 class="post-title-h1">$post[title]</h1>
-            <div class="post-info">        
+            <div class="post-info">
             <span>{$post[pubtime]}</span>
             <span>阅读:{$post[views]}</span>
             <a href="#dsxcomment">评论:($post[comments])</a>
@@ -27,26 +27,26 @@
             <div class="post-attach-down">
                 <h3>下载附件</h3>
                 <div class="urls">
-                     {loop $post[postdata] $attach}
+                     {foreach $post[postdata] $attach}
                      <a href="$attach[attachurl]" target="_blank">$attach[attachname]</a>
-                    {/loop}
+                    {/foreach}
                 </div>
             </div>
-            
+
             {/if}
             {if $post[tags]}
             <div class="post-tags">标签:
-            	  {loop $post[tags] $tag}
+            	  {foreach $post[tags] $tag}
                 <a href="/?mod=post&act=search&tag=$tag">$tag</a>
-                {/loop}
+                {/foreach}
             </div>
             {/if}
             <div class="post-related-div">
-                  <h3 class="post-title-h3">相关文章</h3> 
+                  <h3 class="post-title-h3">相关文章</h3>
                   <ul class="post-list-ul">
-                      {loop $posts[related] $k $pp}
+                      {foreach $posts[related] $k $pp}
                       <li><span>$pp[pubtime]</span><a href="/?mod=post&act=detail&id=$pp[id]">$pp[title]</a></li>
-                      {/loop}
+                      {/foreach}
                   </ul>
             </div>
             <!--评论-->

@@ -18,20 +18,20 @@
             </thead>
             <tbody>
             <tr><th colspan="6">管理组</th></tr>
-            {loop $grouplist['system'] $group}
+            @foreach($grouplist['system'] as $group)
             {eval $gid=$group[gid]}
             <tr>
                 <td><input type="checkbox" class="checkbox" title="" name="delete[]" value="{$gid}" /></td>
                 <td>{$gid}</td>
-                <td><input type="text" title="" class="input-text w100" name="grouplist[{$gid}][title]" value="{$group[title]}" maxlength="10"></td>
+                <td><input type="text" title="" class="input-text w100" name="grouplist[{$gid}][title]" value="{{$group['title']}}" maxlength="10"></td>
                 <td><input type="text" title="" class="input-text w100" name="grouplist[{$gid}][creditslower]" value="{$group[creditslower]}" maxlength="10"></td>
                 <td><input type="text" title="" class="input-text w100" name="grouplist[{$gid}][creditshigher]" value="{$group[creditshigher]}" maxlength="10"></td>
             </tr>
-            {/loop}
+            @endforeach
             </tbody>
             <tbody>
             <tr><th colspan="6">会员组</th></tr>
-            {loop $grouplist['member'] $group}
+            @foreach($grouplist['member'] as $group)
             {eval $gid=$group[gid]}
             <tr>
                 <td><input type="checkbox" class="checkbox" title="" name="delete[]" value="{$gid}" /></td>
@@ -40,7 +40,7 @@
                 <td><input type="text" title="" class="input-text w100" name="grouplist[{$gid}][creditslower]" value="{$group[creditslower]}" maxlength="10"></td>
                 <td><input type="text" title="" class="input-text w100" name="grouplist[{$gid}][creditshigher]" value="{$group[creditshigher]}" maxlength="10"></td>
             </tr>
-            {/loop}
+            @endforeach
             </tbody>
             <tbody id="newgrouplist"></tbody>
             <tfoot>

@@ -11,7 +11,7 @@
     </div>
     <div class="item-list-wrap">
         <ul class="item-list">
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <li>
                 <div class="bd">
                     <div class="g-pic bg-cover asyncload" data-original="{img $item[thumb]}">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
         <div class="blank"></div>
         <div class="pagination">{$pagination}</div>

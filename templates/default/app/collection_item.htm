@@ -2,7 +2,7 @@
 <div class="item">
     <div class="item-vertical-list">
         <ul id="item-list-ul">
-            {loop $collection_list $itemid $item}
+            {foreach $collection_list $itemid $item}
             <li>
                 <div class="list-item" id="item_{$itemid}" handler="viewItem" data-id="{$itemid}">
                     <div class="g-pic bg-cover lazyload" id="pic_{$itemid}" data-original="{$item[thumb]}"></div>
@@ -16,7 +16,7 @@
                     </div>
                 </div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
     </div>
 </div>

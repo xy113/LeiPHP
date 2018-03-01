@@ -27,9 +27,9 @@
     	<tr>
         	<td width="64">性别</td>
             <td>
-            	{loop $lang[sex_items] $k $v}
+            	{foreach $lang[sex_items] $k $v}
             	<input type="radio" value="$k" name="userinfo[usersex]"{if $k==$userinfo[usersex]} checked="checked"{/if}{if $userinfo[locked]} disabled="disabled"{/if}> $v
-            	{/loop}
+            	{/foreach}
             </td>
             <td width="40">生日</td>
             <td><input type="text" class="input-text" name="userinfo[birthday]" onclick="WdatePicker()" value="{$userinfo[birthday]}" readonly></td>
@@ -38,17 +38,17 @@
         	<td>星座</td>
             <td>
             	<select class="input-select" name="userinfo[star]">
-                  {loop $lang[star_items] $k $v}
+                  {foreach $lang[star_items] $k $v}
                 <option value="{$k}"{if $k==$userinfo[star]} selected="selected"{/if}>{$v}</option>
-                {/loop}
+                {/foreach}
             	</select>
             </td>
             <td>血型</td>
             <td>
             	<select class="input-select" name="userinfo[blood]">
-                {loop $lang[blood_items] $k $v}
+                {foreach $lang[blood_items] $k $v}
                 <option value="{$k}"{if $k==$userinfo[blood]} selected="selected"{/if}>{$v}</option>
-                {/loop}
+                {/foreach}
             	</select>
             </td>
         </tr>

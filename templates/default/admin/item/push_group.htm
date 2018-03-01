@@ -15,12 +15,12 @@
             </tr>
             </thead>
             <tbody>
-            {loop $grouplist $group}
+            {foreach $grouplist $group}
             <tr>
                 <td><input type="checkbox" class="checkbox" title="" name="delete[]" value="{$group[groupid]}"></td>
                 <td><input type="text" name="grouplist[{$group[groupid]}][grouptitle]" value="{$group[grouptitle]}" class="input-text" title=""></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tbody id="newGroup"></tbody>
             <tfoot>

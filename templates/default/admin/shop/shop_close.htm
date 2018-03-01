@@ -25,9 +25,9 @@
             <td>
                 <select title="" class="select" name="template_id" id="templateId">
                     <option value="">请选择关闭理由</option>
-                    {loop $notice_template_list $template}
+                    {foreach $notice_template_list $template}
                     <option value="{$template[template_id]}">{$template[template_title]}</option>
-                    {/loop}
+                    {/foreach}
                 </select>
             </td>
         </tr>

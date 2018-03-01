@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $shoplist $shop}
+            {foreach $shoplist $shop}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="shops[]" value="{$shop[shop_id]}"></td>
                 <td>
@@ -51,7 +51,7 @@
                 <td>{date:$shop[create_time]|'Y年m月d日'}</td>
                 <td><a href="{U:('c=shop&a=detail&shop_id='.$shop[shop_id])}" target="_blank">查看</a></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

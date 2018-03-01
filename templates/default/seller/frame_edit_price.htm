@@ -40,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $itemid $item}
+            {foreach $itemlist $itemid $item}
             <tr class="row" data-id="{$itemid}">
                 <td class="align-left">{$item[title]}</td>
                 <td>{amount:$item[price]}<input type="hidden" name="itemlist[{$itemid}][price]" value="{$item[price]}"></td>
@@ -49,7 +49,7 @@
                 <td><input type="text" class="text price" id="shipping_{$itemid}" name="itemlist[{$itemid}][shipping_fee]" value="{$item[shipping_fee]}"></td>
                 <td id="totle_fee_{$itemid}">{amount:$item[total_fee]}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
         </table>
     </form>

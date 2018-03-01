@@ -5,7 +5,7 @@
 <div class="content-div">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="listtable">
         <tbody>
-        	{loop $itemlist $id $item}
+        	{foreach $itemlist $id $item}
         	<tr>
             	<td class="time"><span>{echo @date('Y.m.d', $item[dateline])}</span></td>
                	<td class="name">
@@ -14,7 +14,7 @@
                <td class="amount"><span>{if $item[type]=='INCOME'}+{else}-{/if}{$item[score]}</span></td>
                <td class="status">{$item[recip_uid]}</td>
             </tr>
-            {/loop}
+            {/foreach}
         </tbody>
     </table>
 </div>

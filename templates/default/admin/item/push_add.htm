@@ -8,9 +8,9 @@
             <td>分组</td>
             <td>
                 <select title="" name="groupid" class="select" style="width: 200px;">
-                    {loop $grouplist $group}
+                    {foreach $grouplist $group}
                     <option value="{$group[groupid]}"{if $groupid==$group[groupid]} selected{/if}>{$group[grouptitle]}</option>
-                    {/loop}
+                    {/foreach}
                 </select>
             </td>
         </tr>

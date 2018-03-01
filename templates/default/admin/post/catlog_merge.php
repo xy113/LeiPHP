@@ -16,29 +16,29 @@
             	<tr>
                     <td>
                     	<select name="source[]" size="10" class="select" multiple="multiple" title="" style="height:300px;">
-                            {loop $catloglist[0] $catid1 $cat1}
+                            {foreach $catloglist[0] $catid1 $cat1}
                             <option value="{$catid1}">{$cat1[name]}</option>
-                            {loop $catloglist[$catid1] $catid2 $cat2}
+                            {foreach $catloglist[$catid1] $catid2 $cat2}
                             <option value="{$catid2}">|--{$cat2[name]}</option>
-                            {loop $catloglist[$catid2] $catid3 $cat3}
+                            {foreach $catloglist[$catid2] $catid3 $cat3}
                             <option value="{$catid3}">|--|--{$cat3[name]}</option>
-                            {/loop}
-                            {/loop}
-                            {/loop}
+                            {/foreach}
+                            {/foreach}
+                            {/foreach}
                         </select>
                     </td>
                 	<td class="align-center" style="vertical-align: middle;">>></td>
                     <td>
                     	<select name="target" size="10" class="select" title="" style="width:300px; height:300px;">
-                            {loop $catloglist[0] $catid1 $cat1}
+                            {foreach $catloglist[0] $catid1 $cat1}
                             <option value="{$catid1}">{$cat1[name]}</option>
-                            {loop $catloglist[$catid1] $catid2 $cat2}
+                            {foreach $catloglist[$catid1] $catid2 $cat2}
                             <option value="{$catid2}">|--{$cat2[name]}</option>
-                            {loop $catloglist[$catid2] $catid3 $cat3}
+                            {foreach $catloglist[$catid2] $catid3 $cat3}
                             <option value="{$catid3}">|--|--{$cat3[name]}</option>
-                            {/loop}
-                            {/loop}
-                            {/loop}
+                            {/foreach}
+                            {/foreach}
+                            {/foreach}
                         </select>
                     </td>
                 </tr>

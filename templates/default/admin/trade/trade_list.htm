@@ -106,7 +106,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             {eval $trade_id=$item[trade_id]}
             <tr>
                 <td class="center"><input type="checkbox" class="checkbox checkmark" name="trades[]" value="{$trade_id}"></td>
@@ -123,7 +123,7 @@
                 <td>{echo @date('Y-m-d H:i:s',$item[trade_time])}</td>
                 <td>{$_lang[trade_status][$item[trade_status]]}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

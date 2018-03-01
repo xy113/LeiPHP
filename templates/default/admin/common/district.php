@@ -10,21 +10,21 @@
             <input type="hidden" name="county" value="{$county}" id="J_county">
             <select title="" id="province" class="select" style="width: auto;">
                 <option>--省份--</option>
-                {loop $provincelist $pro}
+                {foreach $provincelist $pro}
                 <option value="{$pro[id]}"{if $pro[id]==$province} selected="selected"{/if}>{$pro[name]}</option>
-                {/loop}
+                {/foreach}
             </select>
             <select title="" id="city" class="select" style="width: auto;">
                 <option value="0">--城市--</option>
-                {loop $citylist $ct}
+                {foreach $citylist $ct}
                 <option value="{$ct[id]}"{if $ct[id]==$city} selected="selected"{/if}>{$ct[name]}</option>
-                {/loop}
+                {/foreach}
             </select>
             <select title="" id="county" class="select" style="width: auto;">
                 <option value="0">--州县--</option>
-                {loop $countylist $cot}
+                {foreach $countylist $cot}
                 <option value="{$cot[id]}"{if $cot[id]==$county} selected="selected"{/if}>{$cot[name]}</option>
-                {/loop}
+                {/foreach}
             </select>
         </form>
     </div>
@@ -47,7 +47,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $districtlist $dst}
+            {foreach $districtlist $dst}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark" name="delete[]" value="{$dst[id]}" /></td>
                 <td><input title="" type="text" class="input-text" name="districtlist[{$dst[id]}][name]" value="{$dst[name]}"></td>
@@ -58,7 +58,7 @@
                 <td><input title="" type="text" class="input-text" name="districtlist[{$dst[id]}][lat]" value="{$dst[lat]}" style="width: 100px;"></td>
                 <td><input title="" type="text" class="input-text" name="districtlist[{$dst[id]}][displayorder]" value="{$dst[displayorder]}" style="width: 60px;"></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tbody id="newDistrict"></tbody>
             <tfoot>
@@ -78,6 +78,7 @@
         </table>
     </form>
 </div>
+
 <script type="text/template" id="tplDistrict">
     <tr>
         <td></td>

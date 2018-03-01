@@ -119,7 +119,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $order_list $order_id $order}
+            {foreach $order_list $order_id $order}
             <tr>
                 <td class="center"><input type="checkbox" class="checkbox checkmark" name="orders[]" value="{$order_id}"></td>
                 <td><img src="{img $order[thumb]}" width="50" height="50"></td>
@@ -136,7 +136,7 @@
                 <td>{$order[order_status]}</td>
                 <td><a href="{U:('c=order&a=detail&order_id='.$order[order_id])}" target="_blank">查看</a></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

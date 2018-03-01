@@ -1,7 +1,7 @@
 {template header}
 <div class="order">
     <div class="order-list">
-        {loop $order_list $order_id $order}
+        {foreach $order_list $order_id $order}
         <section class="list-item">
             <div class="top">
                 <span class="trade-status">
@@ -13,7 +13,7 @@
                 </span>
                 <span class="shop-name">{$order[shop_short_name]}</span>
             </div>
-            {loop $order[items] $itemid $item}
+            {foreach $order[items] $itemid $item}
             <div class="order-item orderAction" data-action="viewdetail" data-id="{$order_id}">
                 <div class="pic bg-cover cell" style="background-image: url({img $item[thumb]})"></div>
                 <div class="info cell">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            {/loop}
+            {/foreach}
             <div class="simple">
                 共{$order[item_count]}件商品 合计:<strong>￥{amount:$order[total_fee]}</strong>(含运费:<strong>￥{amount:$order[shipping_fee]}</strong>)
             </div>
@@ -44,7 +44,7 @@
                 {/if}
             </div>
         </section>
-        {/loop}
+        {/foreach}
     </div>
 </div>
 <div style="clear: both; height: 20px;"></div>

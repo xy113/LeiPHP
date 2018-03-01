@@ -3,12 +3,12 @@
 <div class="wrapper">
 	<div class="sitepath">
     	<a href="/">{lang home}</a> >
-        {loop $sitepath $k $c}
+        {foreach $sitepath $k $c}
         <a href="/?mod=post&act=list&catid=$c[catid]">$c[cname]</a> >
-        {/loop}
+        {/foreach}
         $post[title]
     </div>
-    <div class="active-detail-title">$post[title] 
+    <div class="active-detail-title">$post[title]
     {if $post[postdata][active][start]}
     <span class="activetime">(报名时间:{$post[postdata][active][start]}--{$post[postdata][active][end]})</span>
     {/if}
@@ -30,7 +30,7 @@
         {if $allowdelpost}<a href="javascript:;" onclick="deletePost($post[id])">删除</a>{/if}
         {if $alloweditpost}<a href="/?mod=post&act=editpost&id=$post[id]">编辑</a>{/if}
         {if $allowauditpost}
-        <a href="javascript:;" onclick="setPostState($post[id],0)">通过审核</a> 
+        <a href="javascript:;" onclick="setPostState($post[id],0)">通过审核</a>
         <a href="javascript:;" onclick="setPostState($post[id],2)">取消审核</a>
         {/if}
     </div>

@@ -2,9 +2,9 @@
 <div class="swiper-div" style="padding-top: 50%;">
     <div class="swiper" id="swiper">
         <ul class="swiper-wrapper">
-            {loop $slide_list $sd}
+            {foreach $slide_list $sd}
             <li class="swiper-slide"><span class="bg bg-cover asyncload" handler="openURL" data-url="{$sd[url]}" data-original="{img $sd[image]}"></span></li>
-            {/loop}
+            {/foreach}
         </ul>
         <div class="swiper-pagination"></div>
     </div>
@@ -12,17 +12,17 @@
 <script type="text/javascript">
     (function(){
         var swiper = new Swiper('#swiper',
-            {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+            {foreach:true,pagination:'.swiper-pagination',autoplay:2500});
     })();
 </script>
 <div class="pin-menus">
     <ul>
-        {loop $menulist $menu}
+        {foreach $menulist $menu}
         <li {if $menu[is_url]}handler="openURL" data-url="{$menu[url]}"{else}handler="viewMenu" menu="{$menu[url]}"{/if}>
             <img src="{img $menu[icon]}">
             <div class="t">{$menu[name]}</div>
         </li>
-        {/loop}
+        {/foreach}
     </ul>
 </div>
 <div class="home-toutiao">
@@ -30,9 +30,9 @@
         <div class="tu"></div>
         <div class="news">
             <ul handler="viewMenu" menu="news" id="toutiao">
-                {loop $newPostList $item}
+                {foreach $newPostList $item}
                 <li>{$item[title]}</li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
     </div>
@@ -40,13 +40,13 @@
 <div class="home" style="margin-top: 10px;">
     <div class="grid-4">
         <ul>
-            {loop $ad_list $ad}
+            {foreach $ad_list $ad}
             <li handler="openURL" data-url="{$ad[url]}">
                 <div class="bg bg-cover lazyload" data-original="{img $ad[image]}">
 
                 </div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
     </div>
     <div class="section-title">

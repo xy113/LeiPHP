@@ -21,11 +21,11 @@
                 <tr>
                     <td>
                         <select title="" class="select" size="20" id="catid_1">
-                            {loop $category_list $cat}
+                            {foreach $category_list $cat}
                             {if $cat[fid]==0}
                             <option value="{$cat[catid]}">{$cat[name]}</option>
                             {/if}
-                            {/loop}
+                            {/foreach}
                         </select>
                     </td>
                     <td>

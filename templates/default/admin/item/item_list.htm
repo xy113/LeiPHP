@@ -54,12 +54,12 @@
                 <div class="field">
                     <select title="" class="select" name="catid">
                         <option value="0">全部</option>
-                        {loop $catlogtree[0] $cat1}
+                        {foreach $catlogtree[0] $cat1}
                         <option value="{$cat1[catid]}"{if $cat1[catid]==$catid} selected{/if}>{$cat1[name]}</option>
-                            {loop $catlogtree[$cat1[catid]] $cat2}
+                            {foreach $catlogtree[$cat1[catid]] $cat2}
                             <option value="{$cat2[catid]}"{if $cat2[catid]==$catid} selected{/if}>|--{$cat2[name]}</option>
-                            {/loop}
-                        {/loop}
+                            {/foreach}
+                        {/foreach}
                     </select>
                 </div>
             </div>
@@ -95,7 +95,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             {eval $itemid=$item[itemid]}
             <tr id="row_{$id}">
                 <td><input type="checkbox" class="checkbox checkmark" name="items[]" value="{$itemid}"></td>
@@ -116,7 +116,7 @@
                 </td>
                 <td>{date:$item[create_time]|'Y-m-d H:i:s'}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

@@ -18,9 +18,9 @@
                 <tr>
                     <td class="cell-name" width="80">类目</td>
                     <td>
-                        {loop $catlogPaths $k $catlog}
+                        {foreach $catlogPaths $k $catlog}
                         {if $k>0}>{/if} <span>{$catlog[name]}</span>
-                        {/loop}
+                        {/foreach}
                         <span style="margin-left: 10px;"><a href="{U:('c=item&a=sell&itemid='.$itemid)}" style="color: #0B90EF;">编辑类目</a></span>
                     </td>
                 </tr>

@@ -34,15 +34,15 @@
                 <div class="field">
                     <select name="catid" class="select" title="">
                         <option value="">全部</option>
-                        {loop $catloglist[0] $catid1 $cat1}
+                        {foreach $catloglist[0] $catid1 $cat1}
                         <option value="{$catid1}"{if $catid==$catid1} selected{/if}>{$cat1[name]}</option>
-                        {loop $catloglist[$catid1] $catid2 $cat2}
+                        {foreach $catloglist[$catid1] $catid2 $cat2}
                         <option value="{$catid2}"{if $catid==$catid2} selected{/if}>|--{$cat2[name]}</option>
-                        {loop $catloglist[$catid2] $catid3 $cat3}
+                        {foreach $catloglist[$catid2] $catid3 $cat3}
                         <option value="{$catid3}"{if $catid==$catid3} selected{/if}>|--|--{$cat3[name]}</option>
-                        {/loop}
-                        {/loop}
-                        {/loop}
+                        {/foreach}
+                        {/foreach}
+                        {/foreach}
                     </select>
                 </div>
             </div>
@@ -53,9 +53,9 @@
                 <div class="field">
                     <select name="status" class="select" title="">
                         <option value="">全部</option>
-                        {loop $_lang[post_status] $k $v}
+                        {foreach $_lang[post_status] $k $v}
                         <option value="{$k}"{if $status=="$k"} selected{/if}>{$v}</option>
-                        {/loop}
+                        {/foreach}
                     </select>
                 </div>
             </div>
@@ -64,9 +64,9 @@
                 <div class="field">
                     <select name="type" class="select" title="">
                         <option value="">全部</option>
-                        {loop $_lang[post_types] $k $v}
+                        {foreach $_lang[post_types] $k $v}
                         <option value="{$k}"{if $type==$k} selected{/if}>{$v}</option>
-                        {/loop}
+                        {/foreach}
                     </select>
                 </div>
             </div>
@@ -110,7 +110,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             {eval $aid=$item[aid]}
             {eval $type_name=$_lang['post_types'][$item['type']]}
             {eval $status_name=$_lang['post_status'][$item['status']]}
@@ -126,7 +126,7 @@
                 <td>{$status_name}</td>
                 <td><a href="{URL:('/admin/post/publish', array('aid'=>$aid))}">编辑</a></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>
@@ -146,15 +146,15 @@
 <script type="text/template" id="targetTpl">
     <span style="float: left; line-height: 28px;">选择目标分类：</span>
     <select name="target" class="select" title="" id="moveTarget">
-        {loop $catloglist[0] $catid1 $cat1}
+        {foreach $catloglist[0] $catid1 $cat1}
         <option value="{$catid1}">{$cat1[name]}</option>
-        {loop $catloglist[$catid1] $catid2 $cat2}
+        {foreach $catloglist[$catid1] $catid2 $cat2}
         <option value="{$catid2}">|--{$cat2[name]}</option>
-        {loop $catloglist[$catid2] $catid3 $cat3}
+        {foreach $catloglist[$catid2] $catid3 $cat3}
         <option value="{$catid3}">|--|--{$cat3[name]}</option>
-        {/loop}
-        {/loop}
-        {/loop}
+        {/foreach}
+        {/foreach}
+        {/foreach}
     </select>
 </script>
 <script type="text/javascript">
@@ -165,7 +165,7 @@
             var aid = $(this).attr('data-id');
             DSXUI.showImagePicker(function (data) {
                 $(self).attr('src', data.imageurl);
-                $.post("{URL:('/admin/post/setimage')}", {aid:aid,image:data.image});
+                $.post("{{url('/admin/post/setimage')}}", {aid:aid,image:data.image});
             });
         });
         $(".btn-action").on('click', function () {

@@ -16,20 +16,20 @@
 	<tr>
     	<td width="200" class="left">
         	<ul class="thumb-list" id="thumb-list">
-            {loop $news_item $k $item}
+            {foreach $news_item $k $item}
             <li order_index="{$k}" id="thumb_{$k}"{if $item} style="background-image:url({echo U('c=wxmaterial&a=viewimage&media_id='.$item[thumb_media_id])});"{/if}>
             	<input type="hidden" name="news_order[]" value="{$k}">
                 <div class="title">{$item[title]}</div>
                 <a rel="delnews" data-id="{$k}" class="icon del">&#xf013f;</a>
             </li>
-            {/loop}
+            {/foreach}
             </ul>
             {if $_G[a]=='add'}<a class="add-item" id="add-item" onclick="addItem()"><i class="icon">&#xf0175;</i></a>{/if}
             <input type="button" class="button publish-button" value="提交并发布" id="publish">
         </td>
         <td class="right">
            <div id="news-item-list">
-           		{loop $news_item $k $item}
+           		{foreach $news_item $k $item}
                 <div class="news-item" id="news_item_$k">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formtable">
                   <tbody>
@@ -89,12 +89,12 @@
 					extraFileUploadParams:{uid:'{$_G[uid]}',username:'{$_G[username]}',token:'{$token}'}
 				});
               </script>
-                {/loop}
+                {/foreach}
            </div>
         </td>
     </tr>
 </table>
-</form>    
+</form>
 </div>
 <script type="text/x-template" id="J-item-tpl">
 <div class="news-item" id="news_item_#k#">
@@ -169,7 +169,7 @@ function addItem(){
 			extraFileUploadParams:{uid:'$_G[uid]',username:'$_G[username]',token:'$token'}
 		});
 		bindEvent();
-		setSelectedItem(k); 
+		setSelectedItem(k);
 		k++;
 	}
 };
@@ -197,7 +197,7 @@ function bindEvent(){
 			});
 		}
     });
-	
+
 	$(".news-title").blur(function(e) {
         var index = $(this).attr('index');
 		if($(this).val()) {
@@ -239,7 +239,7 @@ $("#publish").click(function(e) {
 			console.log(json);
 			if(json.errcode == 0){
 				DSXUI.success('素材保存成功', function(){
-					window.location.href = '/?m={$_G[m]}&c={$_G[c]}&a=index';	
+					window.location.href = '/?m={$_G[m]}&c={$_G[c]}&a=index';
 				});
 			}
 		}

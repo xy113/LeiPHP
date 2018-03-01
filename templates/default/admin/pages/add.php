@@ -20,9 +20,9 @@
                 <td>分类</td>
                 <td>
                     <select name="newpage[catid]" class="select w300" title="">
-                        {loop $categorylist $clist}
+                        {foreach $categorylist $clist}
                         <option value="{$clist[pageid]}"{if $page[catid]==$clist[pageid]} selected{/if}>{$clist[title]}</option>
-                        {/loop}
+                        {/foreach}
                     </select>
                 </td>
                 <td>模板</td>

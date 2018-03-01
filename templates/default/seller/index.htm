@@ -15,10 +15,10 @@
         <div class="content">
             <ul class="articles">
                 {eval $no=0}
-                {loop $postItemList $item}
+                {foreach $postItemList $item}
                 {eval $no++}
                 <li><a href="/?m=post&c=detail&aid={$item[aid]}" target="_blank"><span>{$no}.</span> {$item[title]}</a></li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
     </div>

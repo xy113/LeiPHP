@@ -32,7 +32,7 @@
             </tr>
         </tbody>
     </table>
-    {loop $order_list $order_id $order}
+    {foreach $order_list $order_id $order}
     <div class="order-item-wrap" id="order-item-{$order_id}">
         <table class="order-item-table" cellspacing="0" cellpadding="0" width="100%">
             <thead>
@@ -54,7 +54,7 @@
             </thead>
             <tbody>
                 {eval $index=0}
-                {loop $order[items] $itemid $item}
+                {foreach $order[items] $itemid $item}
                 {eval $index++}
                 <tr>
                     <td class="col1">
@@ -132,11 +132,11 @@
                         {/if}
                     </td>
                 </tr>
-                {/loop}
+                {/foreach}
             </tbody>
         </table>
     </div>
-    {/loop}
+    {/foreach}
 </div>
 <div class="pagination">{$pages}</div>
 <script type="text/javascript">

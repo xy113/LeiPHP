@@ -15,7 +15,7 @@
                 <th>网址</th>
             </tr>
             </thead>
-            {loop $categorylist $cat}
+            {foreach $categorylist $cat}
             {eval $catid=$cat[id]}
             <tbody id="tbcontent_$catid">
             <tr>
@@ -25,7 +25,7 @@
                 <td><input type="text" title="" class="input-text w60" name="itemlist[{$catid}][displayorder]" value="{$cat[displayorder]}" maxlength="4"></td>
                 <td></td>
             </tr>
-            {loop $itemlist[$catid] $id $item}
+            {foreach $itemlist[$catid] $id $item}
             <tr>
                 <td><input type="checkbox" title="" class="checkbox checkmark" name="delete[]" value="{$id}" /></td>
                 <td><img src="{img $item[image]}" width="40" height="40" rel="pickimg" data-id="{$id}"></td>
@@ -37,7 +37,7 @@
                 <td><input type="text" title="" class="input-text w60" name="itemlist[{$id}][displayorder]" value="{$item[displayorder]}" maxlength="4"></td>
                 <td><input type="text" title="" class="input-text w300" name="itemlist[{$id}][url]" value="{$item[url]}"></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tbody id="newItem_{$catid}"></tbody>
             <tbody>
@@ -51,7 +51,7 @@
                 </td>
             </tr>
             </tbody>
-            {/loop}
+            {/foreach}
             <tbody id="newCategory"></tbody>
             <tbody>
             <tr>

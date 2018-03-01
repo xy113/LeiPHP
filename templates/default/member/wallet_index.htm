@@ -64,7 +64,7 @@
         </tr>
         </thead>
         <tbody>
-        {loop $itemlist $trade_id $item}
+        {foreach $itemlist $trade_id $item}
         <tr>
             <td class="time"><span>{date:$item[trade_time]|'Y年m月d日'}</span></td>
             <td class="name">
@@ -74,7 +74,7 @@
             <td class="amount"><span>{$item[trade_fee]}</span></td>
             <td class="status">{$item[trade_status_name]}</td>
         </tr>
-        {/loop}
+        {/foreach}
         </tbody>
     </table>
     <div class="pagination" style="margin-top: 20px;"><div style="float:left;">总计{$totalnum}条记录</div>{$pages}</div>

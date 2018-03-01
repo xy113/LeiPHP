@@ -129,7 +129,7 @@
         <table class="order-item-table" cellspacing="0" cellpadding="0" width="100%">
             <tbody>
             {eval $index=0}
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr>
                 <td class="col1">
                     <div class="goods-pic">
@@ -153,7 +153,7 @@
                     {eval $index++}
                 </td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
         </table>
     </div>

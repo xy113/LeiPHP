@@ -19,7 +19,7 @@
                 <th width="80">选项</th>
             </tr>
             </thead>
-            {loop $catloglist[0] $catid_1 $catlog_1}
+            {foreach $catloglist[0] $catid_1 $catlog_1}
             <tbody id="catlog_{$catid_1}">
             <tr>
                 <td width="60">{$catid_1}</td>
@@ -35,7 +35,7 @@
                 </td>
             </tr>
             </tbody>
-            {loop $catloglist[$catid_1] $catid_2 $catlog_2}
+            {foreach $catloglist[$catid_1] $catid_2 $catlog_2}
             <tbody id="catlog_{$catid_2}">
             <tr>
                 <td width="60">{$catid_2}</td>
@@ -55,7 +55,7 @@
                 </td>
             </tr>
             </tbody>
-            {loop $catloglist[$catid_2] $catid_3 $catlog_3}
+            {foreach $catloglist[$catid_2] $catid_3 $catlog_3}
             <tbody id="catlog_{$catid_3}">
             <tr>
                 <td width="60">{$catid_3}</td>
@@ -77,9 +77,9 @@
                 </td>
             </tr>
             </tbody>
-            {/loop}
-            {/loop}
-            {/loop}
+            {/foreach}
+            {/foreach}
+            {/foreach}
             <tfoot>
             <tr>
                 <td colspan="10">

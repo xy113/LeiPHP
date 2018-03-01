@@ -33,9 +33,9 @@
           <tr>
             <td>
                 <select class="w300" name="membernew[gid]">
-                    {loop $grouplist $group}
+                    {foreach $grouplist $group}
                     <option value="$group[gid]"{if $group[gid]==$member[gid]} selected{/if}>{$group[title]}</option>
-                    {/loop}
+                    {/foreach}
                 </select>
             </td>
             <td class="tips">选择分组后用户将获得相应的分组权限</td>
@@ -51,11 +51,11 @@
           <tr><th colspan="3">用户权限</th></tr>
           <tr>
             <td colspan="3">
-            {loop $lang[member_perms] $k=>$v}
+            {foreach $lang[member_perms] $k=>$v}
             <label>
             <input type="checkbox" class="checkbox" value="1" name="permission[{$k}]"{if $permission[$k]} checked="checked"{/if}> {$v}
             </label>
-            {/loop}
+            {/foreach}
             </td>
           </tr>
         </tbody>

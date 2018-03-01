@@ -128,25 +128,6 @@ class Application{
 			}
 		}
 		unset($functionlist, $funcfile, $name);
-		//全局变量
-		global $_G;
-		$_G = array();
-		$this->var = &$_G;
-
-		$this->var['m'] = isset($_GET['m']) ? htmlspecialchars($_GET['m']) : DEFAULT_MODEL;
-        if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['m'])){
-            die('Wrong parameters, m must be a charactor form a-zA-Z0-9!');
-        }
-
-		$this->var['c'] = isset($_GET['c']) ? htmlspecialchars($_GET['c']) : 'index';
-        if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['c'])){
-            die('Wrong parameters, c must be a charactor form a-zA-Z0-9!');
-        }
-
-		$this->var['a'] = isset($_GET['a']) ? htmlspecialchars($_GET['a']) : 'index';
-        if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['a'])){
-            die('Wrong parameters, a must be a charactor form a-zA-Z0-9!');
-        }
 
 		define('FORMHASH', formhash());
 		define('TIMESTAMP', time());
@@ -164,15 +145,67 @@ class Application{
 		}else {
 			define('IN_MOBILE', false);
 		}
+
+        //全局变量
+        global $_G;
+        $_G = array();
+        $this->var = &$_G;
 	}
 
     /**
      * 启动应用程序
      */
     public function start(){
-		$model = $this->var['m'];
-		$controller = $this->var['c'];
-		$action = $this->var['a'];
+        if (REWRITE_MOD) {
+            $model = $controller = $action = '';
+            $uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+            if ($uri === '/'){
+                $model = DEFAULT_MODEL;
+                $controller = 'index';
+                $action = 'index';
+            }else {
+                $pathinfo = explode('/', trim($uri, '/'));
+                if (isset($pathinfo[0])){
+                    $model = $pathinfo[0];
+                }else{
+                    $model = DEFAULT_MODEL;
+                }
+
+                if (isset($pathinfo[1])){
+                    $controller = $pathinfo[1];
+                }else {
+                    $controller = 'index';
+                }
+
+                if (isset($pathinfo[2])){
+                    $action = $pathinfo[2];
+                }else {
+                    $action = 'index';
+                }
+            }
+
+            $this->var['m'] = $model;
+            $this->var['c'] = $controller;
+            $this->var['a'] = $action;
+        }else {
+            $this->var['m'] = isset($_GET['m']) ? htmlspecialchars($_GET['m']) : DEFAULT_MODEL;
+            $this->var['c'] = isset($_GET['c']) ? htmlspecialchars($_GET['c']) : 'index';
+            $this->var['a'] = isset($_GET['a']) ? htmlspecialchars($_GET['a']) : 'index';
+        }
+
+        if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['m'])){
+            die('Wrong parameters, m must be a charactor form a-zA-Z0-9!');
+        }
+
+
+        if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['c'])){
+            die('Wrong parameters, c must be a charactor form a-zA-Z0-9!');
+        }
+
+        if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['a'])){
+            die('Wrong parameters, a must be a charactor form a-zA-Z0-9!');
+        }
+
 		$class = 'App\\Controllers\\'.ucfirst(strtolower($model)).'\\'.ucfirst(strtolower($controller)).'Controller';
 		$app = new $class();
 		$app->$action();

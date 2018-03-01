@@ -1,17 +1,17 @@
 {template header_common}
 <div class="area">
     <div class="catlog">
-        {loop $catlogList[0] $cat1}
+        {foreach $catlogList[0] $cat1}
         <h3 class="group">{$cat1[name]}</h3>
         <ul class="items">
-            {loop $catlogList[$cat1[catid]] $cat2}
+            {foreach $catlogList[$cat1[catid]] $cat2}
             <li>
                 <div class="ico"><a href="{U:('m=item&c=search&catid='.$cat2[catid])}"><img src="{img $cat2[icon]}"></a></div>
                 <div class="name">{$cat2[name]}</div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
-        {/loop}
+        {/foreach}
     </div>
 </div>
 <script>$(".area,.nav").width(960);</script>

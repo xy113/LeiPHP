@@ -25,7 +25,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr id="row_{$item[id]}">
                 <td><input type="checkbox" class="checkbox checkmark itemCheckBox" name="items[]" value="{$item[itemid]}"></td>
                 <td><a href="{U:('m=item&c=item&itemid='.$item['itemid'])}" target="_blank"><div class="bg-cover asyncload" data-original="{img $item[thumb]}" style="width: 80px; height: 80px;"></div></a></td>
@@ -47,7 +47,7 @@
                     <a href="{U:('c=item&a=publish&catid='.$item['catid'].'&itemid='.$item[itemid])}">编辑宝贝</a>
                 </td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

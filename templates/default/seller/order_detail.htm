@@ -113,7 +113,7 @@
     <div class="order-item-wrap" id="order-item-{$order_id}">
         <table class="order-item-table" cellspacing="0" cellpadding="0" width="100%">
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr>
                 <td class="col1">
                     <div class="goods-pic">
@@ -134,7 +134,7 @@
                     <p style="font-size: 11px;">(含运费:￥{amount:$order[shipping_fee]})</p>
                 </td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
         </table>
     </div>
@@ -157,9 +157,9 @@
                     <td class="cell-name">快递公司</td>
                     <td>
                         <select class="select" name="express_id">
-                            {loop $express_list $express}
+                            {foreach $express_list $express}
                             <option value="{$express[id]}">{$express[name]}</option>
-                            {/loop}
+                            {/foreach}
                         </select>
                     </td>
                 </tr>

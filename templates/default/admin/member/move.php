@@ -15,9 +15,9 @@
             	<tr>
                     <td>
                     	<select name="target" size="10" class="select" style="width:300px; height:300px;">
-                        {loop $usergrouplist $group}
+                        {foreach $usergrouplist $group}
                         <option value="{$group[gid]}">{$group[title]}</option>
-                        {/loop}
+                        {/foreach}
                         </select>
                     </td>
                 </tr>

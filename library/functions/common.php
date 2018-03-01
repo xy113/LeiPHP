@@ -59,6 +59,28 @@ function L($name=null, $value=''){
 }
 
 /**
+ * @param null $name
+ * @param string $value
+ * @return bool|null|string
+ */
+function lang($name=null, $value=''){
+    global $_lang;
+    if (is_null($name)){
+        return $_lang;
+    }else {
+        if ($value === ''){
+            return isset($_lang[$name]) ? $_lang[$name] : $name;
+        }elseif (is_null($value)){
+            unset($_lang[$name]);
+            return true;
+        }else {
+            $_lang[$name] = $value;
+            return $value;
+        }
+    }
+}
+
+/**
  * 增加配置
  * @param string $name
  * @param string $value
@@ -69,6 +91,28 @@ function C($name=null, $value=''){
 	if (is_null($name)) {
 		return $_config;
 	}else {
+        if ($value === ''){
+            return isset($_config[$name]) ? $_config[$name] : '';
+        }elseif (is_null($value)){
+            unset($_config[$name]);
+            return true;
+        }else {
+            $_config[$name] = $value;
+            return $value;
+        }
+    }
+}
+
+/**
+ * @param null $name
+ * @param string $value
+ * @return bool|string
+ */
+function config($name=null, $value=''){
+    global $_config;
+    if (is_null($name)) {
+        return $_config;
+    }else {
         if ($value === ''){
             return isset($_config[$name]) ? $_config[$name] : '';
         }elseif (is_null($value)){
@@ -95,7 +139,7 @@ function DB(){
  * @param mixed $params
  * @return string
  */
-function URL($path, $params=null){
+function url($path, $params=null){
     $url = getSiteURL();
 
     if (is_array($params)) {

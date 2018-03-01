@@ -36,7 +36,7 @@
         </div>
         <div class="video-detail-right">
         		{eval $videolist=articlelist(array('type'=>'video','num'=>5));}
-        	   {loop $videolist $list}
+        	   {foreach $videolist $list}
               {eval $list[pubtime]=@date('Y-m-d',$list[dateline]);}
               <dl class="video-item">
               		<dd><a href="/?m=post&c=detail&id=$list[id]" title="$list[title]"><img src="$list[pic]"></a></dd>
@@ -46,7 +46,7 @@
                         <p>播放:$list[viewnum]</p>
                     </dt>
               </dl>
-              {/loop}
+              {/foreach}
         </div>
         <div class="clearfix"></div>
     </div>

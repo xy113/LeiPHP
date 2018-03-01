@@ -16,7 +16,7 @@
         </thead>
      </table>
      <div class="menu-list" data-id="0">
-     {loop $menulist $menu}
+     {foreach $menulist $menu}
      {eval $id=$menu[id]}
      <table cellpadding="0" cellspacing="0" width="100%" class="listtable border-none">
         <tbody>
@@ -27,7 +27,7 @@
             </tr>
         </tbody>
     </table>
-     {/loop}
+     {/foreach}
     </div>
     <div class="menu-div" id="menu-new"></div>
     <table cellpadding="0" cellspacing="0" width="100%" class="listtable border-none">

@@ -5,7 +5,7 @@
             <div class="rank-div">
                 <h3>掌柜热卖</h3>
                 <ul>
-                    {loop $hot_item_list $item}
+                    {foreach $hot_item_list $item}
                     <li>
                         <div class="g-pic bg-cover asyncload" data-original="{img $item[thumb]}">
                             <a href="{U:('m=item&c=item&itemid='.$item[itemid])}" target="_blank" title="{$item[title]}"></a>
@@ -16,7 +16,7 @@
                             <p>已售出{$item[sold]}件</p>
                         </div>
                     </li>
-                    {/loop}
+                    {/foreach}
                 </ul>
             </div>
         </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="item-list-wrap">
             <ul class="item-list">
-                {loop $itemlist $item}
+                {foreach $itemlist $item}
                 <li>
                     <div class="bd">
                         <div class="g-pic bg-cover asyncload" data-original="{img $item[thumb]}">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </li>
-                {/loop}
+                {/foreach}
             </ul>
             <div class="blank"></div>
             <div class="pagination">{$pagination}</div>

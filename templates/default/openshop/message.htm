@@ -15,9 +15,9 @@
     {/if}
     <div class="links">
         {if $links}
-        {loop $links $link}
+        {foreach $links $link}
         <a href="{$link[url]}"{if $link[target]} target="{$link[target]}"{/if}>{$link[text]}</a>
-        {/loop}
+        {/foreach}
         {else}
         <a href="$forward">{$lang[go_back]}</a>
         <a href="/">{$lang[go_home]}</a>

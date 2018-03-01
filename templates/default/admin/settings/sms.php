@@ -3,7 +3,7 @@
     <h2>系统设置->短息平台设置(阿里短息)</h2>
 </div>
 <div class="content-div">
-    <form method="post" id="settingForm" action="{URL:('/admin/settings/save')}">
+    <form method="post" id="settingForm" action="{{url('/admin/settings/save')}}">
         {__formhash__}
         <table class="formtable" border="0" cellpadding="0" cellspacing="0" width="100%">
             <tbody id="weixin">

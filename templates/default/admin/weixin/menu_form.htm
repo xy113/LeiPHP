@@ -14,9 +14,9 @@
                 <td>响应类型</td>
                 <td>
                     <select title="" class="select" name="newmenu[type]" id="menu_type" style="width: 200px;">
-                        {loop $_lang[weixin_menu_types] $k $v}
+                        {foreach $_lang[weixin_menu_types] $k $v}
                         <option value="{$k}"{if $k==$menu[type]} selected{/if}>{$v}</option>
-                        {/loop}
+                        {/foreach}
                     </select>
                 </td>
                 <td class="tips">点击菜单后所执行的操作</td>

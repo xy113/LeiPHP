@@ -22,12 +22,12 @@
                 <td>
                     <select name="catlog[fid]" class="w300" title="">
                         <option value="0">无上级分类</option>
-                        {loop $catloglist[0] $catid1 $cat1}
+                        {foreach $catloglist[0] $catid1 $cat1}
                         <option value="{$catid1}"{if $catlog[fid]==$catid1} selected{/if}>{$cat1[name]}</option>
-                        {loop $catloglist[$catid1] $catid2 $cat2}
+                        {foreach $catloglist[$catid1] $catid2 $cat2}
                         <option value="{$catid2}"{if $catlog[fid]==$catid2} selected{/if}>|--{$cat2[name]}</option>
-                        {/loop}
-                        {/loop}
+                        {/foreach}
+                        {/foreach}
                     </select>
                 </td>
                 <td class="tips">选择上级分类</td>

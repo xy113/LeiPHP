@@ -22,15 +22,15 @@
                 <td width="80">目录分类</td>
                 <td width="380">
                     <select name="newpost[catid]" class="select" title="">
-                        {loop $catloglist[0] $catid1 $cat1}
+                        {foreach $catloglist[0] $catid1 $cat1}
                         <option value="{$catid1}"{if $catid==$catid1} selected{/if}>{$cat1[name]}</option>
-                        {loop $catloglist[$catid1] $catid2 $cat2}
+                        {foreach $catloglist[$catid1] $catid2 $cat2}
                         <option value="{$catid2}"{if $catid==$catid2} selected{/if}>|--{$cat2[name]}</option>
-                        {loop $catloglist[$catid2] $catid3 $cat3}
+                        {foreach $catloglist[$catid2] $catid3 $cat3}
                         <option value="{$catid3}"{if $catid==$catid3} selected{/if}>|--|--{$cat3[name]}</option>
-                        {/loop}
-                        {/loop}
-                        {/loop}
+                        {/foreach}
+                        {/foreach}
+                        {/foreach}
                     </select>
                 </td>
                 <td width="80">文章来源</td>
@@ -94,7 +94,7 @@
                     <td width="80">图片列表</td>
                     <td>
                         <div id="post-gallery" class="post-gallery">
-                            {loop $gallery $img}
+                            {foreach $gallery $img}
                             <div class="row">
                                 <input type="hidden" name="gallery[{$img[id]}][thumb]" value="{$img[thumb]}">
                                 <input type="hidden" name="gallery[{$img[id]}][image]" value="{$img[image]}">
@@ -102,7 +102,7 @@
                                 <div class="con"><textarea name="gallery[{$img[id]}][description]" class="textarea" title="">{$img[description]}</textarea></div>
                                 <a class="delete" onclick="removeItem(this)">&times;</a>
                             </div>
-                            {/loop}
+                            {/foreach}
                         </div>
                         <p><a id="addNewImg"><i class="iconfont icon-roundadd"></i><span>添加图片</span></a></p>
                     </td>

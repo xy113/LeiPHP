@@ -16,9 +16,9 @@
 </div>
 <div class="tabs-container">
     <div class="tabs">
-        {loop $_lang[weixin_material_types] $k $v}
+        {foreach $_lang[weixin_material_types] $k $v}
         <div class="tab{if $type==$k} on{/if}"><a href="{U:('c=wxmaterial&a=index&type='.$k)}">{$v}</a><span>|</span></div>
-        {/loop}
+        {/foreach}
     </div>
 </div>
 <div class="content-div">
@@ -36,7 +36,7 @@
             </tr>
             </thead>
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr>
                 <td class="center"><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="materials[]" value="{$item[media_id]}"></td>
                 <td>
@@ -52,7 +52,7 @@
                 <td>{$item[media_id]}</td>
                 <td>{$item[url]}</td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

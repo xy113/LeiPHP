@@ -15,14 +15,14 @@
             </tr>
             </thead>
             <tbody id="newCategory">
-            {loop $categorylist $clist}
+            {foreach $categorylist $clist}
             {eval $pageid=$clist[pageid]}
             <tr>
                 <td><input type="checkbox" title="" class="checkbox checkmark" name="delete[]" value="{$pageid}" /></td>
                 <td><input type="text" title="" class="input-text w60" name="categorylist[{$pageid}][displayorder]" value="{$clist[displayorder]}" maxlength="4"></td>
                 <td><input type="text" title="" class="input-text w200" name="categorylist[{$pageid}][title]" value="{$clist[title]}" maxlength="10"> </td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

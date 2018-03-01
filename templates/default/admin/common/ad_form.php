@@ -29,9 +29,9 @@
                 <td>广告类型</td>
                 <td>
                     <select title="" name="adnew[type]" class="select w300" onChange="changeType(this.value)">
-                        {loop $_lang[ad_types] $k $v}
+                        {foreach $_lang[ad_types] $k $v}
                         <option value="{$k}"{if $ad[type]==$k} selected{/if}>{$v}</option>
-                        {/loop}
+                        {/foreach}
                     </select>
                 </td>
                 <td class="tips"></td>

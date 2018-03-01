@@ -31,7 +31,7 @@
             <input type="hidden" name="shipping_type" value="1" id="J_shipping_type">
             <input type="hidden" name="pay_type" value="1" id="J_pay_type">
             <input type="hidden" name="_token_" value="{cookie _token_}">
-            {loop $order_item_list $shop_id $order}
+            {foreach $order_item_list $shop_id $order}
             <div class="order-item" data-shop-id="{$shop_id}" style="margin-bottom: 20px;">
                 <table cellpadding="0" cellspacing="0" width="100%" class="order-item-table">
                     <thead>
@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                     {eval $simple_fee=$order[order_fee]+$order[shipping_fee]}
-                    {loop $order[items] $itemid $item}
+                    {foreach $order[items] $itemid $item}
                     <tbody>
                         <tr>
                             <td>
@@ -58,7 +58,7 @@
                             <td width="125" class="cell-simple-price" id="simple-price">{amount:$item[order_fee]}</td>
                         </tr>
                     </tbody>
-                    {/loop}
+                    {/foreach}
                 </table>
                 <div class="order-ext-wrap">
                     <div class="order-ext">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            {/loop}
+            {/foreach}
             <div class="order-ext-wrap">
                 <div class="order-ext">
                     <div class="shop-total">合计: <span class="total-fee" id="total-fee">{amount:$total_fee}</span></div>

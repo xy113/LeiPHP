@@ -2,9 +2,9 @@
 <div class="swiper-div" style="padding-top: 100%;">
     <div class="swiper" id="swiper">
         <ul class="swiper-wrapper">
-            {loop $gallery $ga}
+            {foreach $gallery $ga}
             <li class="swiper-slide"><span class="bg bg-cover asyncload" data-original="{img $ga[image]}"></span></li>
-            {/loop}
+            {/foreach}
         </ul>
         <div class="swiper-pagination"></div>
     </div>
@@ -12,7 +12,7 @@
 <script type="text/javascript">
     (function(){
         var swiper = new Swiper('#swiper',
-            {loop:true,pagination:'.swiper-pagination',autoplay:2500});
+            {foreach:true,pagination:'.swiper-pagination',autoplay:2500});
     })();
 </script>
 
@@ -79,7 +79,7 @@
 
     <div class="item-horizontal-list">
         <ul>
-            {loop $hot_sale_list $item}
+            {foreach $hot_sale_list $item}
             <li>
                 <div class="bd">
                     <div class="pic bg-cover lazyload" data-original="{img $item[thumb]}" handler="viewItem" data-id="{$item[itemid]}"></div>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
     </div>
 

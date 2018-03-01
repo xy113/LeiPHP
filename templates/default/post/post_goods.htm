@@ -9,14 +9,14 @@
                 <div class="value">属性值</div>
               </div>
               {if $G[ac]=='edit'}
-              {loop $attributes $attr}
+              {foreach $attributes $attr}
               {eval $key=$attr[attrid]}
               <div class="goods-atta-item">
               	  <div class="delete"><a href="javascript:;" title="删除" class="icon" onclick="$(this).parent().parent().remove()">&#xf00b3;</a></div>
                 <div class="name"><input type="text" class="input-text" name="attribute[$key][name]" value="$attr[name]"></div>
                 <div class="value"><input type="text" class="input-text" name="attribute[$key][value]" value="$attr[value]"></div>
               </div>
-              {/loop}
+              {/foreach}
               {else}
               <div class="goods-atta-item">
               	  <div class="delete"><a href="javascript:;" title="删除" class="icon" onclick="$(this).parent().parent().remove()">&#xf00b3;</a></div>

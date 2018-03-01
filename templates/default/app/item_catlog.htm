@@ -1,18 +1,18 @@
 {template header}
 <div class="catlog">
-    {loop $catloglist[0] $cat1}
+    {foreach $catloglist[0] $cat1}
     <div class="group">
         <h3>{$cat1[name]}</h3>
         <div class="grid">
-            {loop $catloglist[$cat1[catid]] $cat2}
+            {foreach $catloglist[$cat1[catid]] $cat2}
             <dl data-handler="searchItem" data-id="{$cat2[catid]}" data-name="{$cat2[name]}">
                 <dt><div class="asyncload bg-cover icon" data-original="{img $cat2[icon]}"></div></dt>
                 <dd>{$cat2[name]}</dd>
             </dl>
-            {/loop}
+            {/foreach}
         </div>
     </div>
-    {/loop}
+    {/foreach}
 </div>
 <script type="text/javascript">
     onBridgeReady(function (bridge) {

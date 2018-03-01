@@ -28,11 +28,10 @@ class View{
 		$template = "<?php if (!defined('IN_LEIPHP')) die('Access Denied!');?>".$template;
 		fclose($fp);
 
-		//$template = preg_replace("/([\n\r]+)\t+/s", "\\1", $template);
 		$template = preg_replace("/\<\!\-\-\{(.+?)\}\-\-\>/s", "{\\1}", $template);
-		$template = str_replace("{LF}", "<?=\"\\n\"?>", $template);
-
-		$template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
+        $template = preg_replace("/\{\!(.+?)\!\}/s", "<?php echo \\1; ?>", $template);
+        $template = preg_replace("/\{\{(.+?)\}\}/s", "<?php echo htmlspecialchars(\\1); ?>", $template);
+        $template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
         $template = preg_replace_callback("/[\n\r\t]*\{template\s+([a-z0-9_:]+)\}[\n\r\t]*/is", function ($matches){
             return View::stripvtemplate($matches[1]);
         }, $template);
@@ -64,11 +63,6 @@ class View{
 			return View::stripvtags('<?php echo avatar('.$matches[1].',\''.$matches[2].'\'); ?>','');
 		}, $template);
 
-        //替换配置内容
-        $template = preg_replace_callback('/{C\s+(.+?)\}/is', function($matches){
-            return View::stripvtags('<?php echo C('.$matches[1].'); ?>','');
-        }, $template);
-
 		//替换语言
 		$template = preg_replace_callback('/{lang\s+(.+?)\}/is', function($matches){
 			return View::stripvtags('<?php echo L('.$matches[1].'); ?>','');
@@ -99,45 +93,25 @@ class View{
             return View::stripvtags('<?php echo @date('.$matches[2].','.$matches[1].'); ?>','');
         }, $template);
 
-        //格式化金额
-        $template = preg_replace_callback('/{amount\:(.+?)\}/is', function($matches){
-            return View::stripvtags('<?php echo formatAmount('.$matches[1].'); ?>','');
-        }, $template);
-
         $template = preg_replace_callback('/{__formhash__}/is', function(){
             $content = '<input type="hidden" name="_formsubmit" value="yes">';
             $content.= '<input type="hidden" name="_formhash" value="<?php echo formhash(); ?>">';
             return View::stripvtags($content, '');
         }, $template);
 
-		for($i = 0; $i < 5; $i++) {
-            $template = preg_replace_callback("/[\n\r\t]*\{loop\s+(\S+)\s+(\S+)\}[\n\r]*(.+?)[\n\r]*\{\/loop\}[\n\r\t]*/is", function ($matches){
-                return View::stripvtags('<?php if(is_array('.$matches[1].')) { foreach('.$matches[1].' as '.$matches[2].') { ?>',$matches[3].'<?php } } ?>');
-            }, $template);
-            $template = preg_replace_callback("/[\n\r\t]*\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}[\n\r\t]*(.+?)[\n\r\t]*\{\/loop\}[\n\r\t]*/is", function ($matches){
-                return View::stripvtags('<?php if(is_array('.$matches[1].')) { foreach('.$matches[1].' as '.$matches[2].'=>'.$matches[3].') { ?>',$matches[4].'<?php } } ?>');
-            }, $template);
-		    $template = preg_replace_callback("/([\n\r\t]*)\{if\s+(.+?)\}([\n\r]*)(.+?)([\n\r]*)\{\/if\}([\n\r\t]*)/is", function ($matches){
-		        return View::stripvtags($matches[1].'<?php if('.$matches[2].') { ?>'.$matches[3], $matches[4].$matches[5].'<?php } ?>'.$matches[6]);
-            }, $template);
-		}
-
         for($i = 0; $i < 5; $i++) {
-            $template = preg_replace_callback("/[\n\r\t]*\{foreach\s+(\S+)\s+(\S+)\}[\n\r]*(.+?)[\n\r]*\{\/foreach\}[\n\r\t]*/is", function ($matches){
+            $template = preg_replace_callback("/\{foreach\s+(\S+)\s+(\S+)\}(.+?)\{\/foreach\}/is", function ($matches){
                 return View::stripvtags('<?php if(is_array('.$matches[1].')) { foreach('.$matches[1].' as '.$matches[2].') { ?>',$matches[3].'<?php } } ?>');
             }, $template);
-            $template = preg_replace_callback("/[\n\r\t]*\{foreach\s+(\S+)\s+(\S+)\s+(\S+)\}[\n\r\t]*(.+?)[\n\r\t]*\{\/foreach\}[\n\r\t]*/is", function ($matches){
+            $template = preg_replace_callback("/\{foreach\s+(\S+)\s+(\S+)\s+(\S+)\}(.+?)\{\/foreach\}/is", function ($matches){
                 return View::stripvtags('<?php if(is_array('.$matches[1].')) { foreach('.$matches[1].' as '.$matches[2].'=>'.$matches[3].') { ?>',$matches[4].'<?php } } ?>');
             }, $template);
-            $template = preg_replace_callback("/([\n\r\t]*)\{if\s+(.+?)\}([\n\r]*)(.+?)([\n\r]*)\{\/if\}([\n\r\t]*)/is", function ($matches){
-                return View::stripvtags($matches[1].'<?php if('.$matches[2].') { ?>'.$matches[3], $matches[4].$matches[5].'<?php } ?>'.$matches[6]);
+            $template = preg_replace_callback("/\{if\s+(.+?)\}(.+?)\{\/if\}/is", function ($matches){
+                return View::stripvtags('<?php if('.$matches[1].') { ?>'.$matches[2], '<?php } ?>');
             }, $template);
         }
 
-		$const_regexp = "([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)";
-		$template = preg_replace("/\{$const_regexp\}/s", "<?php echo \\1; ?>", $template);
 		$template = preg_replace("/ \?\>[\n\r]*\<\? /s", " ", $template);
-
         $template = preg_replace_callback("/\"(http)?[\w\.\/:]+\?[^\"]+?&[^\"]+?\"/", function ($matches){
             return View::transamp($matches[0]);
         }, $template);
@@ -146,23 +120,20 @@ class View{
         }, $template);
 		$template = preg_replace("/\<\?(\s{1})/is", "<?php\\1", $template);
 		$template = preg_replace("/\<\?\=(.+?)\?\>/is", "<?php echo \\1;?>", $template);
-		/* 修正css路径 */
-		/*
-		$template = preg_replace('/(<link\shref=["|\'])(?:\.\/|\.\.\/)?(css\/)?([a-z0-9A-Z_]+\.css["|\']\srel=["|\']stylesheet["|\']\stype=["|\']text\/css["|\'])/i','\1' . STATICURL . '\2\3', $template);
-		$pattern = array(
-				'/(href=["|\'])\.\.\/(.*?)(["|\'])/i',  // 替换相对链接
-				'/((?:background|src)\s*=\s*["|\'])(?:\.\/|\.\.\/)?(images\/.*?["|\'])/is', // 在images前加上 STATICURL
-				'/((?:background|background-image):\s*?url\()(?:\.\/|\.\.\/)?(images\/)/is', // 在images前加上 STATICURL
-				'/([\'|"])\.\.\//is', // 以../开头的路径全部修正为空
-		);
-		$replace = array(
-				'\1\2\3',
-				'\1' . STATICURL . '\2',
-				'\1' . STATICURL . '\2',
-				'\1'
-		);
-		$template = preg_replace($pattern, $replace, $template);
-		*/
+		//输出json
+        $template = preg_replace("/\@json\((.+?)\)/is", "<?php echo json_encode(\\1); ?>", $template);
+        //输出if语句
+        $template = preg_replace("/\@if\((.+?)\)/is", "<?php if(\\1): ?>", $template);
+        $template = preg_replace("/\@else/is", "<?php else: ?>", $template);
+        $template = preg_replace("/\@elseif\((.+?)\)/is", "<?php elseif(\\1): ?>", $template);
+        $template = preg_replace("/\@endif/is", "<?php endif; ?>", $template);
+        //输入foreach循环
+        $template = preg_replace("/\@foreach\((.+?)\)/is", "<?php foreach(\\1){ ?>", $template);
+        $template = preg_replace("/\@endforeach/is", "<?php } ?>", $template);
+        //输出for循环
+        $template = preg_replace("/\@for\((.+?)\)/is", "<?php for(\\1){ ?>", $template);
+        $template = preg_replace("/\@endfor/is", "<?php } ?>", $template);
+
 		if (is_file($objfile)) @chmod($objfile, 0644);
 		if(!@$fp = fopen($objfile, 'w')) {
 			exit("Directory './runtime/templates/' not found or have no access!");

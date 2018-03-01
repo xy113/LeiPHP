@@ -32,7 +32,7 @@
 
     <div class="item-horizontal-list">
         <ul>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <li>
                 <div class="bd">
                     <div class="pic bg-cover lazyload" data-original="{img $item[thumb]}" handler="viewItem" data-id="{$item[itemid]}"></div>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </li>
-            {/loop}
+            {/foreach}
         </ul>
     </div>
 

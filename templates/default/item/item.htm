@@ -4,10 +4,10 @@
     <div class="area">
         <a href="/">粗耕首页</a>
         <span> > </span>
-        {loop $paths $path}
+        {foreach $paths $path}
         <a href="{U:('m=item&c=search&catid='.$path[catid])}">{$path[name]}</a>
         <span> > </span>
-        {/loop}
+        {/foreach}
         <span>{$item_data[short_title]}</span>
     </div>
 </div>
@@ -16,9 +16,9 @@
     <div class="preview-wrap">
         <div class="preview">
             <div id="showbox">
-                {loop $gallery $ga}
+                {foreach $gallery $ga}
                 <img src="{img $ga[image]}" width="400" height="400" />
-                {/loop}
+                {/foreach}
             </div><!--展示图片盒子-->
             <div id="showsum"></div><!--展示图片里边-->
             <p class="showpage">
@@ -160,7 +160,7 @@
         <div class="inner">
             <h3 class="hot-sale-title">掌柜热卖</h3>
             <ul class="hot-item-list">
-                {loop $hot_sale_list $item}
+                {foreach $hot_sale_list $item}
                 <li>
                     <div class="g-pic bg-cover asyncload" data-original="{img $item[thumb]}">
                         <div class="g-name"><p>{$item[title]}</p></div>
@@ -171,7 +171,7 @@
                         <strong class="price"><span>¥</span>{$item[price]}</strong>
                     </div>
                 </li>
-                {/loop}
+                {/foreach}
             </ul>
         </div>
     </div>

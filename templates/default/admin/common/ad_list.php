@@ -23,7 +23,7 @@
             </tr>
             </thead>
             <tbody id="mainbody">
-            {loop $adlist $ad}
+            {foreach $adlist $ad}
             <tr>
                 <td><input title="" type="checkbox" class="checkbox checkmark itemCheckBox" name="ads[]" value="{$ad[id]}"></td>
                 <td>{$ad[id]}</td>
@@ -35,7 +35,7 @@
                 <td>{if $ad[available]}可用{else}已停用{/if}</td>
                 <td><a href="{URL:('/admin/ad/edit', array('id'=>$ad['id']))}">编辑</a></td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
             <tfoot>
             <tr>

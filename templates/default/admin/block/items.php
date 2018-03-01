@@ -19,7 +19,7 @@
             </thead>
         </table>
         <div class="sortable">
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <table cellspacing="0" cellpadding="0" width="100%" class="listtable border-none">
                 <tbody>
                     <tr>
@@ -31,7 +31,7 @@
                     </tr>
                 </tbody>
             </table>
-            {/loop}
+            {/foreach}
         </div>
         <table cellpadding="0" cellspacing="0" width="100%" class="listtable border-none">
             <tfoot>

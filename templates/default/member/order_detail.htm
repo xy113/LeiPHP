@@ -112,7 +112,7 @@
     <div class="order-item-wrap" id="order-item-{$order_id}">
         <table class="order-item-table" cellspacing="0" cellpadding="0" width="100%">
             <tbody>
-            {loop $itemlist $item}
+            {foreach $itemlist $item}
             <tr>
                 <td class="col1">
                     <div class="goods-pic">
@@ -133,7 +133,7 @@
                     <p style="font-size: 11px;">(含运费:￥{amount:$order[shipping_fee]})</p>
                 </td>
             </tr>
-            {/loop}
+            {/foreach}
             </tbody>
         </table>
     </div>
