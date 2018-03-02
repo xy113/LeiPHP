@@ -54,11 +54,9 @@ class PagesController extends BaseController
             $catid = intval($_GET['catid']);
             if ($catid) $condition['catid'] = $catid;
 
-            $pagesize   = 20;
-            $totalnum   = Pages::getInstance()->where($condition)->count();
-            $pagecount  = $totalnum < $pagesize ? 1 : ceil($totalnum/$pagesize);
-            $pagelist   = Pages::getInstance()->where($condition)->page($_G['page'], $pagesize)->select();
-            $pagination = $this->pagination($_G['page'], $pagecount, $totalnum, "catid=$catid", true);
+            $totalnum = Pages::getInstance()->where($condition)->count();
+            $pagelist = Pages::getInstance()->where($condition)->page($_G['page'], 20)->select();
+            $pagination = $this->mutipage($_G['page'], 20, $totalnum, null, true);
             $categorylist = Pages::getInstance()->where(array('type'=>'category'))->select();
 
             include view('pages/list');

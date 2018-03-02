@@ -47,7 +47,7 @@
             <tfoot>
             <tr>
                 <td colspan="10">
-                    <span class="pagination float-right">{$pagination}</span>
+                    <span class="float-right">{$pagination}</span>
                     <label><input type="checkbox" class="checkbox checkall"> 全选</label>
                     <label><button type="submit" class="btn">提交</button></label>
                     <label><button type="button" class="btn" onclick="DSXUtil.reFresh()">刷新</button></label>

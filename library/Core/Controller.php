@@ -207,117 +207,94 @@ abstract class Controller{
 	}
 
     /**
-     * 分页
-     * @param $curr_page
-     * @param $page_count
-     * @param $total_count
-     * @param string $extra
-     * @param bool $show_total
+     * 分页函数
+     * @param int $curPage
+     * @param int $pageSize
+     * @param int $totalCount
+     * @param array|string $params
+     * @param bool $showTotal
      * @return string
      */
-    protected function pagination($curr_page, $page_count, $total_count, $extra='', $show_total=FALSE){
-	    return $this->showPages($curr_page, $page_count, $total_count, $extra, $show_total);
+    protected function mutipage($curPage, $pageSize, $totalCount, $params = array(), $showTotal=true){
+        $multipage = '<ul class="pagination">';
+        $multipage.= $showTotal ? '<li><span>总计'.$totalCount.'条</span></li>' : '';
+        $url = url('/'.$this->get('m').'/'.$this->get('c').'/'.$this->get('a'));
+        $params = is_array($params) ? http_build_query($params) : $params;
+        $url = strpos($url, '\?') ? $url.'&'.$params : $url.'?'.$params;
+
+        $pageCount = $totalCount < $pageSize ? 1 : ceil($totalCount/$pageSize);
+        $curPage = min(array($curPage, $pageCount));
+
+        if ($curPage == 1) {
+            $multipage.= '<li class="disabled"><span>&laquo;</span></li>';
+        }else {
+            $multipage.= "<li><a href=\"$url&page=".($curPage-1)."\">&laquo;</a></li>";
+        }
+
+        if ($pageCount < 10) {
+            for ($i=1; $i<=$pageCount; $i++){
+                if($i == $curPage){
+                    $multipage.="<li class=\"active\"><span>$i</span></li>";
+                }else{
+                    $multipage.="<li><a href=\"$url&page=$i\">$i</a></li>";
+                }
+            }
+        }else {
+            if ($curPage > 5 && $curPage < $pageCount-4){
+                $multipage.= "<li><a href=\"$url&page=1\">1</a></li>";
+                $multipage.= "<li><a href=\"$url&page=2\">2</a></li>";
+                $multipage.= '<li class="disabled"><span>...</span></li>';
+
+                $page = $curPage - 2;
+                for ($i = 0; $i<5; $i++){
+                    if($page == $curPage){
+                        $multipage.="<li class=\"active\"><span>$page</span></li>";
+                    }else{
+                        $multipage.="<li><a href=\"$url&page=$page\">$page</a></li>";
+                    }
+                    $page++;
+                }
+                $multipage.= '<li class="disabled"><span>...</span></li>';
+                $multipage.= "<li><a href=\"$url&page=".($pageCount-1)."\">".($pageCount-1)."</a></li>";
+                $multipage.= "<li><a href=\"$url&page=".$pageCount."\">".$pageCount."</a></li>";
+            }else {
+                if ($curPage < 7){
+                    for ($page=1; $page<7; $page++){
+                        if($page == $curPage){
+                            $multipage.="<li class=\"active\"><span>$page</span></li>";
+                        }else{
+                            $multipage.="<li><a href=\"$url&page=$page\">$page</a></li>";
+                        }
+                    }
+                }else {
+                    $multipage.= "<li><a href=\"$url&page=1\">1</a></li>";
+                    $multipage.= "<li><a href=\"$url&page=2\">2</a></li>";
+                }
+                $multipage.= '<li class="disabled"><span>...</span></li>';
+
+                if ($curPage > ($pageCount-5)){
+                    for ($page = $pageCount - 5; $page<=$pageCount; $page++){
+                        if($page == $curPage){
+                            $multipage.="<li class=\"active\"><span>$page</span></li>";
+                        }else{
+                            $multipage.="<li><a href=\"$url&page=$page\">$page</a></li>";
+                        }
+                    }
+                }else {
+                    $multipage.= "<li><a href=\"$url&page=".($pageCount-1)."\">".($pageCount-1)."</a></li>";
+                    $multipage.= "<li><a href=\"$url&page=".$pageCount."\">".$pageCount."</a></li>";
+                }
+            }
+        }
+
+        if ($curPage < $pageCount){
+            $multipage.= "<li><a href=\"$url&page=".($curPage+1)."\">&raquo;</a></li>";
+        }else {
+            $multipage.= '<li class="disabled"><span>&raquo;</span></li>';
+        }
+
+        return   $multipage.'</ul>';
     }
-
-    /**
-     * Discuz 风格分页
-     * @param int $curr_page 当前页
-     * @param int $page_count 总页数
-     * @param int $total_count 总记录
-     * @param string $extra 附加参数
-     * @param boolean $show_total 是否显总数目
-     * @return string
-     */
-	protected function showPages($curr_page, $page_count, $total_count, $extra='', $show_total=FALSE){
-		global $_G,$_lang;
-        $multipage = $show_total ? '<span>总计'.$total_count.'条</span>' : '';
-		$extra = $extra ? '&'.$extra : '';
-		$url = getSiteURL().'/?m='.$_G['m'].'&c='.$_G['c'].'&a='.$_G['a'].$extra;
-		if($page_count>1){
-			$page = 10;
-			$offset = 2;
-			$pages = $page_count;
-			$from = $curr_page-$offset;
-			$to = $curr_page + $page - $offset - 1;
-			if($page>$pages){
-				$from=1;
-				$to=$pages;
-			}else{
-				if($from<1){
-					$to=$curr_page+1-$from;
-					$from=1;
-					if(($to-$from)<$page&&($to-$from)<$pages){
-						$to=$page;
-					}
-				}elseif($to>$pages){
-					$from=$curr_page-$pages+$to;
-					$to=$pages;
-					if(($to-$from)<$page&&($to-$from)<$pages){
-						$from=$pages-$page+1;
-					}
-				}
-			}
-
-			if ($curr_page == 1){
-				$multipage.= '';
-			}else {
-				$multipage .= "<a href=\"{$url}&page=1\">首页</a>";
-				$multipage .= "<a href=\"{$url}&page=".($curr_page-1)."\">上一页</a>";
-			}
-
-			for($i=$from;$i<=$to;$i++){
-				if($i!=$curr_page){
-					$multipage.="<a href=\"{$url}&page=$i\">$i</a>";
-				}else{
-					$multipage.="<span class=\"cur\">$i</span>";
-				}
-			}
-
-			if ($curr_page < ($page_count-5)){
-
-			}
-
-			if ($curr_page < $page_count){
-				//$multipage.= $pages > $page ? "<span>...</span>" : '';
-				$multipage.= "<a href=\"{$url}&page=".($curr_page+1)."\">下一页</a>";
-				$multipage.= "<a href=\"{$url}&page=$pages\">尾页</a>";
-			}
-		}
-		return   $multipage ;
-	}
-
-    /**
-     * google风格分页
-     * @param int $page 当前页
-     * @param int $total 总页数
-     * @param string $extra 附加参数
-     * @return string
-     */
-	protected function googlePagination($page,$total,$extra=''){
-	    global $_G;
-		$extra = !empty($extra) ? $extra.'&' : '';
-		$scr = '/?m='.$_G['m'].'&c='.$_G['c'].'&a='.$_G['a'].$extra;
-		$prevs = $page-5;
-		if($prevs<=0)$prevs = 1;
-		$prev  = $page-1;
-		if($prev<=0) $prev = 1;
-		$nexts = $page+5;
-		if($nexts>$total)$nexts=$total;
-		$next  = $page+1;
-		if($next>$total)$next=$total;
-		$pagenavi ="<a href=\"{$scr}&page=1\">首页</a>";
-		$pagenavi.="<a href=\"{$scr}&page=$prev\" class=\"prev\">上一页</a>";
-		for($i=$prevs;$i<=$page-1;$i++){
-			$pagenavi.="<a href=\"{$scr}&page=$i\">$i</a>";
-		}
-		$pagenavi.="<span class=\"cur\">$page</span>";
-		for($i=$page+1;$i<=$nexts;$i++){
-			$pagenavi.="<a href=\"{$scr}&page=$i\">$i</a>";
-		}
-		$pagenavi.="<a href=\"{$scr}&page=$next\" class=\"next\">下一页</a>";
-		$pagenavi.="<a href=\"{$scr}&page=$total\">尾页</a>";
-		return $pagenavi ;
-	}
 
     /**
      * @param $name

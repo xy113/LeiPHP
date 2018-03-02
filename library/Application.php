@@ -197,7 +197,6 @@ class Application{
             die('Wrong parameters, m must be a charactor form a-zA-Z0-9!');
         }
 
-
         if(!preg_match('/^[a-zA-Z0-9_]+$/i',$this->var['c'])){
             die('Wrong parameters, c must be a charactor form a-zA-Z0-9!');
         }

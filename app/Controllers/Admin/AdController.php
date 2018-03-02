@@ -72,11 +72,10 @@ class AdController extends BaseController
             }
         }else {
 
-            $pagesize  = 30;
             $totalnum  = Ad::getInstance()->count();
             $pagecount = $totalnum < $pagesize ? 1 : ceil($totalnum/$pagesize);
-            $adlist = Ad::getInstance()->page($this->get('page'), $pagesize)->select();
-            $pagination = $this->pagination($this->get('page'), $pagecount, $totalnum, null, true);
+            $adlist = Ad::getInstance()->page(G('page'), 20)->select();
+            $pagination = $this->mutipage(G('page'), 20, $totalnum, null, true);
 
             include view('common/ad_list');
         }

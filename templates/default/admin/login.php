@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>粗耕后台管理中心</title>
+<title>知止咨询后台管理中心</title>
 <style type="text/css">
 body {padding:0; margin:0; font:12px Arial; background-color:#CCC; background-size:cover; position:relative;}
 a:link,a:active,a:visited{color:#333333; text-decoration:none;}
@@ -24,11 +24,11 @@ a:hover{color:#FF0000; text-decoration:underline;}
 </head>
 <body style="background:url(http://service.dsxcms.com/background.php);">
 <div class="login-wrap">
-	<form method="post" id="Form" action="{URL:('/admin/login')}">
+	<form method="post" id="Form" action="{{url('/admin/login')}}">
         {__formhash__}
-	<h1 class="title">粗耕后台管理中心</h1>
+	<h1 class="title">知止咨询后台管理中心</h1>
     <div class="err" id="err"></div>
-    <div class="item"><input type="text" name="account_{{FORMHASH}}" class="input-text" value="{$_G[username]}" placeholder="用户名/手机号/邮箱"></div>
+    <div class="item"><input type="text" name="account_{{FORMHASH}}" class="input-text" value="{{$_G['username']}}" placeholder="用户名/手机号/邮箱"></div>
     <div class="item"><input type="password" name="password_{{FORMHASH}}" class="input-text" placeholder="密码"></div>
     <div class="item"><div class="button" tabindex="1" id="button-login">登录</div></div>
     </form>
@@ -65,6 +65,6 @@ a:hover{color:#FF0000; text-decoration:underline;}
     });
 })();
 </script>
-<p class="copyright">&copy;{echo date('Y')} <a href="http://www.liaidi.com" target="_blank">贵州粗耕农业发展有限公司</a> 版权所有，并保留所有权利。</p>
+<p class="copyright">&copy;{{date('Y')}} <a href="http://www.liaidi.com" target="_blank">贵州粗耕农业发展有限公司</a> 版权所有，并保留所有权利。</p>
 </body>
 </html>

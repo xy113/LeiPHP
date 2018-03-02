@@ -42,15 +42,7 @@ class MemberController extends BaseController
             if ($members && is_array($members)){
                 if ($eventType == 'delete'){
                     foreach ($members as $uid){
-                        $condition = array('uid'=>$uid);
-                        Member::getInstance()->where($condition)->delete();
-                        MemberInfo::getInstance()->where($condition)->delete();
-                        MemberField::getInstance()->where($condition)->delete();
-                        MemberLog::getInstance()->where($condition)->delete();
-                        MemberStat::getInstance()->where($condition)->delete();
-                        MemberStatus::getInstance()->where($condition)->delete();
-                        MemberConnect::getInstance()->where($condition)->delete();
-                        MemberToken::getInstance()->where($condition)->delete();
+                        Member::deleteAll($uid);
                     }
                     $this->showAjaxReturn();
                 }
@@ -124,17 +116,14 @@ class MemberController extends BaseController
                 $queryParams['last_visit_end'] = $last_visit_end;
             }
 
-            $pagesize = 20;
             $memberlist = array();
-
             $model = Member::getInstance()->alias('m');
-            $totalnum  = $model->join('member_status s', 's.uid=m.uid')->where($condition)->count();
-            $pagecount = $totalnum < $pagesize ? 1 : ceil($totalnum/$pagesize);
+            $totalcount = $model->join('member_status s', 's.uid=m.uid')->where($condition)->count();
             $datalist = $model->join('member_status s', 's.uid=m.uid')
                                 ->field('m.*,s.regdate,s.lastvisit')
                                 ->where($condition)->order('uid', 'ASC')
-                                ->page($_G['page'], $pagesize)->select();
-            $pagination = $this->pagination($_G['page'], $pagecount, $totalnum, http_build_query($queryParams), true);
+                                ->page(G('page'), 20)->select();
+            $pagination = $this->mutipage(G('page'), 20, $totalcount, $queryParams, true);
 
             foreach ($datalist as $member){
                 $memberlist[$member['uid']] = $member;

@@ -151,10 +151,10 @@ function url($path, $params=null){
             $url.= $path;
         }else {
             $url.= '/index.php?';
-            $paths = explode('/', $path);
-            $url.= 'm='.$paths[1];
-            $url.= isset($paths[2]) ? '&c='.$paths[2] : '';
-            $url.= isset($paths[3]) ? '&a='.$paths[3] : '';
+            $pathinfo = explode('/', trim($path, '/'));
+            $url.= isset($pathinfo[0]) ? 'm='.$pathinfo[0] : DEFAULT_MODEL;
+            $url.= isset($pathinfo[1]) ? '&c='.$pathinfo[1] : '';
+            $url.= isset($pathinfo[2]) ? '&a='.$pathinfo[2] : '';
         }
     }else {
         $url.= '/';
@@ -272,8 +272,16 @@ function cookie($name='', $value='', $expire=0, $encrypt=true){
 function avatar($uid=0,$size='big',$img=0){
 	if (!$uid) return C('STATICURL').'images/common/avatar_default.png';
 	$size = in_array($size, array('small','middle')) ? $size : 'big';
-	$imgurl = getSiteURL().'/?m=plugin&c=avatar&uid='.$uid.'&size='.$size;
+	$imgurl = url('/plugin/avatar',['uid'=>$uid,'size'=>$size]);
     return $img ? '<img src="' . $imgurl . '" border="0"/>' : $imgurl;
+}
+
+/**
+ * @param $file
+ * @return string
+ */
+function resource($file){
+    return getSiteURL().$file;
 }
 
 /**
@@ -562,7 +570,7 @@ function random($length, $numeric = 0) {
 function getSiteURL(){
     $http = $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
     $http.= $_SERVER['HTTP_HOST'];//获取当前的服务器名
-    $root = $_SERVER['DOCUMENT_ROOT'];//获取服务器的根目录
+    $root = realpath($_SERVER['DOCUMENT_ROOT']);//获取服务器的根目录
     return substr(str_replace($root , $http , ROOT_PATH), 0, -1);//获取当前站点根URL
 }
 
@@ -859,4 +867,14 @@ function guid() {
 	substr($charid,16, 4).
 	substr($charid,20,12);
 	return $uuid;
+}
+
+/**
+ * @param $value
+ * @param bool $doubleEncode
+ * @return string
+ */
+function e($value, $doubleEncode = false)
+{
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', $doubleEncode);
 }

@@ -42,11 +42,9 @@ class BlockController extends BaseController
             }
             $this->showAjaxReturn();
         }else {
-            $pagesize  = 20;
             $totalnum  = Block::getInstance()->count();
-            $pagecount = $totalnum < $pagesize ? 1 : ceil($totalnum/$pagesize);
-            $blocklist = Block::getInstance()->page($_G['page'], $pagesize)->order('block_id')->select();
-            $pagination = $this->pagination($_G['page'], $pagecount, $totalnum, null, true);
+            $blocklist = Block::getInstance()->page($_G['page'], 20)->order('block_id')->select();
+            $pagination = $this->mutipage($_G['page'], 20, $totalnum);
 
             $_G['title'] = $_lang['block_manage'];
             include view('block/blocks');

@@ -86,13 +86,12 @@ class PostController extends BaseController
 
         $pagesize  = 20;
         $model = PostItem::getInstance()->alias('i');
-        $totalnum  = $model->join('post_catlog c', 'c.catid=i.catid')->where($condition)->count();
-        $pagecount = $totalnum < $pagesize ? 1 : ceil($totalnum/$pagesize);
-        $itemlist  = $model->join('post_catlog c', 'c.catid=i.catid')
+        $totalcount = $model->join('post_catlog c', 'c.catid=i.catid')->where($condition)->count();
+        $itemlist = $model->join('post_catlog c', 'c.catid=i.catid')
                             ->field('i.*,c.name as cat_name')
                             ->where($condition)->page($this->get('page'), $pagesize)
                             ->order('aid', 'DESC')->select();
-        $pagination = $this->pagination($this->get('page'), $pagecount, $totalnum,http_build_query($queryParams),1);
+        $pagination = $this->mutipage($this->get('page'), 20, $totalcount, $queryParams, 1);
         unset($condition, $queryParams);
 
         $catloglist = PostCatlog::getInstance()->getCatlogTree();

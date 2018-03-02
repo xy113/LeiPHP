@@ -96,7 +96,7 @@
             <tfoot>
             <tr>
                 <td colspan="10">
-                    <span class="pagination float-right">{$pagination}</span>
+                    <span class="float-right">{$pagination}</span>
                     <label><input type="checkbox" class="checkbox checkall"> {$lang[selectall]}</label>
                     <label><button type="button" class="btn" id="deleteButton">删除</button></label>
                     <label><button type="button" class="btn" onclick="DSXUtil.reFresh()">刷新</button></label>

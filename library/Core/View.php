@@ -30,7 +30,7 @@ class View{
 
 		$template = preg_replace("/\<\!\-\-\{(.+?)\}\-\-\>/s", "{\\1}", $template);
         $template = preg_replace("/\{\!(.+?)\!\}/s", "<?php echo \\1; ?>", $template);
-        $template = preg_replace("/\{\{(.+?)\}\}/s", "<?php echo htmlspecialchars(\\1); ?>", $template);
+        $template = preg_replace("/\{\{(.+?)\}\}/s", "<?php echo e(\\1); ?>", $template);
         $template = preg_replace("/\{(\\\$[a-zA-Z0-9_\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?=\\1?>", $template);
         $template = preg_replace_callback("/[\n\r\t]*\{template\s+([a-z0-9_:]+)\}[\n\r\t]*/is", function ($matches){
             return View::stripvtemplate($matches[1]);

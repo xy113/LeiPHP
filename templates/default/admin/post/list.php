@@ -124,14 +124,14 @@
                 <td>{$item[view_num]}</td>
                 <td>{date:$item[create_at]|'Y-m-d H:i:s'}</td>
                 <td>{$status_name}</td>
-                <td><a href="{URL:('/admin/post/publish', array('aid'=>$aid))}">编辑</a></td>
+                <td><a href="{{url('/admin/post/publish', ['aid'=>$aid])}}">编辑</a></td>
             </tr>
             {/foreach}
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="10">
-                    <div class="pagination float-right">{$pagination}</div>
+                    <div class="float-right">{!$pagination!}</div>
                     <label><input type="checkbox" class="checkbox checkall checkmark"> {$_lang[selectall]}</label>
                     <label><button type="button" class="btn btn-action" data-action="delete">删除</button></label>
                     <label><button type="button" class="btn btn-action" data-action="move">移动</button></label>

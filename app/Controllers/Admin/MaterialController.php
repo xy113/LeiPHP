@@ -80,17 +80,14 @@ class MaterialController extends BaseController
                 $queryParams['time_end'] = $time_end;
             }
 
-            $pagesize = 20;
-            $totalcount = Material::getInstance()->alias('m')->join('member mb', 'mb.uid=m.uid')
-                                                 ->where($condition)->count();
-            $pagecount = $totalcount < $pagesize ? 1 : ceil($totalcount/$pagesize);
-            $itemlist = Material::getInstance()->alias('m')->join('member mb', 'mb.uid=m.uid')
-                                                ->field('m.*,mb.username')
-                                                ->where($condition)->page($_G['page'], $pagesize)
-                                                ->order('m.id', 'DESC')->select();
-
-            $currentPage = min(array($this->get('page'), $pagecount));
-            $pagination = $this->pagination($currentPage, $pagecount, $totalcount, http_build_query($queryParams), true);
+            $model = Material::getInstance()->alias('m')->join('member mb', 'mb.uid=m.uid')->where($condition);
+            $totalcount = $model->count();
+            $itemlist = Material::getInstance()->alias('m')
+                              ->join('member mb', 'mb.uid=m.uid')
+                              ->where($condition)->field('m.*,mb.username')
+                              ->page($_G['page'], 20)
+                              ->order('m.id', 'DESC')->select();
+            $pagination = $this->mutipage($_G['page'], 20, $totalcount, $queryParams, false);
             unset($condition, $queryParams);
 
             //载入模板

@@ -35,9 +35,8 @@ class ImageController extends BaseController
         $pagesize = $_GET['pagesize'] ? intval($_GET['pagesize']) : 20;
         $condition  = array('uid'=>$this->uid, 'type'=>'image');
         $totalcount = $material->where($condition)->count();
-        $pagecount  = $totalcount < $pagesize ? 1 : ceil($totalcount/$pagesize);
         $imagelist  = $material->where($condition)->page($_G['page'], $pagesize)->order('id', 'DESC')->select();
-        $pagination = $this->pagination($_G['page'], $pagecount, $totalcount);
+        $pagination = $this->mutipage($_G['page'], $pagesize, $totalcount);
 
         include view('image_plugin');
     }
