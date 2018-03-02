@@ -83,11 +83,6 @@ class View{
             return View::stripvtags('<?php echo image('.$matches[1].'); ?>','');
         }, $template);
 
-        //解析URL
-        $template = preg_replace_callback('/{URL\:\((.+?)\)\}/is', function($matches){
-            return View::stripvtags('<?php echo URL('.$matches[1].'); ?>','');
-        }, $template);
-
         //格式化日期
         $template = preg_replace_callback('/{date\:(.+?)\|(.+?)\}/is', function($matches){
             return View::stripvtags('<?php echo @date('.$matches[2].','.$matches[1].'); ?>','');

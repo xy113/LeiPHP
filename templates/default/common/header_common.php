@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>{$_G[title]}</title>
+    <title>{{$_G['title']}}</title>
     <meta name="keywords" content="{$_G[keywords]}">
     <meta name="description" content="{$_G[description]}">
     <meta name="render" content="webkit">
@@ -22,7 +22,7 @@
             <img src="/static/images/cugeng/global-logo.png">
         </div>
         <div class="global-search-box">
-            <form method="get" action="{U:('/')}">
+            <form method="get" action="{{url('/')}}">
                 <input type="hidden" name="m" value="item">
                 <input type="hidden" name="c" value="search">
                 <div class="input-box">

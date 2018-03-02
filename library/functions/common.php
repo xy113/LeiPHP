@@ -605,27 +605,29 @@ function print_array($array){
  * @return string
  */
 function view($file, $model = '', $theme='') {
-    global $_G;
-
-    $tpldir = $model ? $model : ($_G['m'] ? strtolower($_G['m']) : 'common');
+    $tpldir = $model ? $model : (G('m') ? strtolower(G('m')) : 'common');
     if (defined('IN_ADMIN')) {
         $theme = 'default';
     }else {
         !$theme && $theme = defined('THEME') ? THEME : 'default';
     }
 
-    $tplfile = TPL_PATH.$theme.'/'.$model.'/'.$file.'.php';
+    if (strpos($file, '.')) {
+        $file = str_replace('.','/', $file);
+    }
+    $file.= '.php';
+    $tplfile = TPL_PATH.$theme.'/'.$tpldir.'/'.$file;
     if (!is_file($tplfile)){
         $tpldir2 = $tpldir;
         $tpldir  = 'common';
-        $tplfile = TPL_PATH.$theme.'/common/'.$file.'.php';
+        $tplfile = TPL_PATH.$theme.'/common/'.$file;
         if (!is_file($tplfile)){
             $tpldir  = $tpldir2;
-            $theme = 'default';
-            $tplfile = TPL_PATH.'/default/'.$tpldir.'/'.$file.'.php';
+            $theme   = 'default';
+            $tplfile = TPL_PATH.'/default/'.$tpldir.'/'.$file;
             if (!is_file($tplfile)){
                 $tpldir  = 'common';
-                $tplfile = TPL_PATH.'default/common/'.$file.'.php';
+                $tplfile = TPL_PATH.'default/common/'.$file;
             }
         }
     }

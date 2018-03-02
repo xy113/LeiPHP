@@ -31,7 +31,7 @@
             </ul>
         </div>
         <div class="action-bar">
-            <div style="text-align: center;">{{$pagination}}</div>
+            <div style="text-align: center;">{!$pagination!}</div>
         </div>
     </div>
 </div>

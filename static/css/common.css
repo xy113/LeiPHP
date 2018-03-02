@@ -118,7 +118,7 @@ input[type="checkbox"], input[type="radio"],.checkbox,.radio{
 .pagination li{display: inline-block; margin: 0 2px;}
 .pagination li a,.pagination li span{padding: 5px 7px; line-height: 1; display: block; background-color: #fff; border: 1px #dddddd solid;}
 .pagination li.active span{background-color: #0098CE; border-color: #0098CE; color: #fff;}
-.pagination li.disabled span{opacity: 0.6; cursor: not-allowed;}
+.pagination li.disabled span{opacity: 0.9; cursor: not-allowed;}
 
 .w30{width:30px !important; width:30px;}
 .w60{width:60px !important; width:30px;}

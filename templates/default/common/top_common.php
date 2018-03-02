@@ -21,18 +21,18 @@
                     </a>
                 </li>
                 <li class="pipe">|</li>
-                <li><a href="{U:('m=seller&c=index')}">卖家中心</a></li>
+                <li><a href="{{url('/seller/index')}}">卖家中心</a></li>
                 <li class="pipe">|</li>
-                <li><a href="http://cg.liaidi.com/index.php?m=page&c=detail&pageid=42">联系客服</a></li>
+                <li><a href="/pages/detail?pageid=42">联系客服</a></li>
             </ul>
         </div>
         {if $_G[islogin]}
-        <span>Hi <a href="{U:('m=member&c=index')}" style="color: #f40;">{$_G[username]}</a>, 欢迎回来</span>
-        <a href="{echo U('m=account&c=logout')}">[退出登录]</a>
+        <span>Hi <a href="{{url('/member/index')}}" style="color: #f40;">{{$_G['username']}}</a>, 欢迎回来</span>
+        <a href="{{url('/account/logout')}}">[退出登录]</a>
         {else}
         <span>Hi 欢迎回来</span>
-        <a href="{echo U('m=account&c=login')}">[登录]</a>
-        <a href="{echo U('m=account&c=register')}">[免费注册]</a>
+        <a href="{{url('/account/login')}}">[登录]</a>
+        <a href="{{url('/account/register')}}">[免费注册]</a>
         {/if}
     </div>
 </div>

@@ -56,6 +56,16 @@ abstract class Model{
     }
 
     /**
+     * @param $table
+     * @return Model
+     */
+    public static function from($table){
+        $instance = new static();
+        $instance->tableName = $instance->db->table($table);
+        return $instance;
+    }
+
+    /**
      *
      */
     private function resetOption(){
@@ -497,7 +507,7 @@ abstract class Model{
     public function insert($data=null, $return_insert_id=false, $replace=false){
         if (!is_null($data)) $this->data($data);
 		if ($this->data) {
-            if ($this->timestamps && !$this->data['create_at']) $this->data['create_at'] = time();
+            if ($this->timestamps && !$this->data['created_at']) $this->data['created_at'] = time();
 			$sql = $this->db->implode_field_value($this->data);
 			$cmd = $replace ? 'REPLACE INTO' : 'INSERT INTO';
 			$return = $this->db->query("$cmd ".$this->tableName." SET $sql");
@@ -582,7 +592,7 @@ abstract class Model{
                 }
             }
 
-            if ($this->timestamps && !$this->data['update_at']) $this->data['update_at'] = time();
+            if ($this->timestamps && !$this->data['updated_at']) $this->data['updated_at'] = time();
 			$sql = $this->db->implode_field_value($this->data);
 			$cmd = "UPDATE ".($low_priority ? 'LOW_PRIORITY' : '');
 			$res = $this->db->query("$cmd {$this->tableName} SET $sql ".$this->option['where'],$unbuffered ? 'UNBUFFERED' : '');

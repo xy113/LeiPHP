@@ -115,9 +115,9 @@
             {eval $type_name=$_lang['post_types'][$item['type']]}
             {eval $status_name=$_lang['post_status'][$item['status']]}
             <tr>
-                <td class="center"><input type="checkbox" class="checkbox checkmark itemCheckBox" name="items[]" value="{$aid}"></td>
-                <td><img src="{img $item[image]}" width="50" height="50" rel="pickimage" data-id="{$aid}"></td>
-                <th><a href="{URL:('/post/detail',array('aid'=>$aid))}" target="_blank">{$item[title]}</a></th>
+                <td class="center"><input type="checkbox" class="checkbox checkmark itemCheckBox" name="items[]" value="{{$aid}}"></td>
+                <td><img src="{{image($item['image'])}}" width="50" height="50" rel="pickimage" data-id="{{$aid}}"></td>
+                <th><a href="{{url('/post/detail',array('aid'=>$aid))}}" target="_blank">{$item[title]}</a></th>
                 <td>{$item[username]}</td>
                 <td>{$item[cat_name]}</td>
                 <td>{$type_name}</td>
